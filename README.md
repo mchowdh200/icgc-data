@@ -15,4 +15,6 @@ tar -xvzf manifest.1599710870723.tar.gz
 ```
 
 # Download bams using score-client and manifest
-TODO
+```
+score-client/bin/score-client download --manifest manifest.aws-virginia.1599710870723.tsv --output-dir /mnt/local/data
+```
