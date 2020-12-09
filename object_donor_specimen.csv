@@ -1,0 +1,685 @@
+,file_id,object_id,file_name,donor_id,specimen_type
+0,FI9742,afb4447a-cd9a-5f49-98c8-8f45cafe352d,4c7671ed4f81d6b25085db1be3fbacfa.bam,DO51118,Primary tumour - solid tissue
+1,FI9459,bc3f7d54-152e-545a-b32d-169e744e4a90,29a7de80274515a883341d53db1fbcc0.bam,DO51094,Primary tumour - solid tissue
+2,FI9270,0d48ec3d-de57-5273-b751-8bf655dcfaa6,864a333e9fbe17ebc5ba4c41ff29f42a.bam,DO51107,Normal - blood derived
+3,FI4828,f779a2e7-6d2e-5b5d-8a36-b0c2d6174e0f,db79154ec108193a9041df1210509f04.bam,DO51085,Normal - blood derived
+4,FI4829,0708fca7-ec5b-5a46-a743-701a04106db6,7525e7e38d39ec217664e35a1586c273.bam,DO51085,Primary tumour - solid tissue
+5,FI29598,549cc225-4591-5b78-9fff-a62906a72703,d0626421910de3a9de225275f7d708f5.bam,DO51048,Normal - blood derived
+6,FI7698,319995f4-5632-5189-83d8-ba63c797ef28,7d14b175eec47da9c12e076290570b07.bam,DO51051,Primary tumour - solid tissue
+7,FI5528,ea60864e-1b3d-52a8-9e90-9606c29175b9,f74a95bbb1278d33ca910883c1bdf1e6.bam,DO51953,Metastatic tumour - lymph node
+8,FI12977,13cffb6c-f7bc-5adc-8179-31cc2848bcdb,792f1696c110e6b1d806951ee895de49.bam,DO50424,Primary tumour - solid tissue
+9,FI16946,8abb2c10-a492-5805-b155-b7d59f60775b,8cf46399858244b336327d1b48c521dc.bam,DO51097,Normal - blood derived
+10,FI33880,80cbcf40-4e92-5b50-a461-79babec067c7,f232258c055891d47d68ab180e90a05c.bam,DO51150,Primary tumour - solid tissue
+11,FI45518,e76d10a0-fa72-5f0a-9fa3-8691ce475510,58aebb6d435937c9167d100e58545d80.bam,DO51123,Primary tumour - solid tissue
+12,FI45058,aa16ed58-a498-5c83-a337-39d082940e0a,9e6fb1638afca9377137c433b598809d.bam,DO51068,Primary tumour - solid tissue
+13,FI30910,474668a4-6f29-5851-a063-2ad4964a6f90,50869e429e841842b6d4d1d060a9b411.bam,DO36221,Primary tumour - solid tissue
+14,FI30019,6bec564e-3701-58e9-bf1f-6b75f870823f,0e73bedad00a23897125787e5385f250.bam,DO51063,Primary tumour - solid tissue
+15,FI19149,dc1dcf5a-beb1-5764-b904-91a65fe3e741,80054e66cfc457f7925691e4b0881061.bam,DO51045,Normal - blood derived
+16,FI10988,fea7dd6f-3466-5e7e-9adc-890df80986d1,c31ab6c661ff7b346f4e1e29202c6311.bam,DO46788,Normal - blood derived
+17,FI10093,c1b0f8bd-b2ad-5d03-84cd-942971bf193a,3bcb0039e46a4ca217d29b0c77a1ef7e.bam,DO51133,Primary tumour - solid tissue
+18,FI808159,de4bd147-aa71-579a-a9df-1580b56344f4,mini-6347d1491f0d59f3fd197b2ae74b6511.bam,DO36221,Primary tumour - solid tissue
+19,FI808123,d5d04c05-7f87-5f6a-bc8d-3d3ab91b65a7,mini-9d707b1c6134fe0e9a68e81d368aad2f.bam,DO51955,Metastatic tumour - lymph node
+20,FI808051,a9eec0d3-a80a-5ee6-a2de-7d3ac706c5bb,mini-44730b18e932dc7b60f91151c433ee95.bam,DO50431,Normal - blood derived
+21,FI808079,aeaa2823-7879-582a-ad4d-d52da120e07c,mini-2b678bca6a69d6f0bfb77f3194e4b1b7.bam,DO50427,Normal - blood derived
+22,FI808039,631f69f8-9a65-59d9-9d2d-d365f4822652,mini-b769990725f1d27b7d4d8bcb83678fb8.bam,DO50421,Normal - blood derived
+23,FI35723,ed969e61-0ff7-59a6-9e14-4f0dfaa10be5,2d478028f93bbf696bb5114e2eab216a.bam,DO51960,Metastatic tumour - metastasis to distant location
+24,FI35979,3b069c8d-a6bb-55c9-acd2-93a414bd336c,18f021906914f32c753ba0da0ad36895.bam,DO51080,Normal - blood derived
+25,FI49944,9d00839f-f5d2-5a47-b1fd-91786223733f,085797859c8daf0a5a7fdab90473de01.bam,DO50428,Normal - blood derived
+26,FI34058,57be9fdb-fc38-529d-8aaf-46d0b7c75704,5c66b651afd946d53860fa1a8be3cc6e.bam,DO51958,Metastatic tumour - metastasis to distant location
+27,FI48838,32fa55db-71bf-5bc9-9bfc-e00709b16f63,20ba622adacc04fd5580a114f56ff37f.bam,DO51965,Metastatic tumour - metastasis to distant location
+28,FI34265,6fcf5712-11c0-53f1-95e0-047b4bffbad4,ba29adc354d5d527fbcd5fd5d06fd356.bam,DO50431,Primary tumour - solid tissue
+29,FI38846,049888a9-3095-57a8-bd10-bde21de114f1,b02eadf9e5eeb6ac780fe21541dd6e03.bam,DO51049,Primary tumour - solid tissue
+30,FI38337,f33342df-cad3-5d76-866d-85238ba35f6c,9fa896640d35a3b7a33be4e2d11f0d6b.bam,DO51954,Metastatic tumour - lymph node
+31,FI807324,0967c13d-a092-5753-9071-c73e2ad862d9,mini-731e9b80ade780ce5ef2f27b9340f066.bam,DO51156,Normal - blood derived
+32,FI807300,31a72f2f-45ae-5815-959f-37206e443dc1,mini-0e72c39f537f6c42612ec7deaa635a4c.bam,DO51099,Normal - blood derived
+33,FI807244,77711c6e-25b5-52f9-9c93-02946439d4fc,mini-74e360d1e68a9e5677c32796487d98fc.bam,DO51142,Normal - blood derived
+34,FI807200,1cd70f91-fd63-5944-bcbd-205c388e54e0,mini-39f70222697419880edd0e4fcd09d62e.bam,DO51108,Primary tumour - solid tissue
+35,FI807088,457ef4ad-9870-5481-ba58-9c0afc741ea1,mini-7d14b175eec47da9c12e076290570b07.bam,DO51051,Primary tumour - solid tissue
+36,FI806657,68470cfa-25b9-5ea3-a790-45aaaa6b7666,mini-cf622ce7fa8cd45eeaeac11cb4663767.bam,DO51137,Normal - blood derived
+37,FI809667,4d7c453e-0f80-55ec-95a2-0150f9dc056b,mini-7167f0e3e4ae49d781d7204718e164e2.bam,DO51073,Primary tumour - solid tissue
+38,FI809635,1ca36842-9863-54e7-9719-79d5306bb6d3,mini-56f763fcf08584ad43e9a5a5d0381628.bam,DO51070,Primary tumour - solid tissue
+39,FI809633,14f9ee32-419e-50c2-8402-fadae6e6d99e,mini-84e22345252b4575c9d36c9bbc9b7a17.bam,DO51070,Normal - blood derived
+40,FI809611,9d3476dc-650b-57e0-a896-f116c57c4e28,mini-11eb2b4ae424c97eef6a24be1176a480.bam,DO51050,Primary tumour - solid tissue
+41,FI11215,59dcef8d-513a-53a0-b56f-5bac2f400ff7,290f8ae977d36800ed092fe5bc953820.bam,DO51147,Primary tumour - solid tissue
+42,FI50436,6db0a33a-a450-5da7-81c8-43b2a5e73462,7fdf4ecd8e46b921038ff6c15f1f100b.bam,DO48577,Primary tumour - solid tissue
+43,FI3628,8d71d103-61ed-56e1-886e-f6c373155597,d8c2cd9b896ce6d8b046c3934f701912.bam,DO51078,Normal - blood derived
+44,FI39511,648f8223-ac91-5119-bad3-ab4f28e0ff15,8061130645cdc049378454e9b3c1b3df.bam,DO51060,Primary tumour - solid tissue
+45,FI32190,4a7a9dd7-b459-5251-b717-37619d5cce86,d931138465ed729daac2997b69195a2c.bam,DO51066,Normal - blood derived
+46,FI46464,35ee0571-bba9-5fb3-ae28-62de0c713388,ccf95c025047c4adbfc3853dc5b220a1.bam,DO50432,Normal - blood derived
+47,FI46628,c11d94e3-bee4-5322-8f8e-162fad9226ee,d5c19f30678ee7228e578f20c463bd04.bam,DO51113,Normal - blood derived
+48,FI810457,8d962076-dc41-5085-8789-75cf03343f63,mini-e7059c0005dbe02813a6e136169bf338.bam,DO51954,Metastatic tumour - metastasis to distant location
+49,FI43462,609dce63-9f0b-51c3-92dd-b027efb7f6e6,c7a936b1e65c856713b17965a5612cb3.bam,DO51129,Normal - blood derived
+50,FI42649,c64376d2-bdfc-540b-930a-8b7d510997bf,3de82977aedac80869c232886e7f5a7b.bam,DO50415,Primary tumour - solid tissue
+51,FI31305,155cf4bc-0536-5cf9-a1ed-b5316ce842ce,512ec464bc3bcd069b4a72aa3b13ec54.bam,DO51105,Normal - blood derived
+52,FI31497,55100bad-f78e-5a1e-a325-104f3eeea960,bf7a055f56c4a0b9a3a40a52884338f7.bam,DO51091,Normal - blood derived
+53,FI45685,10e405c5-d32b-58db-b316-95351edb84f0,45e28dcb1204b71dda84c387c0c62c24.bam,DO51154,Normal - blood derived
+54,FI45268,2eca6c92-3a19-5d97-aa92-a84b253e9386,97f22db047487bcf0ddb2ffb78d014e1.bam,DO50425,Primary tumour - solid tissue
+55,FI45246,20ac8d6c-9b38-5bc7-a7f3-6c597e764456,8af8bce39ec001fb05aea97959671ac3.bam,DO51074,Primary tumour - solid tissue
+56,FI41727,b7d4c598-ef8d-544c-bd0e-69d80ce2e589,35604afd8c269adf04e3b9a43ac503a3.bam,DO51104,Normal - blood derived
+57,FI229,281f3514-2a9d-531b-a929-fb558acf0d9b,7d6dd40e1a7024026fe2a6b1ea8c7954.bam,DO51148,Normal - blood derived
+58,FI588,70a6e645-1d59-535b-b997-5018c3543964,cb5ab4c2dd4074286b87209dfa443944.bam,DO51959,Metastatic tumour - lymph node
+59,FI19114,7439ad9d-4560-5486-be61-36bdbf52c686,5182cc1f09a95ce949befeade56b826c.bam,DO51102,Primary tumour - solid tissue
+60,FI19096,f712af1a-496f-5264-b787-65eb441855b9,7fd88780cf59cfb445801dd869e84a40.bam,DO51106,Primary tumour - solid tissue
+61,FI19095,893ad4de-6d18-56aa-b45d-58caa06d6966,999bc0fb517ea2ca91fc88b5c9676295.bam,DO51106,Normal - blood derived
+62,FI34796,7d1c321a-5cc8-5318-ad5f-691aa15ca5a9,e7b133a86483bd2a28f883c76b7b34da.bam,DO51071,Normal - blood derived
+63,FI34410,09261de5-743d-5124-8b75-941a246725c6,049620bdb8fc65c48f12d8bda455ed30.bam,DO51116,Normal - blood derived
+64,FI34076,42dad23b-8b78-58f8-8027-9389a71f05e5,6891906bc4eb5c978519a9db82d637df.bam,DO51157,Primary tumour - solid tissue
+65,FI48685,8b8645ea-0010-5815-8c98-95fe322fdcb7,25f961758f9e5766b99de46298a23d5b.bam,DO50420,Primary tumour - solid tissue
+66,FI34264,0dd17407-49fc-5b5f-89ba-46e49eed05da,44730b18e932dc7b60f91151c433ee95.bam,DO50431,Normal - blood derived
+67,FI38331,b67c180e-269b-5dc8-90cc-4087b6bce6dd,4d708e4e315a280c2a6faa58f724a72d.bam,DO51954,Primary tumour - solid tissue
+68,FI24032,0a161683-e2a0-5a76-9244-e198d26cd8f9,a2d299d837ee542b47511f8bfc6e801b.bam,DO51072,Normal - blood derived
+69,FI24033,e0df4062-d927-5053-8347-910452e4f099,20647c7d69021a14284ed18848daca2a.bam,DO51073,Normal - blood derived
+70,FI38102,8241a7ef-ba71-5ae8-828d-c03bf77570ee,3c17cc820c10e38748d50dec11367cfb.bam,DO51054,Primary tumour - solid tissue
+71,FI807388,439a1027-12df-5262-9de9-f91a278a2f18,mini-38c5b3136d1fd289e28b5a42449e3576.bam,DO46795,Normal - blood derived
+72,FI807394,ec0619e7-9f97-53bf-ab5a-cb5ce675f12b,mini-3766e26ef5ebf853404850650513fa93.bam,DO51057,Primary tumour - solid tissue
+73,FI807298,ca9da1c4-a013-57e8-80cd-2e8cedb80da3,mini-0095dee3b343c04564a762b9ff2dd316.bam,DO51086,Primary tumour - solid tissue
+74,FI807214,c93a112d-3cb7-5a78-920b-ea713e610313,mini-f232258c055891d47d68ab180e90a05c.bam,DO51150,Primary tumour - solid tissue
+75,FI807198,aa96d0f6-8e38-5d7e-addd-150f67547634,mini-cfbd8f31b9c9499a867c0a11cd58ec4e.bam,DO51108,Normal - blood derived
+76,FI807134,267431c6-39cd-505c-83cb-889e3338309c,mini-d25ce55e294f8af7f5256f4d6a19e839.bam,DO51081,Normal - blood derived
+77,FI807140,2305e055-b6f2-5bbe-aee7-bff6bcff0f98,mini-7720b27d8aac5b2f083485037a35527f.bam,DO51083,Primary tumour - solid tissue
+78,FI806693,ae0039e0-80e2-5f28-bcb9-9e301f45de86,mini-368df9126354854724f4bd163a8e094b.bam,DO51093,Normal - blood derived
+79,FI37071,31cada43-4c06-5a78-b607-87d02a4d886c,f7403f9725e84443ddcfe51581090780.bam,DO51079,Primary tumour - solid tissue
+80,FI37277,c8b96c1e-550d-5840-b7e6-8922d89c9b9e,40cf78da1d1800c5563bc5ad23dad96e.bam,DO51087,Normal - blood derived
+81,FI2039,e99b42ea-5baf-5cde-ab16-0fe42080badc,ba19fae7217da4b20aa40b6eac02c6de.bam,DO51127,Primary tumour - solid tissue
+82,FI809661,2505e04d-82c0-5007-b3c7-62b1c16dde88,mini-b90386789002474713c0d57ed4577c58.bam,DO51060,Normal - blood derived
+83,FI809675,374bc45a-3e6b-543f-9b26-de97d5279fe6,mini-0788815fef6fd515909cf041eb435645.bam,DO51090,Primary tumour - solid tissue
+84,FI809687,39eaa07a-f61e-5f18-9500-ac44cd1c2fcf,mini-37c5b618a1248a063e8271d4426ada50.bam,DO51109,Primary tumour - solid tissue
+85,FI25835,4222a30d-e190-59b4-93ef-0d1b8b68827d,4f045f9f5596c4f6670c031b65559375.bam,DO50418,Primary tumour - solid tissue
+86,FI25626,4418f3d7-66b7-5dfa-9c55-e161f2ced3d5,ee40b9653415ee742343e48a35688fbf.bam,DO51109,Normal - blood derived
+87,FI3516,3fc2caf9-44a2-50de-b789-9c0ab0245291,2b017191ed985076cb5c0796ab300150.bam,DO36223,Primary tumour - solid tissue
+88,FI10014,7b58e026-639c-5e57-88f8-487904d80d78,4841e5ed19ae697f6eb2d714a495b50f.bam,DO50427,Primary tumour - solid tissue
+89,FI808151,a171aaaa-f00b-530a-aa4a-8dccc5b6a592,mini-e92dfa93e9010e24ab8edfa9e2b94138.bam,DO51965,Metastatic tumour - metastasis to distant location
+90,FI808117,abde7395-07ac-50bf-880d-36d0d94707fb,mini-1852bcb88e8ff3e055994063a98e4dcf.bam,DO51960,Metastatic tumour - metastasis to distant location
+91,FI808121,30886341-fccf-5305-bde0-1b39a24f3ea3,mini-75818ecd0886aac1ee67bfd1d5594f46.bam,DO51955,Primary tumour - solid tissue
+92,FI808127,0aad4db9-8072-5876-88c1-b1bd00d58ae7,mini-e0b25efd9eec93ebb9e38bb60fa44998.bam,DO51964,Metastatic tumour - lymph node
+93,FI808065,4d9ba210-1a3f-5a91-a2e1-d4386c686a4a,mini-25f961758f9e5766b99de46298a23d5b.bam,DO50420,Primary tumour - solid tissue
+94,FI808045,e96cc989-bccd-567f-8367-c5b18f3c68f1,mini-4f045f9f5596c4f6670c031b65559375.bam,DO50418,Primary tumour - solid tissue
+95,FI808049,7756bc1f-39f4-50e5-8fc4-9e9ad15d0188,mini-97f22db047487bcf0ddb2ffb78d014e1.bam,DO50425,Primary tumour - solid tissue
+96,FI810469,4f24e3d5-e57a-53a2-965e-28f14300ffee,mini-7402654effa3a9f010236b0cadd04ce3.bam,DO51954,Metastatic tumour - lymph node
+97,FI810267,1e31f059-74f7-571b-a642-173bd6a5e04c,mini-01438f392ca16551d81218111181b9dd.bam,DO51958,Metastatic tumour - metastasis to distant location
+98,FI45960,11068ec5-cab4-541d-93df-452ac28c5c6c,372c173b407c60f36d054015d0be2189.bam,DO51964,Metastatic tumour - metastasis to distant location
+99,FI30906,15963efe-cdb9-51b8-a0f6-42f361dc80cc,f6a729dfc9df90889d1f04696e28ee21.bam,DO36221,Normal - blood derived
+100,FI16947,45f00d94-2b04-5402-85d6-0d933df47e2b,d37bec433e50561658c5552ec6143fee.bam,DO51097,Primary tumour - solid tissue
+101,FI5476,4064c4ab-9ff0-59f6-880e-9694cab3fba9,cb1d2169322da017415c60a3541d750e.bam,DO51953,Normal - lymph node
+102,FI587,3a37be77-ed5e-52de-9302-ff311bae3530,95bf9ae68444e5e14976fbbe79dc466a.bam,DO51959,Normal - lymph node
+103,FI32837,95879edc-2b00-55a7-9822-00e9cbcccb15,7497db836c765b0839a0e02b05e10f1a.bam,DO50414,Normal - blood derived
+104,FI46426,5a961390-27df-525b-af5c-5407b07109c6,6967e29f5448993347b318cc935627eb.bam,DO51152,Normal - blood derived
+105,FI35721,887a5cd6-5627-52b2-9c8f-a5b80279baef,1e0f91f6e9ad08d52ac02fbe3b1c52aa.bam,DO51960,Normal - lymph node
+106,FI21139,93a517a7-62de-5b33-8e3f-42adae35c752,a0c32255926a61d9dc9ad7dfa42c1b72.bam,DO51065,Normal - blood derived
+107,FI807322,caec1017-73b5-5cda-90a9-34f2e0ab27dd,mini-0eeb9f88bab46eee4e63871e60a1b5c2.bam,DO51096,Primary tumour - solid tissue
+108,FI807334,bf17c704-bc11-5037-bdf7-33e40aa1a8e9,mini-651346b8e8ce1151991c8a8499a8aff9.bam,DO51128,Primary tumour - solid tissue
+109,FI807282,38faa10a-a92e-58fe-b884-25035a7ce394,mini-2dfadcdc014760e4954f0ff301bdc649.bam,DO51124,Primary tumour - solid tissue
+110,FI807258,2ca08ba4-02b3-5f85-90b7-dbcbd88c8f6b,mini-3a9b565c2fddd33edab07e6aacef604f.bam,DO51131,Primary tumour - solid tissue
+111,FI807126,411b9f01-d8fb-5b5f-912d-e5b5a74bfd91,mini-ba19fae7217da4b20aa40b6eac02c6de.bam,DO51127,Primary tumour - solid tissue
+112,FI807142,c87b8f93-b676-5d75-8c06-12e59d26db2a,mini-c1638abbea2c0212e1d453b5ba664a09.bam,DO51084,Primary tumour - solid tissue
+113,FI807100,9db2232c-affa-5f25-a667-ad0c75096f9e,mini-ac6867314535b751affc3a6632fed189.bam,DO51074,Normal - blood derived
+114,FI23213,71721265-3637-55f5-b0a0-ed572a5e395a,47b99ee84d4bae31b2e234c5d30b4473.bam,DO51158,Normal - blood derived
+115,FI1448,7021e9a5-5152-5e5f-8438-9d420ed00af5,6c3d86485da645825a83c10d90f37098.bam,DO50422,Normal - blood derived
+116,FI1449,9ba249b8-0856-520b-a630-3fe835c77a30,0a0cf3ae527d5abc813d99b4ce6a9db2.bam,DO50422,Primary tumour - solid tissue
+117,FI22871,e16dab0b-dc33-5df4-8752-dd3a1b70a5b3,d4310a5653b87d993f99f8edb2b1ead2.bam,DO51120,Primary tumour - solid tissue
+118,FI22458,fafd0d3d-bc71-50fb-bcf5-70aedfb6732c,3935e90e140b16fea56ee5f922a70d5a.bam,DO51144,Normal - blood derived
+119,FI12250,b9afed5a-4809-5be3-91ee-0ae878203dd6,75046e43ea259771deadc595a655a968.bam,DO51159,Normal - blood derived
+120,FI26713,45287a43-9782-52e6-b891-7c6453ea59c1,b769990725f1d27b7d4d8bcb83678fb8.bam,DO50421,Normal - blood derived
+121,FI51243,569fa513-1105-526d-9334-d680b7939cb3,cfbd8f31b9c9499a867c0a11cd58ec4e.bam,DO51108,Normal - blood derived
+122,FI809825,d4626587-1645-5dfa-a217-a3338d08cede,mini-838c0b4f768ce8c9574a7c96ede0d14d.bam,DO51956,Normal - lymph node
+123,FI809703,2aff1c4f-a735-570a-a9a1-68b13b5a6324,mini-b839bb4614b5dbdb5f48aa0db48795bf.bam,DO51135,Primary tumour - solid tissue
+124,FI809683,8dfe5180-5a57-55d1-b6bc-97c255e42019,mini-da3d6b7fefff42837603e641cd42ca46.bam,DO51071,Primary tumour - solid tissue
+125,FI809693,04fa3aa3-b35f-5c71-9744-f8c772e4a43a,mini-d5c19f30678ee7228e578f20c463bd04.bam,DO51113,Normal - blood derived
+126,FI809639,9398a69d-fd0f-5ed6-a103-ea7ae6aedac5,mini-7525e7e38d39ec217664e35a1586c273.bam,DO51085,Primary tumour - solid tissue
+127,FI809605,daa788bd-2561-50f7-8e56-f396eeb468ef,mini-9f25a6968e309993fac0d7a6404513bf.bam,DO51046,Normal - blood derived
+128,FI809617,c7361da8-374a-5327-bf08-7ed597e5f552,mini-ec3d1c5753016f18e940c584182e1f96.bam,DO51061,Normal - blood derived
+129,FI25945,080a7fbd-7292-58e8-8a77-f382795a5282,177444b778652e69309dfed72699c9a4.bam,DO51110,Normal - blood derived
+130,FI809599,6271aad9-baff-5d24-8c06-15bdcd995c4e,mini-2f141f0c4008d1cb0e3a98863bce801e.bam,DO46790,Primary tumour - solid tissue
+131,FI809597,494bb97f-bf29-5155-874d-9a73080b91fe,mini-233cbc0855fa9d3ca940e5af30d970ff.bam,DO46790,Normal - blood derived
+132,FI11268,f7e3117b-9de6-557d-819b-4e0e3c569e18,b49fd0dacd0edd859b95824cf7ff6744.bam,DO51132,Normal - blood derived
+133,FI3499,8d6fcdaf-f043-5f3a-9a86-5a0b7115a102,b21862b25eaf563127afd47aabf3b936.bam,DO36223,Primary tumour - solid tissue
+134,FI808171,710de5a4-814f-5409-baeb-1e630b083c2c,mini-3940bb7d292f50d640dcc62d644bdf01.bam,DO36223,Primary tumour - solid tissue
+135,FI808057,9afc752b-074b-535e-b35d-e7953ca035fe,mini-488c5c7132a9e135b81092e7c0d63255.bam,DO50430,Primary tumour - solid tissue
+136,FI808061,97fb44a7-7b7a-59c8-acf8-d08beb14adc8,mini-7af33d02bd02caadd0706855a249b316.bam,DO50417,Primary tumour - solid tissue
+137,FI808063,096f11b8-49be-557d-836f-38c8bd9f87d5,mini-b7baa3411fcc80f017ba53f7961ad16c.bam,DO50420,Normal - blood derived
+138,FI43311,b2d2601e-e73d-586b-8ef1-cba156697c36,69877d2815424646165b28ae71d264e6.bam,DO51134,Primary tumour - solid tissue
+139,FI28636,69339f0b-9a4a-5564-8358-70f33386030a,2feefd57350ddcc44473b78a60e14f84.bam,DO51053,Normal - blood derived
+140,FI28432,37821123-6593-5c7b-a6df-28eec936afd5,f418f4a04f6a44149579f940ac98d79f.bam,DO50426,Normal - blood derived
+141,FI40252,8fb77a13-45d6-54b7-ad1a-e8539ca32022,0788815fef6fd515909cf041eb435645.bam,DO51090,Primary tumour - solid tissue
+142,FI33879,df077ccb-b744-5b0a-b047-e77fc35c152e,39cc8fd668d2acf8c50de7f4720886f4.bam,DO51150,Normal - blood derived
+143,FI33107,d84e5e36-d43c-5cc0-b073-913303648e40,f9142aa357e0e63c0760b8eefaa3f12b.bam,DO51055,Normal - blood derived
+144,FI33035,4ac85e20-a51f-547e-a251-32028c428482,a0b8abc8a88c2e3272bf2f355c97875f.bam,DO51145,Normal - blood derived
+145,FI33054,65f19608-0eb4-57b4-8f38-78d92baec36c,e89507cfe067e7d362b06b0d9aaa832f.bam,DO51130,Primary tumour - solid tissue
+146,FI52037,c623e7fd-9b91-55f9-a3da-5fc5cb48585f,28fd6d07302e17e9a60a2dff0a0ed9da.bam,DO51119,Primary tumour - solid tissue
+147,FI16484,8d6de6a5-5bd2-5c43-b357-dca27947818c,f37ef8014f441543f88a93475c157f46.bam,DO51956,Primary tumour - solid tissue
+148,FI6445,c57e15ad-8adc-5a4d-9ffa-9647c691ab52,88677b626018be4e0b97d890ada156e6.bam,DO51062,Normal - blood derived
+149,FI45874,4d1f5a08-24b5-5b88-a415-60d0dcc19e52,50578ce4f5a4c8ce5ece03f282dc399d.bam,DO51964,Normal - lymph node
+150,FI19113,6bfbc535-7200-5fc6-9c46-d280a4150fe6,36fd1f307b059d20645f14f8fcbb6932.bam,DO51102,Normal - blood derived
+151,FI21895,d6b0e6c6-43f3-5dbc-8719-98e6512f2e3f,e39895f3587ce76ab22c4b10de302ae4.bam,DO51131,Normal - blood derived
+152,FI34742,150f2a2b-eb9a-5bee-bf90-3a54eaa01bfa,5bf12088bb2e353ca01feb81c8cb1c1a.bam,DO51124,Normal - blood derived
+153,FI807597,7d0cb8ad-be7b-59ef-a803-b5bb80dc2555,mini-792f1696c110e6b1d806951ee895de49.bam,DO50424,Primary tumour - solid tissue
+154,FI809831,b83d296d-fc4e-553d-9379-b0093049ad46,mini-9b8693bfc5ae886b748f45127b969c8f.bam,DO51956,Metastatic tumour - lymph node
+155,FI809841,570ccb51-d6c7-5032-b3e6-91deaed24015,mini-b84ea165212637cdc6046402cc645436.bam,DO51953,Metastatic tumour - lymph node
+156,FI809681,52974a6a-1143-5739-bdc6-e96ef7433542,mini-e7b133a86483bd2a28f883c76b7b34da.bam,DO51071,Normal - blood derived
+157,FI809629,abbbd006-722e-5be3-affb-503b2b11cb38,mini-d931138465ed729daac2997b69195a2c.bam,DO51066,Normal - blood derived
+158,FI809623,a7dd802d-a694-5c40-b13a-cb333834e744,mini-1a646365c6d2a27fefacae54b22798a0.bam,DO46793,Primary tumour - solid tissue
+159,FI809645,ab7e536a-3194-5a75-9efa-2eac7b7f49bc,mini-9859bafb171b4b9cbef235052862181a.bam,DO51079,Normal - blood derived
+160,FI809607,c98acc98-395b-5c4e-8bd0-f6e053defb0a,mini-016cdbc60530e8f49e371785c6cd4ae4.bam,DO51046,Primary tumour - solid tissue
+161,FI25908,bb889c67-42c7-5d52-8c7c-b46cbb2b7f50,11c2c82724022595a540607bcc54e663.bam,DO51112,Primary tumour - solid tissue
+162,FI50419,dfb3ea4b-2ac7-52a3-b5a5-5910b0a1a6e1,33c17a7a2f85b370926b451788387950.bam,DO48577,Primary tumour - solid tissue
+163,FI807410,380087c1-cd45-5b59-9147-bdfbae18489b,mini-b49fd0dacd0edd859b95824cf7ff6744.bam,DO51132,Normal - blood derived
+164,FI807376,a608b94c-b511-55b6-b3ef-8c7c5c9a76c8,mini-b5fd66fac614f240655b977fb2cb0b68.bam,DO51119,Normal - blood derived
+165,FI807382,ed3c8dba-edbf-54f6-b528-aa1dd5fa5fdb,mini-7b32ba8e4ee40a02572d78a63a105a56.bam,DO51145,Primary tumour - solid tissue
+166,FI807390,4cf9f53b-4619-51fe-b398-caf19b0a488e,mini-38b1b5e10b19c2d9ba3e2306d4b415f1.bam,DO46795,Primary tumour - solid tissue
+167,FI807338,478cfc7c-044c-570f-a0f5-b0ec4ba76ef4,mini-5182cc1f09a95ce949befeade56b826c.bam,DO51102,Primary tumour - solid tissue
+168,FI807312,daf13c68-f24c-567e-9ebf-324257cebed9,mini-45e28dcb1204b71dda84c387c0c62c24.bam,DO51154,Normal - blood derived
+169,FI807292,4f38bf42-1648-572c-9d12-588f2765873e,mini-d8c2cd9b896ce6d8b046c3934f701912.bam,DO51078,Normal - blood derived
+170,FI807260,9f94d63a-eb03-5c7a-aee5-06b5ee101907,mini-6967e29f5448993347b318cc935627eb.bam,DO51152,Normal - blood derived
+171,FI807278,428d84b7-606c-5bd5-9c0a-72bc9baba706,mini-b10e5204e1d750bb103a06135e4275d5.bam,DO51072,Primary tumour - solid tissue
+172,FI807174,fd1c7438-6b16-5232-8f8a-1b8f366beb6b,mini-d4310a5653b87d993f99f8edb2b1ead2.bam,DO51120,Primary tumour - solid tissue
+173,FI807120,e0d8cc49-7116-5179-b5b1-6f0c7d1076f0,mini-29a7de80274515a883341d53db1fbcc0.bam,DO51094,Primary tumour - solid tissue
+174,FI807152,cd54661b-bb94-5a8c-9aa8-e9ec3cfee19f,mini-4c833b2b01c98b4f16d85b000f8d5055.bam,DO51138,Primary tumour - solid tissue
+175,FI807150,9a4434f0-0279-59d8-9f77-0e5d807dc0ae,mini-58aebb6d435937c9167d100e58545d80.bam,DO51123,Primary tumour - solid tissue
+176,FI807086,92526bd4-de98-561c-9598-d2e2295d445f,mini-446ef4046b521252f805f0bddcca22a7.bam,DO51051,Normal - blood derived
+177,FI807096,0ec9ac0e-2760-574b-92e9-7fc944a0b015,mini-0e73bedad00a23897125787e5385f250.bam,DO51063,Primary tumour - solid tissue
+178,FI37738,a60c4297-856f-5f54-85fd-d11293f67b49,e89a5d9e6480b8669201abde74cfbbaf.bam,DO46787,Primary tumour - solid tissue
+179,FI806695,09376586-20ab-5ba2-b733-3e9115dd5a03,mini-3ef095431d6e8a4223e30787db2759d5.bam,DO51093,Primary tumour - solid tissue
+180,FI374159,47c173cf-3630-5223-b7f6-960e8b54f39f,b10e5204e1d750bb103a06135e4275d5.bam,DO51072,Primary tumour - solid tissue
+181,FI46611,c67c5149-2753-5175-9e2d-13d1290323ac,488c5c7132a9e135b81092e7c0d63255.bam,DO50430,Primary tumour - solid tissue
+182,FI21986,2a138e2a-293d-502b-8fa5-b3da1dccfadd,d1dc0e2c2afe463f2cbf21ff03dbe746.bam,DO51056,Primary tumour - solid tissue
+183,FI808149,c7ec228d-950e-57b5-bcf4-43bd7d98b940,mini-20ba622adacc04fd5580a114f56ff37f.bam,DO51965,Metastatic tumour - metastasis to distant location
+184,FI808101,12dedb9a-dafb-5c7f-a214-dd7a91bd8090,mini-65f1fd128465b6443cb65927d9152578.bam,DO48577,Primary tumour - solid tissue
+185,FI808107,5b8733a0-3e1d-5891-b398-ee5e7792289c,mini-7fdf4ecd8e46b921038ff6c15f1f100b.bam,DO48577,Primary tumour - solid tissue
+186,FI808091,506ab512-8de0-532b-9310-03d887e79e55,mini-7497db836c765b0839a0e02b05e10f1a.bam,DO50414,Normal - blood derived
+187,FI808053,32ad2230-8b19-56e2-b8ee-f78c82401e49,mini-ba29adc354d5d527fbcd5fd5d06fd356.bam,DO50431,Primary tumour - solid tissue
+188,FI43797,f3d3ca98-020a-5115-922c-edcad9fcf143,3766e26ef5ebf853404850650513fa93.bam,DO51057,Primary tumour - solid tissue
+189,FI8931,91717050-5e25-55bc-b251-d284fa43c22e,016cdbc60530e8f49e371785c6cd4ae4.bam,DO51046,Primary tumour - solid tissue
+190,FI9645,43ba96f4-5e7f-55b5-bd3c-a303d625a3f8,7d79f6a10be5ed10e38168f6f29ab9a9.bam,DO51114,Primary tumour - solid tissue
+191,FI810471,ec7ad9f1-edd8-5fe9-abdf-e8a143e9366c,mini-9fa896640d35a3b7a33be4e2d11f0d6b.bam,DO51954,Metastatic tumour - lymph node
+192,FI810263,e00d2f61-5adc-55cd-82db-cee49445fdd7,mini-e0316b097b1f6aea188120768695fd9c.bam,DO51958,Normal - lymph node
+193,FI810269,f05d58e8-985c-5acd-ae77-9872f228f184,mini-4ed9dc9bec68c5a92c089988a3377104.bam,DO51958,Metastatic tumour - lymph node
+194,FI15560,50cb476a-5bed-5e02-bb53-a559440033d5,827961169a3a63dfc4ac8263dfabc092.bam,DO51095,Normal - blood derived
+195,FI14822,da0ff549-e974-5421-a447-8bb1b346b216,80ef4d60f34891fa9e3a3d92bd4c788e.bam,DO51962,Normal - lymph node
+196,FI28637,2da68bcd-11ef-562d-9332-77ac387e2d91,378bdcc9e0464d2e50677646e7f8af31.bam,DO51053,Primary tumour - solid tissue
+197,FI28433,9ee3675a-48b9-5dd8-bb58-e3b99dde6dc0,b47ba29777ae591291e507cd66f831e3.bam,DO50426,Primary tumour - solid tissue
+198,FI30911,72c3eadc-1e3c-5abc-97b1-bb8495f4e893,4d086d1340eb9f85f4ed8f0faac4abc0.bam,DO36221,Primary tumour - solid tissue
+199,FI19150,dfe3a3b4-9c46-5a7a-95a6-648362aa75ba,5f62bfbe66ac61cb10c71cf0282944c4.bam,DO51045,Primary tumour - solid tissue
+200,FI33526,d100e549-1fcd-5200-8d0e-a711b2bb34c5,3362560fe89ded10aa2fb4f9b6ead0d7.bam,DO51143,Normal - blood derived
+201,FI33089,ccc7cab1-1e2d-5e62-a4f6-558e87b9d0f2,fc21fc5806043562416e772e4c3357f3.bam,DO46792,Normal - blood derived
+202,FI47922,fe229e55-0258-5c57-8948-ec80911fe534,0b4f0246aef203ff0f25cd117362cc9a.bam,DO51086,Normal - blood derived
+203,FI47501,4ae9e0cd-786c-540e-aa56-18ae1b38308d,f803d18b19217d31ff4cacbd08060343.bam,DO51089,Normal - blood derived
+204,FI30018,ae37cdd5-eccc-5f9d-aec5-8e53b5315c78,1a32e9bc480acf07b680d812cd593ae4.bam,DO51063,Normal - blood derived
+205,FI35724,ad2092d2-a673-5382-8af4-d7fbe48e1678,cc01905187b18190727460f61bd92629.bam,DO51960,Metastatic tumour - lymph node
+206,FI20425,1efa395b-642e-58a4-8dad-647bb54d3f8c,e5831d43ef17ecd0273a8ba5d3647ebc.bam,DO51117,Primary tumour - solid tissue
+207,FI34447,349cd0b4-0ab9-5786-bac4-cb95ea6052b1,38b1b5e10b19c2d9ba3e2306d4b415f1.bam,DO46795,Primary tumour - solid tissue
+208,FI48855,8e356d9a-989c-5643-9dd6-068265209ff4,e92dfa93e9010e24ab8edfa9e2b94138.bam,DO51965,Metastatic tumour - metastasis to distant location
+209,FI38339,f04bdf29-33d3-583a-8d94-54f552fbf4a9,7590b19bb8d7c8c455b89bc8e66e0773.bam,DO51954,Metastatic tumour - lymph node
+210,FI38572,4033e0a8-d52c-5ad8-b576-268068bee8a9,2fbf2f834447c736048728a009bb78f0.bam,DO51092,Primary tumour - solid tissue
+211,FI807346,211de17b-33a1-5c0f-964d-3f35e4a3120a,mini-dceee1805d948e3adb1228dd6d8d052c.bam,DO51151,Primary tumour - solid tissue
+212,FI807296,1c975d91-4119-50f3-94ae-e01190b6fbbf,mini-0b4f0246aef203ff0f25cd117362cc9a.bam,DO51086,Normal - blood derived
+213,FI807252,4f8d75e2-ef93-5f9a-80b5-5293bbc7ed71,mini-3c17cc820c10e38748d50dec11367cfb.bam,DO51054,Primary tumour - solid tissue
+214,FI807212,d873bfd5-1d91-53ec-95fb-946eea0cc91d,mini-39cc8fd668d2acf8c50de7f4720886f4.bam,DO51150,Normal - blood derived
+215,FI807210,8b3311fe-78e1-5e78-be41-3aca2d1a33ed,mini-290f8ae977d36800ed092fe5bc953820.bam,DO51147,Primary tumour - solid tissue
+216,FI807178,e9f882c1-1fe3-533c-bf16-50c01f60bd0e,mini-c8215a8cfb1b20863f6fdf1431d24766.bam,DO51052,Primary tumour - solid tissue
+217,FI807116,18e3769f-284b-588e-a6ef-674a2218ef5d,mini-e7b5d9e7489c7a79810f3c3d45d68510.bam,DO51123,Normal - blood derived
+218,FI807094,b18ffd72-ae84-57d2-96af-60e94ea207ac,mini-1a32e9bc480acf07b680d812cd593ae4.bam,DO51063,Normal - blood derived
+219,FI807092,f41dfd66-39de-587d-a827-05c7299a6fdf,mini-bf027c30a0c09bd1ced91e11d25c365f.bam,DO51084,Normal - blood derived
+220,FI37070,275bed0b-9961-516d-b84e-c77e9bbad6d7,9859bafb171b4b9cbef235052862181a.bam,DO51079,Normal - blood derived
+221,FI22888,919e3a4f-4c0e-5de1-a6a3-d8372b921300,84e22345252b4575c9d36c9bbc9b7a17.bam,DO51070,Normal - blood derived
+222,FI22870,1f2c0335-ff40-518b-a842-1e4b412b2f14,93699dc43f70ae578e0738c70325fe08.bam,DO51120,Normal - blood derived
+223,FI374822,37e784dc-c02a-5d01-aa76-f075a26b89ea,4d6b2b8aa55981189adda3f74473044f.bam,DO51140,Primary tumour - solid tissue
+224,FI51244,daec4402-3b95-5229-82bf-2274155f6d7c,39f70222697419880edd0e4fcd09d62e.bam,DO51108,Primary tumour - solid tissue
+225,FI809705,e2f55e65-b931-5f56-9a76-5bcb69cde581,mini-15b7c47c4cfa038c6a629d4c68a84914.bam,DO51136,Normal - blood derived
+226,FI11978,ae6b75c0-41cc-5f10-9bb2-3eb209786d01,74e360d1e68a9e5677c32796487d98fc.bam,DO51142,Normal - blood derived
+227,FI809671,87015a19-b0ee-5460-9460-572553789058,mini-60b38fa2d9ac9d8e614e82ea68f1d86d.bam,DO51087,Primary tumour - solid tissue
+228,FI809679,cbd6a24b-9dc3-5850-ad3e-e46ae802e6ae,mini-da8d0f05e0e4345513b24db7b0dc0242.bam,DO51100,Primary tumour - solid tissue
+229,FI809699,9283580b-e93a-5995-90cb-7da855184503,mini-7d79f6a10be5ed10e38168f6f29ab9a9.bam,DO51114,Primary tumour - solid tissue
+230,FI809641,b7d5d589-8bec-5679-a597-5598a08235cd,mini-582919aee5da26cd98ef24b12f6e0239.bam,DO51064,Normal - blood derived
+231,FI809655,bddee1ca-7ce2-5484-8667-9f064eac7f2e,mini-6211d2625d1f5617e7619e6b46b7fa2d.bam,DO51088,Primary tumour - solid tissue
+232,FI809601,39dfdb5d-a6ae-563b-9ab4-d59e88c27c4f,mini-fc21fc5806043562416e772e4c3357f3.bam,DO46792,Normal - blood derived
+233,FI11214,60fc2a98-8a3c-5359-a4f9-fe3f877a05ef,f5050cf480730bd303f82caf0d7bc985.bam,DO51147,Normal - blood derived
+234,FI3482,fc677c26-ac56-5522-ba62-7b86072c8703,3940bb7d292f50d640dcc62d644bdf01.bam,DO36223,Primary tumour - solid tissue
+235,FI3611,8621c8eb-5c34-580e-9bc3-d88aac77c4d7,c835411f331de9a9b505aab86bbc945a.bam,DO51075,Primary tumour - solid tissue
+236,FI3629,6278f7b4-2858-5e1f-9bce-661fafab14af,39e7d999c454bb4c6a07c06ad3d87240.bam,DO51078,Primary tumour - solid tissue
+237,FI10013,964c2efe-ddec-5269-a042-5edf74c18585,2b678bca6a69d6f0bfb77f3194e4b1b7.bam,DO50427,Normal - blood derived
+238,FI808137,a6d68414-221f-5042-8aac-26142e5a71d3,mini-372c173b407c60f36d054015d0be2189.bam,DO51964,Metastatic tumour - metastasis to distant location
+239,FI808105,508e971b-d451-5674-bdcd-f34e98aebaf5,mini-33c17a7a2f85b370926b451788387950.bam,DO48577,Primary tumour - solid tissue
+240,FI808047,ea8f6b47-5d98-5311-a734-00cd7a0d4a63,mini-963c715ae2fb5dedff9e400d93894ae9.bam,DO50425,Normal - blood derived
+241,FI45892,0cb8ce81-8235-52f8-a698-fa4e0c96b39a,e6c638e745278fe884cc0ac7b057b45d.bam,DO51964,Metastatic tumour - metastasis to distant location
+242,FI7697,a5427c52-c83d-5927-9c40-630c8e7147eb,446ef4046b521252f805f0bddcca22a7.bam,DO51051,Normal - blood derived
+243,FI14823,2e1b33e2-54de-5693-ac6c-d18d5285cf23,0903e61cbd0906be307d576cdd850e79.bam,DO51962,Metastatic tumour - metastasis to distant location
+244,FI14824,6e4ed651-a190-5b1a-ade7-b4a649b72f73,049e850cb4404e90ae5251e926be7f63.bam,DO51962,Metastatic tumour - metastasis to distant location
+245,FI4702,6f3f8d80-1898-54c0-bca5-c9c3f739f88d,ee16efd74f83a47c57a3ad751c30a354.bam,DO51138,Normal - blood derived
+246,FI13824,3e9b235b-3835-5d99-bc4f-03e9c96799db,0ac5ebd6f4c6381b430565f1ed00df05.bam,DO51088,Normal - blood derived
+247,FI8930,2a979df4-6abd-59e0-ac23-34e67cf39731,9f25a6968e309993fac0d7a6404513bf.bam,DO51046,Normal - blood derived
+248,FI13504,58f5e371-0545-5b31-b379-0b9489eb9b3b,4436588167cabcb9412e98b35fc32d5c.bam,DO51126,Primary tumour - solid tissue
+249,FI13638,a8a98d56-1e6a-58d7-a0d4-093157c50b6b,bf027c30a0c09bd1ced91e11d25c365f.bam,DO51084,Normal - blood derived
+250,FI46629,b2101e56-fde5-5066-a95b-848cbf926953,cb90e861e06a071050cab917d390484e.bam,DO51113,Primary tumour - solid tissue
+251,FI807404,41a478bf-c272-581b-9559-561007406020,mini-cffe671b18220455a81b791d96d22cbf.bam,DO51104,Primary tumour - solid tissue
+252,FI807326,14984d5f-0613-5ed4-b3e4-d9fd2963fa72,mini-e725186e1faefc066f1f6c7968ecc509.bam,DO51156,Primary tumour - solid tissue
+253,FI807336,d91049c4-04d9-5ae8-8454-859ac36194eb,mini-36fd1f307b059d20645f14f8fcbb6932.bam,DO51102,Normal - blood derived
+254,FI807356,f21a97b3-9d6e-5c86-abde-64b93838eeed,mini-0e016cd237d61d30b049507d46320d6e.bam,DO51134,Normal - blood derived
+255,FI807248,e2ba8c73-74ef-535b-af22-579db98c1903,mini-1c2dad03e47d34118d63bf4cb89d97a4.bam,DO51142,Primary tumour - solid tissue
+256,FI807262,0d1e3e37-a661-54de-ba14-00203076e379,mini-3730c57be9d16b56be92638b567fc207.bam,DO51152,Primary tumour - solid tissue
+257,FI807202,19c01df6-5015-5f9e-b845-c04c8a525495,mini-34d31f7b045421a5f65a0fe206e14aba.bam,DO51126,Normal - blood derived
+258,FI807194,7ed010a5-819e-5547-9107-056d4ee6c870,mini-a0c32255926a61d9dc9ad7dfa42c1b72.bam,DO51065,Normal - blood derived
+259,FI807148,b36486b4-3de3-5b56-957e-de24aa41b438,mini-d39d0c82793ec5922eac752c232b1b31.bam,DO51153,Primary tumour - solid tissue
+260,FI807112,8bc20d59-d728-5edb-be10-d317e504d641,mini-049620bdb8fc65c48f12d8bda455ed30.bam,DO51116,Normal - blood derived
+261,FI806671,5a9a6d6d-07d2-52b3-87f9-771477393798,mini-378bdcc9e0464d2e50677646e7f8af31.bam,DO51053,Primary tumour - solid tissue
+262,FI806679,88a17400-2074-546b-83bb-14b83cfa760e,mini-5778f94c7499dd42270fe70335824f85.bam,DO51098,Primary tumour - solid tissue
+263,FI806677,2b490e1a-bdd1-5b3e-bbcf-8b0fe0255add,mini-bdb1b9fbf74037544960ac13add887ee.bam,DO51098,Normal - blood derived
+264,FI806681,ef582672-b79e-5d18-8ea8-0454604fcb0c,mini-f9142aa357e0e63c0760b8eefaa3f12b.bam,DO51055,Normal - blood derived
+265,FI26317,061690bc-ae22-5f1a-9c7d-89db8349133e,57189645719297dc5bd42329c4e70448.bam,DO221503,Primary tumour - solid tissue
+266,FI809835,dd59c0b8-85f5-5916-8263-05ca5b5fae93,mini-982c58336a424582f71932a5c5bdf87e.bam,DO51956,Metastatic tumour - metastasis to distant location
+267,FI809637,0169e8d2-7558-5eab-9ff3-6f20bf6ebb3e,mini-db79154ec108193a9041df1210509f04.bam,DO51085,Normal - blood derived
+268,FI25627,795a44b6-13ab-587c-bceb-e80acbbe6669,37c5b618a1248a063e8271d4426ada50.bam,DO51109,Primary tumour - solid tissue
+269,FI807601,f31f7d7d-b432-50e2-9807-1cdd8843ad3e,mini-9f02d8f6b6d83721a4c26c99b43ac338.bam,DO50423,Primary tumour - solid tissue
+270,FI807591,8d3a36ef-9afb-5392-bc24-5415ca723c85,mini-ce75215d7dab7c3c3e68769efadd7b76.bam,DO50415,Normal - blood derived
+271,FI808267,e5f67011-c9c3-59f4-a6ea-08ba126f4a8f,mini-66f62c03b140fd05f97481bd8f150c1a.bam,DO51959,Metastatic tumour - lymph node
+272,FI10092,30f2d4c3-0c14-525b-a8ad-ae3b557886e1,89be54787406356f66e0ca61e24121bc.bam,DO51133,Normal - blood derived
+273,FI808165,e136b9a3-3e8d-587a-add1-d1200ff6488a,mini-50869e429e841842b6d4d1d060a9b411.bam,DO36221,Primary tumour - solid tissue
+274,FI808077,0269ef44-21d2-5c74-867f-b84428381c34,mini-b47ba29777ae591291e507cd66f831e3.bam,DO50426,Primary tumour - solid tissue
+275,FI808075,b16d82d0-0cb1-52cd-a5c5-d4f979028b59,mini-f418f4a04f6a44149579f940ac98d79f.bam,DO50426,Normal - blood derived
+276,FI808081,b706de48-4455-58c9-8643-b444b20ec2e3,mini-4841e5ed19ae697f6eb2d714a495b50f.bam,DO50427,Primary tumour - solid tissue
+277,FI810461,34893870-df60-5fb3-9e08-e64f9ffc4d36,mini-47ca849da5c41fe712783190043b8ce1.bam,DO51954,Metastatic tumour - metastasis to distant location
+278,FI810265,bae53bea-2fa2-512a-ab7e-e73896bdf568,mini-eb69d2bc1172b67386a15408436132d0.bam,DO51958,Primary tumour - solid tissue
+279,FI7622,179c41b5-b4b5-5d3d-926b-0e4ac5a2ae92,5778f94c7499dd42270fe70335824f85.bam,DO51098,Primary tumour - solid tissue
+280,FI44231,7d9065e3-718b-5b66-b1ac-03a11687649e,75818ecd0886aac1ee67bfd1d5594f46.bam,DO51955,Primary tumour - solid tissue
+281,FI33527,9b12ed50-6da8-54b7-9dfb-621720408ec9,5bf6c8aa96fb0aeb36c4469c564bb0d0.bam,DO51143,Primary tumour - solid tissue
+282,FI622,3b46813a-e351-5f8d-aa4c-d08fc4713710,66f62c03b140fd05f97481bd8f150c1a.bam,DO51959,Metastatic tumour - lymph node
+283,FI45909,cbb4e48c-4bd0-58e9-b132-cc6c2b9cb9c5,71a06f45357e5e69e6ca2dd23d31b058.bam,DO51964,Metastatic tumour - metastasis to distant location
+284,FI45977,cefd90ea-eda5-55a8-83eb-0a66aa5c65a7,d4e132ae883599bb59be024b5c2fdf70.bam,DO51964,Metastatic tumour - metastasis to distant location
+285,FI45686,e9dc71bf-577b-57f1-96c2-43ffcf3c2444,eade9695efd6d545a3322d2a9b5f975e.bam,DO51154,Primary tumour - solid tissue
+286,FI32191,9698d459-01d5-5fe6-827c-d75dfcff5669,80e21890a0568b16e88b24f84810d74a.bam,DO51066,Primary tumour - solid tissue
+287,FI46610,33d81100-96f3-56ac-9dd1-800e91030915,49df2f51b9cc662b6e2fba9c9e3dbdbd.bam,DO50430,Normal - blood derived
+288,FI807400,a6240329-f257-5737-b151-d6ae185cc661,mini-6af68c89db6681389ea0b2193b53214b.bam,DO51141,Primary tumour - solid tissue
+289,FI807380,828942ef-9781-592d-a836-d35ac0f5511e,mini-a0b8abc8a88c2e3272bf2f355c97875f.bam,DO51145,Normal - blood derived
+290,FI807396,2124a656-4271-56c1-91bd-b642e5bc7c5a,mini-4436588167cabcb9412e98b35fc32d5c.bam,DO51126,Primary tumour - solid tissue
+291,FI807328,44b022cb-afe8-591b-93a3-283eb0d508a9,mini-982bd0686cf74d4a081e2c24b74d888e.bam,DO51115,Normal - blood derived
+292,FI807348,2006c1e3-c6f0-58ac-9473-d37d8c3576ab,mini-7f0db480fb535c84d5615f89eac17cdd.bam,DO51118,Normal - blood derived
+293,FI807318,4417b1d7-9e1b-50e0-8cfb-4c9c8d112cea,mini-05a574543e9350f4e1632ac33bcfb8ea.bam,DO51148,Primary tumour - solid tissue
+294,FI807280,350dcc1c-0de0-58fd-bd2a-1653928a9f98,mini-5bf12088bb2e353ca01feb81c8cb1c1a.bam,DO51124,Normal - blood derived
+295,FI807290,38c5d75e-a149-5df3-b02e-9ab72d207b72,mini-b7e72d69d80e826c90a8c5fb971e9013.bam,DO51044,Primary tumour - solid tissue
+296,FI807208,bbaf70fb-c0d9-5724-877d-04a8c9ee7edb,mini-f5050cf480730bd303f82caf0d7bc985.bam,DO51147,Normal - blood derived
+297,FI807162,20eb4a53-93b0-5171-af2f-395c90e3b750,mini-cb5d84e03cc028b4130c226c22cace00.bam,DO46796,Normal - blood derived
+298,FI807172,063ca31b-e604-5743-ba6d-9c37b2a9ec83,mini-93699dc43f70ae578e0738c70325fe08.bam,DO51120,Normal - blood derived
+299,FI807180,a27ab75d-1e8e-53c1-8b7f-19a300a695eb,mini-7e226947185a9d92327341dde8f43573.bam,DO46787,Normal - blood derived
+300,FI807114,536c8d2b-36ca-5100-ab65-fd5dbfe5cf73,mini-3a8a1e780d1191b42a617ce46ecaf5f0.bam,DO51116,Primary tumour - solid tissue
+301,FI35725,5f157436-48b7-5f3c-8f34-c17058bff221,1852bcb88e8ff3e055994063a98e4dcf.bam,DO51960,Metastatic tumour - metastasis to distant location
+302,FI48820,ab37ff7b-d162-50f4-9a6b-aac164becafd,66975c233b17512844f52ecc2860744a.bam,DO51965,Normal - lymph node
+303,FI48872,c4002b91-2b56-5368-aed2-2b792f4dbee7,6f3b4e739ca08391ed9d673e2d8567cf.bam,DO51965,Metastatic tumour - lymph node
+304,FI38330,3e8dd31f-8e71-5cda-91d5-ed25c85b81c8,e7059c0005dbe02813a6e136169bf338.bam,DO51954,Metastatic tumour - metastasis to distant location
+305,FI38329,616f341d-18b3-5811-8225-d619ab6eabd0,0c39e99eac7031e27d09f56b71c1a8c7.bam,DO51954,Normal - lymph node
+306,FI24034,c78bff35-af68-58c0-a960-a41235f765d2,7167f0e3e4ae49d781d7204718e164e2.bam,DO51073,Primary tumour - solid tissue
+307,FI5477,3ffb6b77-73ec-5398-9002-d28c72dad54c,a8b62d6236d4c2944ebe2d0056aea585.bam,DO51953,Metastatic tumour - lymph node
+308,FI16518,cecea6c7-ec8c-5d66-965c-82a5df8d6a95,9b8693bfc5ae886b748f45127b969c8f.bam,DO51956,Metastatic tumour - lymph node
+309,FI51452,6427e1ec-00d8-5b37-9130-22322c3d6c10,e725186e1faefc066f1f6c7968ecc509.bam,DO51156,Primary tumour - solid tissue
+310,FI809833,234ee911-2d16-5fe6-9a16-7a3008b78e8f,mini-ff7b2d01a5cbef731e887fc0ef59b665.bam,DO51956,Metastatic tumour - metastasis to distant location
+311,FI809625,1c71e062-24ca-5cd2-be3b-03bb84d5ccd6,mini-52749f90c4d7b8762b17cb10e43faeb7.bam,DO51047,Normal - blood derived
+312,FI809657,028ff59d-1a79-5ed7-9516-66c90bedf00a,mini-f803d18b19217d31ff4cacbd08060343.bam,DO51089,Normal - blood derived
+313,FI809615,1f7b4270-9b23-5ff1-9395-35ae630ebcc2,mini-b02eadf9e5eeb6ac780fe21541dd6e03.bam,DO51049,Primary tumour - solid tissue
+314,FI809613,7e754eba-5dbb-5f35-8968-f3a979b464c3,mini-6996781646c6f4de9976deb886a91d4a.bam,DO51049,Normal - blood derived
+315,FI50385,67a4d799-fe2b-570e-b75a-cd1220947bb9,65f1fd128465b6443cb65927d9152578.bam,DO48577,Primary tumour - solid tissue
+316,FI808141,10797688-a334-5eca-9ccb-737a667e8c0e,mini-631c74d07f26163de1dd581cc6ab6525.bam,DO51964,Metastatic tumour - metastasis to distant location
+317,FI808153,75541707-b3f3-5c23-a6cc-241e3f53ce30,mini-6f3b4e739ca08391ed9d673e2d8567cf.bam,DO51965,Metastatic tumour - lymph node
+318,FI808109,0295bcfc-b7b9-5e4d-8cb2-31dbed392538,mini-1e0f91f6e9ad08d52ac02fbe3b1c52aa.bam,DO51960,Normal - lymph node
+319,FI808099,11ddd8c5-2967-5a77-8645-c805de35addb,mini-f5bb47dc0710fd7be97e9efc005dfc06.bam,DO48577,Normal - blood derived
+320,FI808097,76a0b319-a095-5327-9482-a1cd073d17ec,mini-0a0cf3ae527d5abc813d99b4ce6a9db2.bam,DO50422,Primary tumour - solid tissue
+321,FI808073,f46df6c9-0dba-5cd1-8257-21e7588ee504,mini-e7bd5548d20cec67d0691c8ad6d0cebc.bam,DO221504,Primary tumour - solid tissue
+322,FI808041,05b68eec-6315-5b96-abd5-39b9859c263b,mini-595ebd80a1029606695d8ff375f8ab16.bam,DO50421,Primary tumour - solid tissue
+323,FI810447,d3610606-6f15-5cf8-a1be-b4fce0b6cc98,mini-f600d289623c6e1e57021fcbf704dc2a.bam,DO51067,Normal - blood derived
+324,FI7774,a5322930-562f-5ed1-b40f-1f19f19cd152,11eb2b4ae424c97eef6a24be1176a480.bam,DO51050,Primary tumour - solid tissue
+325,FI4703,52d8403e-7872-5e34-8b6f-8f767c1457d1,4c833b2b01c98b4f16d85b000f8d5055.bam,DO51138,Primary tumour - solid tissue
+326,FI17076,961e114d-5b6a-5c51-b069-85d3a742d7a7,c6f965a77d3c8db421326de6d47b93a0.bam,DO51061,Primary tumour - solid tissue
+327,FI45926,91db5a58-5f0e-5b80-81a7-96408ddbcfcc,52c45baaab3725ec44f110b52cfe5765.bam,DO51964,Metastatic tumour - metastasis to distant location
+328,FI30909,3ed81546-1a42-5673-a991-bce337f98f23,d83c982a8970cf6f08cbf4ff394dc855.bam,DO36221,Primary tumour - solid tissue
+329,FI30908,044bc566-299a-53b6-9919-979a7feb4afa,fd0c836fba1882606f1d62cf2a7b41e3.bam,DO36221,Primary tumour - solid tissue
+330,FI44248,bbd548b0-9da5-58fc-ae51-aa3387ce4223,9d707b1c6134fe0e9a68e81d368aad2f.bam,DO51955,Metastatic tumour - lymph node
+331,FI44079,144edc49-56d0-53ae-a4a0-aa3d82682ab7,6828fd112a0ac638734e60f65e787da3.bam,DO51139,Primary tumour - solid tissue
+332,FI496,5342d185-c30d-5b45-b3dc-ffd064947bf1,aa56d7037e43c0d2d8afce533900ee1b.bam,DO51137,Primary tumour - solid tissue
+333,FI33072,d4733dda-36ab-5570-863a-e18a1d44192b,b839bb4614b5dbdb5f48aa0db48795bf.bam,DO51135,Primary tumour - solid tissue
+334,FI33071,d191f804-5766-560a-ad4c-ce4bf0fa6477,2331e9fcec83143d126b89938f911397.bam,DO51135,Normal - blood derived
+335,FI47088,a0659c6a-2682-529e-aa70-f4bc064eebfa,c8215a8cfb1b20863f6fdf1431d24766.bam,DO51052,Primary tumour - solid tissue
+336,FI43796,ae97677d-782e-5164-899c-f4c8bac44521,d7371a3cd15345b630ebf3da04ed47a5.bam,DO51057,Normal - blood derived
+337,FI46852,88cd600d-6e4f-5aa8-b771-2b5953959106,05412a3c43198187fe4feafb6673e694.bam,DO51128,Normal - blood derived
+338,FI21985,86b08234-6a1e-5b4e-98ee-8bb8d31c9006,9fd6d3e2ec77ce0001bfbee7c9232051.bam,DO51056,Normal - blood derived
+339,FI34743,d440c1f6-264a-51fa-be0e-0145bbae6710,2dfadcdc014760e4954f0ff301bdc649.bam,DO51124,Primary tumour - solid tissue
+340,FI34075,3093647e-5bc2-5057-974d-f3767e627156,22cd038929331e99c430deb2fdb43904.bam,DO51157,Normal - blood derived
+341,FI807599,b0dc8c3c-0e0e-573a-b457-bdd5df60cd61,mini-2f942accfbf17679ba2fd8e830adaa78.bam,DO50423,Normal - blood derived
+342,FI807374,384cc5dc-30f0-568c-8592-52f852c4b413,mini-2ddb5af0e190d5aa2f267b858b8c9b65.bam,DO51144,Primary tumour - solid tissue
+343,FI807384,d3719ad2-822d-5f44-890d-0cfc4734ae15,mini-512ec464bc3bcd069b4a72aa3b13ec54.bam,DO51105,Normal - blood derived
+344,FI807332,74347251-1bce-52b3-b6e9-5c3db02e7cff,mini-05412a3c43198187fe4feafb6673e694.bam,DO51128,Normal - blood derived
+345,FI807316,d15369b9-33af-5ca5-bca8-cf62807de0e1,mini-7d6dd40e1a7024026fe2a6b1ea8c7954.bam,DO51148,Normal - blood derived
+346,FI807314,7ee5dcfc-097d-5d78-9090-6a505022492b,mini-eade9695efd6d545a3322d2a9b5f975e.bam,DO51154,Primary tumour - solid tissue
+347,FI807294,1144c698-cfe5-5318-bab4-fa32da775300,mini-39e7d999c454bb4c6a07c06ad3d87240.bam,DO51078,Primary tumour - solid tissue
+348,FI807264,2875a87a-a556-5dd8-9749-45e9b3405134,mini-75046e43ea259771deadc595a655a968.bam,DO51159,Normal - blood derived
+349,FI807270,cd907ad6-2530-5c08-83b0-065600b236ad,mini-47e0c917aecce2affd8bf4c696a8eb5e.bam,DO51080,Primary tumour - solid tissue
+350,FI807276,5b741c61-f4ae-5f7a-87a5-7794dbb1e268,mini-a2d299d837ee542b47511f8bfc6e801b.bam,DO51072,Normal - blood derived
+351,FI807154,8036a684-5924-57b9-9bb1-ff5459a87dbb,mini-3362560fe89ded10aa2fb4f9b6ead0d7.bam,DO51143,Normal - blood derived
+352,FI807106,02e5dc80-f579-5c94-917e-05d467b47ca9,mini-e54fd6c6abd096a8a9030f851ae5702f.bam,DO51153,Normal - blood derived
+353,FI806699,4b12db27-6756-5597-8276-a4f32c2b3c93,mini-23acf4688d7c695ff52d0147e6c9ae2f.bam,DO51103,Primary tumour - solid tissue
+354,FI26732,f63896f2-21bb-5259-bb3b-a38963b3d2a9,d9a855516cc8c2ea8870bb36b8872bbd.bam,DO50416,Primary tumour - solid tissue
+355,FI2021,0b81247c-1c05-5e19-9b74-0c9a128e1036,a114765d5090b9c1ab69687353867475.bam,DO51122,Primary tumour - solid tissue
+356,FI809827,d8baf331-359b-5a45-a99f-5c0d938da9fc,mini-f37ef8014f441543f88a93475c157f46.bam,DO51956,Primary tumour - solid tissue
+357,FI809839,58d30e91-2dc3-5790-8172-4c3f949d380d,mini-a8b62d6236d4c2944ebe2d0056aea585.bam,DO51953,Metastatic tumour - lymph node
+358,FI809845,2795561a-40d7-5f05-9add-dd41c3fcae62,mini-f74a95bbb1278d33ca910883c1bdf1e6.bam,DO51953,Metastatic tumour - lymph node
+359,FI809779,f387a40a-4365-594d-a2d7-90408c593d49,mini-d9a855516cc8c2ea8870bb36b8872bbd.bam,DO50416,Primary tumour - solid tissue
+360,FI809663,d8efce33-6a19-5542-be2e-0db74f9da56d,mini-8061130645cdc049378454e9b3c1b3df.bam,DO51060,Primary tumour - solid tissue
+361,FI809669,acb0f81c-6409-51e3-a3c1-f873012741e0,mini-40cf78da1d1800c5563bc5ad23dad96e.bam,DO51087,Normal - blood derived
+362,FI809651,19cf7790-38ce-5a04-985f-fa040e2440c3,mini-9e6fb1638afca9377137c433b598809d.bam,DO51068,Primary tumour - solid tissue
+363,FI809595,dcd8040a-bb7b-5507-8578-e850f8be62b4,mini-063c8207682a6b9dbaf696adc79b8d21.bam,DO51048,Primary tumour - solid tissue
+364,FI25907,400ad37c-2011-5b08-890b-23d62f0a665b,2f1894b78bdbbcb4550cbb785a2129dd.bam,DO51112,Normal - blood derived
+365,FI24949,1dd02fdc-1d89-554f-851e-e40caa5dd3a0,d25ce55e294f8af7f5256f4d6a19e839.bam,DO51081,Normal - blood derived
+366,FI10766,c2ec5d59-5ead-5792-aacb-80078ceff799,7a0090e6dabe350ecc19afb773d430e7.bam,DO51136,Primary tumour - solid tissue
+367,FI808263,9a1e516e-184f-5a66-8c2f-cb85503db6df,mini-cb5ab4c2dd4074286b87209dfa443944.bam,DO51959,Metastatic tumour - lymph node
+368,FI808177,8646b773-9517-5365-82dc-38ef8bd3e888,mini-95bf9ae68444e5e14976fbbe79dc466a.bam,DO51959,Normal - lymph node
+369,FI808173,6fdfd6cf-221b-5a35-b67d-67c4ccbb20ed,mini-b21862b25eaf563127afd47aabf3b936.bam,DO36223,Primary tumour - solid tissue
+370,FI808155,d570d159-3916-51c1-8085-39ac218e0b32,mini-5b09ae031a655cacfceb6bc5dd91ffd9.bam,DO51965,Metastatic tumour - lymph node
+371,FI808067,b1ee7a78-550c-5ab8-9177-8f32a8a39f3d,mini-ccf95c025047c4adbfc3853dc5b220a1.bam,DO50432,Normal - blood derived
+372,FI808071,173368f1-a2b9-5264-9c69-9816ef35d24d,mini-b9df171089f5d686bd15a4c66c26cdd5.bam,DO221504,Normal - blood derived
+373,FI810271,a055757b-ed78-5ba4-b22a-b5c68f1342f3,mini-dc73a90f6eb73affec1e68f7311e0134.bam,DO51958,Metastatic tumour - lymph node
+374,FI40861,efa59678-d40a-51ae-bdec-70ddce691840,0e72c39f537f6c42612ec7deaa635a4c.bam,DO51099,Normal - blood derived
+375,FI45875,2a040e2e-ab16-504c-aae7-2a3caf6ea053,e0b25efd9eec93ebb9e38bb60fa44998.bam,DO51964,Metastatic tumour - lymph node
+376,FI45057,e0a6eeaf-8450-5961-ad4a-fc6ffacdc77e,c6158d1566c5b21917ea623999d13e78.bam,DO51068,Normal - blood derived
+377,FI17075,1061d6f5-d5a2-5417-82e5-60b70175a3f3,ec3d1c5753016f18e940c584182e1f96.bam,DO51061,Normal - blood derived
+378,FI9741,bcaaea56-b18d-5a0d-83d9-be4f6042700b,7f0db480fb535c84d5615f89eac17cdd.bam,DO51118,Normal - blood derived
+379,FI12976,8ff39926-e599-5c5d-84b5-9940b4e65733,3913cbb519e7e557747b3cbeca97c4ba.bam,DO50424,Normal - blood derived
+380,FI27260,6b4f65c4-e1aa-5cc2-97df-31b82b733735,e7bd5548d20cec67d0691c8ad6d0cebc.bam,DO221504,Primary tumour - solid tissue
+381,FI43310,341f23cd-c839-56ea-860d-8b3776e53887,0e016cd237d61d30b049507d46320d6e.bam,DO51134,Normal - blood derived
+382,FI807402,6716c6f2-d64e-5bea-8371-5bdb100cca48,mini-35f92d4c7e66e8ea5cefd10045b03256.bam,DO51149,Primary tumour - solid tissue
+383,FI23816,ad9c9d3e-2e62-5d77-b198-6fdb14a849e0,dceee1805d948e3adb1228dd6d8d052c.bam,DO51151,Primary tumour - solid tissue
+384,FI807360,2f431134-19f4-57bd-828c-e761f6412f42,mini-69877d2815424646165b28ae71d264e6.bam,DO51134,Primary tumour - solid tissue
+385,FI807372,6e0b5eaa-b19c-5e98-937f-d0cfadea2356,mini-3935e90e140b16fea56ee5f922a70d5a.bam,DO51144,Normal - blood derived
+386,FI807378,4b532b6d-0083-5f1c-8eb4-50489e43e5a9,mini-28fd6d07302e17e9a60a2dff0a0ed9da.bam,DO51119,Primary tumour - solid tissue
+387,FI807398,19106837-983d-50ad-9796-6e609c17b86a,mini-d8cd7768ae28d5d65cfc92d168e0567a.bam,DO51141,Normal - blood derived
+388,FI807350,67110518-bf53-5999-bc6e-f86f918d8fe9,mini-4c7671ed4f81d6b25085db1be3fbacfa.bam,DO51118,Primary tumour - solid tissue
+389,FI807302,24e9d50d-5cfb-5aa5-b4df-819664743272,mini-4fbd557376c78b1a0c881de9104c338f.bam,DO51099,Primary tumour - solid tissue
+390,FI807250,75858f02-340e-55e8-9320-8d319d7f7127,mini-901d77913ab2196abb6764dcb409744d.bam,DO51054,Normal - blood derived
+391,FI807204,82895f29-1733-55f3-bf87-1f6fb8def080,mini-6cbc428b15e5c0409ca212a7a2b1d432.bam,DO51149,Normal - blood derived
+392,FI807226,06178874-b4c0-5cdc-915f-bede7809aae7,mini-4eb6bffc98aeb453499395b7b758c491.bam,DO51121,Primary tumour - solid tissue
+393,FI807234,20e91818-8e18-5146-bb6b-1f8343de9845,mini-a114765d5090b9c1ab69687353867475.bam,DO51122,Primary tumour - solid tissue
+394,FI807176,cfb0269a-2f1a-5bbe-bada-8cfdbd6d7f49,mini-66d528109d010c106fea0b92198f0168.bam,DO51052,Normal - blood derived
+395,FI807186,2327203e-e007-5fdd-aa36-ee8ce1445cd7,mini-3bcb0039e46a4ca217d29b0c77a1ef7e.bam,DO51133,Primary tumour - solid tissue
+396,FI807144,49d6b1dd-755e-5404-9a38-bee0b35789d8,mini-a68065b22c01d38a318e46d6146ac1e3.bam,DO51158,Primary tumour - solid tissue
+397,FI807110,5e95540a-3ddd-5727-9752-54d9a8537329,mini-390a419235a83b1d332ef2f72de28793.bam,DO51069,Primary tumour - solid tissue
+398,FI23959,b820f85d-5609-5bcd-a593-b5a2ef32c372,be4b04f3b2a1e09bbbc4c085b3527cfc.bam,DO51125,Normal - blood derived
+399,FI806673,d7f17b5c-f413-5a76-908c-bfc422296354,mini-2f1894b78bdbbcb4550cbb785a2129dd.bam,DO51112,Normal - blood derived
+400,FI806675,39ff7120-765f-5c2b-a1f3-9086d0d5819b,mini-11c2c82724022595a540607bcc54e663.bam,DO51112,Primary tumour - solid tissue
+401,FI806683,e0d97728-f14d-51e9-b171-edbc673babda,mini-0c5d838fbe81fb28ca5b737f1898521a.bam,DO51055,Primary tumour - solid tissue
+402,FI806669,5028903c-829a-59c9-be6c-4d21fa16b1ef,mini-2feefd57350ddcc44473b78a60e14f84.bam,DO51053,Normal - blood derived
+403,FI22420,ccb0917b-0777-5b08-9604-0c91febc9d4f,d8cd7768ae28d5d65cfc92d168e0567a.bam,DO51141,Normal - blood derived
+404,FI36769,a678f6cd-64c9-526a-bc08-c046759353ff,2f141f0c4008d1cb0e3a98863bce801e.bam,DO46790,Primary tumour - solid tissue
+405,FI26714,7fed2782-c1bc-5990-aab8-4b8fb45bb5f4,595ebd80a1029606695d8ff375f8ab16.bam,DO50421,Primary tumour - solid tissue
+406,FI2020,dc164337-e52c-5c35-a080-cb9669fc6d7a,6df5c38b7b6f8c2d82869315b94fd4bc.bam,DO51122,Normal - blood derived
+407,FI809829,f3b38e8a-3685-59f4-a3d5-f7a5977a3b51,mini-8183fc2c1d714429675b3ff078c9c0c3.bam,DO51956,Metastatic tumour - metastasis to distant location
+408,FI809619,d4205d6e-ed35-5438-9926-dba27cffb0c5,mini-c6f965a77d3c8db421326de6d47b93a0.bam,DO51061,Primary tumour - solid tissue
+409,FI809593,1becb650-289f-5291-a76a-835ee130ca1b,mini-d0626421910de3a9de225275f7d708f5.bam,DO51048,Normal - blood derived
+410,FI21896,d287c6a6-b6e1-5c30-b2cf-0bd7c993af0c,3a9b565c2fddd33edab07e6aacef604f.bam,DO51131,Primary tumour - solid tissue
+411,FI35722,06f5711b-8457-5948-8747-4fe6a0e8ad89,7865761a97c9701de698081244eefa1c.bam,DO51960,Metastatic tumour - metastasis to distant location
+412,FI34411,501ceb06-d90e-5907-8f31-c28605e90b1a,3a8a1e780d1191b42a617ce46ecaf5f0.bam,DO51116,Primary tumour - solid tissue
+413,FI34446,b0b30c4d-47b7-5c09-bf81-ab37fa04c484,38c5b3136d1fd289e28b5a42449e3576.bam,DO46795,Normal - blood derived
+414,FI38336,51267957-9b9b-5f7a-b8cf-2c44f7c4697a,7402654effa3a9f010236b0cadd04ce3.bam,DO51954,Metastatic tumour - lymph node
+415,FI38333,4ea0e27a-3eea-5e4d-b3f9-04ba8a8ef741,49126a29e0bcaf1e782f6c50a1da7b6b.bam,DO51954,Metastatic tumour - metastasis to distant location
+416,FI46465,865eca7a-3dc9-5cfd-9b11-930afcc4fed7,224c7d03fef67256448ff82fb32d5aa9.bam,DO50432,Primary tumour - solid tissue
+417,FI33990,c0f83a8b-0027-5130-ad6f-52e1b296176b,eb69d2bc1172b67386a15408436132d0.bam,DO51958,Primary tumour - solid tissue
+418,FI33525,f6d70032-37c9-5623-bcea-615e23a4b193,9e76372d406025cd483c1e18e8e78129.bam,DO51140,Normal - blood derived
+419,FI47502,2644b145-e218-5ca6-80ca-da03350eb140,39ee1f33dc731ea235afaed685ccf975.bam,DO51089,Primary tumour - solid tissue
+420,FI810463,9fdee198-d224-55fe-81e0-2dba02f364bc,mini-49126a29e0bcaf1e782f6c50a1da7b6b.bam,DO51954,Metastatic tumour - metastasis to distant location
+421,FI810459,e79a3c26-0a4c-5ca1-bd00-94c08d27c0f3,mini-4d708e4e315a280c2a6faa58f724a72d.bam,DO51954,Primary tumour - solid tissue
+422,FI810467,52e51d82-c403-5f25-a73f-6e17e7c7ab15,mini-ec4915864f0c837a12cfb09f95ea0563.bam,DO51954,Metastatic tumour - lymph node
+423,FI7247,f58960fa-cf5b-5768-a11b-04e544b5b168,0dbbeb608901102459bffca3e86b84ca.bam,DO51155,Normal - blood derived
+424,FI7248,19fc59e1-ace5-58c5-a825-64178a1c065d,7c34fad6e499138521ef51c40ddb0787.bam,DO51155,Primary tumour - solid tissue
+425,FI41728,1db88eec-789e-5ccc-9e0b-0b7897a7a4be,cffe671b18220455a81b791d96d22cbf.bam,DO51104,Primary tumour - solid tissue
+426,FI13825,81c28bfc-36a8-550f-a167-7ba9c3a16555,6211d2625d1f5617e7619e6b46b7fa2d.bam,DO51088,Primary tumour - solid tissue
+427,FI13639,2d84abcd-0a7e-5dc1-84d8-0e5184ea3d0d,c1638abbea2c0212e1d453b5ba664a09.bam,DO51084,Primary tumour - solid tissue
+428,FI31306,388feaa6-bc87-5d2e-8acb-4fa8cd8adf2b,709780614dcfa64f06bea39dabbd774c.bam,DO51105,Primary tumour - solid tissue
+429,FI31498,6ab3463c-bf14-5c5d-8cd0-5926a52d4b31,9414e47956d1c58e07c0ac6c0faa7e1d.bam,DO51091,Primary tumour - solid tissue
+430,FI45040,83383700-b21e-5f4c-b1b5-6ab215cc0707,9aeba91791085198536ec317e18eecd9.bam,DO51115,Primary tumour - solid tissue
+431,FI47923,a196e49f-9a45-5c77-b706-9add0246b114,0095dee3b343c04564a762b9ff2dd316.bam,DO51086,Primary tumour - solid tissue
+432,FI47087,88e31d77-7c87-5c54-8c90-6bbc0f6ffdba,66d528109d010c106fea0b92198f0168.bam,DO51052,Normal - blood derived
+433,FI13088,fe847c34-5ffa-5d73-b8d1-04d3bafef01a,e54fd6c6abd096a8a9030f851ae5702f.bam,DO51153,Normal - blood derived
+434,FI32838,4f994641-1450-5405-92e8-016f9caf03f9,8d93f52fc0bbf290218c356f6b2e3093.bam,DO50414,Primary tumour - solid tissue
+435,FI46853,f1bc1bee-b84b-5583-b235-e06251197495,651346b8e8ce1151991c8a8499a8aff9.bam,DO51128,Primary tumour - solid tissue
+436,FI21140,20a74c97-747a-5a48-b217-f2883996d57d,58b2c1649b2eda1c7f53684da1c050d2.bam,DO51065,Primary tumour - solid tissue
+437,FI38332,55861f49-232b-5469-94cb-190e5f124423,47ca849da5c41fe712783190043b8ce1.bam,DO51954,Metastatic tumour - metastasis to distant location
+438,FI38338,a9062494-fc05-5708-8cb9-2b6af1cb19d7,eeea57cadac1c8b3dedbd13e61c6f969.bam,DO51954,Metastatic tumour - metastasis to distant location
+439,FI807593,1a7d9dff-e3b0-52f4-9078-0c50d641717b,mini-3de82977aedac80869c232886e7f5a7b.bam,DO50415,Primary tumour - solid tissue
+440,FI807330,bac75f22-4a37-5e64-b818-9a7124f391ad,mini-9aeba91791085198536ec317e18eecd9.bam,DO51115,Primary tumour - solid tissue
+441,FI807340,dde5d297-48b0-57b7-a563-2c54fd21c1e8,mini-bf7a055f56c4a0b9a3a40a52884338f7.bam,DO51091,Normal - blood derived
+442,FI807288,39142d71-1bad-5c69-98e4-5bcb48cfa5f6,mini-584e5bee742cc7a95dd657f6d90628e1.bam,DO51044,Normal - blood derived
+443,FI807286,c98bb80e-e687-5152-9e5b-b52a4fa12b65,mini-c4a77d523c76d2f0a568732ea0067c52.bam,DO51111,Primary tumour - solid tissue
+444,FI807266,896e86ee-6397-59aa-a8b6-288a9d7d2b8b,mini-f1c61be3f2beb330e3aa731d8c325ecb.bam,DO51159,Primary tumour - solid tissue
+445,FI807220,6d2764df-302b-5e1d-a393-c71a513300f8,mini-80054e66cfc457f7925691e4b0881061.bam,DO51045,Normal - blood derived
+446,FI807224,d40a2964-5643-5cc3-85de-fe560e316538,mini-a2e710a5c382d0daaccc260de98889fa.bam,DO51121,Normal - blood derived
+447,FI807182,36f4243f-bed5-5906-aea5-1189d26400d0,mini-e89a5d9e6480b8669201abde74cfbbaf.bam,DO46787,Primary tumour - solid tissue
+448,FI807184,7ecd5a4b-3a64-508b-b530-31380dd0efd7,mini-89be54787406356f66e0ca61e24121bc.bam,DO51133,Normal - blood derived
+449,FI807192,cfe41614-4fd8-55ec-aa9f-b76585bd71f6,mini-c835411f331de9a9b505aab86bbc945a.bam,DO51075,Primary tumour - solid tissue
+450,FI807138,c19c9bbc-d7de-5d51-bf9b-f8ae51a5da2b,mini-ee16efd74f83a47c57a3ad751c30a354.bam,DO51138,Normal - blood derived
+451,FI807104,9a807773-be16-5608-b2b9-139ec00c7868,mini-1983010f49a00461a14ff44660dabaad.bam,DO51110,Primary tumour - solid tissue
+452,FI23942,9d70bc61-e795-5592-91b8-118ea4a8a9c3,4eb6bffc98aeb453499395b7b758c491.bam,DO51121,Primary tumour - solid tissue
+453,FI806689,253942eb-5816-5701-81ed-13b881680163,mini-999bc0fb517ea2ca91fc88b5c9676295.bam,DO51106,Normal - blood derived
+454,FI806691,060b2230-5a83-5d8e-bf9e-ffd3c13f2f03,mini-7fd88780cf59cfb445801dd869e84a40.bam,DO51106,Primary tumour - solid tissue
+455,FI806667,764a0e6b-312b-5393-973a-0e92c0c34edd,mini-4d6b2b8aa55981189adda3f74473044f.bam,DO51140,Primary tumour - solid tissue
+456,FI26316,c8b4f608-ae99-536f-a795-fc2a742892b5,917229c21ec442cc07cdf591889845a0.bam,DO221503,Normal - blood derived
+457,FI2038,929d07ee-64e5-5352-89c7-34824612e327,e62ee56b1c8850078282ad6e91ebd950.bam,DO51127,Normal - blood derived
+458,FI809649,c4b673d2-37a1-5213-8409-390e7bcf338b,mini-c6158d1566c5b21917ea623999d13e78.bam,DO51068,Normal - blood derived
+459,FI10765,d3f67390-0e59-5f9f-8e26-4389f0ec1857,15b7c47c4cfa038c6a629d4c68a84914.bam,DO51136,Normal - blood derived
+460,FI808265,8fa2f58a-1513-5f9f-a0e2-14c84c5ee5e8,mini-7a1c44e91d25d51c26b61fe145a14f87.bam,DO51959,Metastatic tumour - lymph node
+461,FI808133,8bf5ff0d-e412-523d-bf28-6f86669a7ef9,mini-52c45baaab3725ec44f110b52cfe5765.bam,DO51964,Metastatic tumour - metastasis to distant location
+462,FI808143,5ad316b0-65b6-5dff-9d7e-5d519399a0f1,mini-bde8d6a55d6660859b1a557f3a989026.bam,DO51964,Metastatic tumour - metastasis to distant location
+463,FI808103,4b9a8be5-2d57-5d24-b4f5-dbae73efd566,mini-dcb2c53dc9628e6fcdc76bb5aa754d48.bam,DO48577,Primary tumour - solid tissue
+464,FI808113,ed53142e-5a36-50b8-870b-5b8a9e554ec3,mini-2d478028f93bbf696bb5114e2eab216a.bam,DO51960,Metastatic tumour - metastasis to distant location
+465,FI808129,59268708-5f91-57ed-8e36-5d29d55ed959,mini-e6c638e745278fe884cc0ac7b057b45d.bam,DO51964,Metastatic tumour - metastasis to distant location
+466,FI17111,5f8fde5e-905d-55a1-affb-54954e3b232a,582919aee5da26cd98ef24b12f6e0239.bam,DO51064,Normal - blood derived
+467,FI14826,dc2b7124-5b28-547f-b37a-d7ae37082cec,68571287d05fab11626bac3e02347251.bam,DO51962,Metastatic tumour - metastasis to distant location
+468,FI810455,9a6577d5-8f62-531a-b523-11c45831243c,mini-0c39e99eac7031e27d09f56b71c1a8c7.bam,DO51954,Normal - lymph node
+469,FI7640,c4f6cca8-a8eb-5e9d-a9e7-99d26e6ae67a,0eeb9f88bab46eee4e63871e60a1b5c2.bam,DO51096,Primary tumour - solid tissue
+470,FI7773,4468e74b-f7c5-5ec9-91e8-4c3941a93f49,656aa9e794e1813d02cd90b5a4c3ba7b.bam,DO51050,Normal - blood derived
+471,FI29092,3cbf1093-8f79-59ca-babd-325b1e3beb44,da8d0f05e0e4345513b24db7b0dc0242.bam,DO51100,Primary tumour - solid tissue
+472,FI29091,4e336458-d0a0-5327-957f-662282e021ed,2d6606d2e300d3b7fd0df7dcce0f56f9.bam,DO51100,Normal - blood derived
+473,FI46427,42c75c6c-eeb1-5dc2-8239-fe5718cea7f0,3730c57be9d16b56be92638b567fc207.bam,DO51152,Primary tumour - solid tissue
+474,FI46011,ffd69c4f-7134-55cd-95a2-30d5e6d5d84e,bde8d6a55d6660859b1a557f3a989026.bam,DO51964,Metastatic tumour - metastasis to distant location
+475,FI33989,2daacb4a-c1eb-5191-9da0-ba16e0210152,e0316b097b1f6aea188120768695fd9c.bam,DO51958,Normal - lymph node
+476,FI605,63db6f5a-316a-5273-a0f5-9c86c8554c2a,7a1c44e91d25d51c26b61fe145a14f87.bam,DO51959,Metastatic tumour - lymph node
+477,FI45994,265febb1-200b-5417-8424-767cea751935,631c74d07f26163de1dd581cc6ab6525.bam,DO51964,Metastatic tumour - metastasis to distant location
+478,FI30907,204daa0f-aa70-5173-b974-c13886ff1e86,6347d1491f0d59f3fd197b2ae74b6511.bam,DO36221,Primary tumour - solid tissue
+479,FI27259,92721886-d1fb-50aa-b33b-40eedd0c7557,b9df171089f5d686bd15a4c66c26cdd5.bam,DO221504,Normal - blood derived
+480,FI49945,2789eb7b-ab0c-5cea-b6df-0c9bdaa4ddd4,ee791f89bf9acb8e38dc0da7ce094bbe.bam,DO50428,Primary tumour - solid tissue
+481,FI34041,88c140d5-8880-55d1-a322-5ef66431a36e,dc73a90f6eb73affec1e68f7311e0134.bam,DO51958,Metastatic tumour - lymph node
+482,FI38845,91c14b9c-d5ef-5821-8d52-cd09a8048e05,6996781646c6f4de9976deb886a91d4a.bam,DO51049,Normal - blood derived
+483,FI24259,0957dd65-e99a-56e0-a1c0-832a21a8e40a,2f942accfbf17679ba2fd8e830adaa78.bam,DO50423,Normal - blood derived
+484,FI807408,e3edd43f-1125-5cba-bbf0-63a956e71f2c,mini-6db1313e385e5e8a0497c0fd6a6d2998.bam,DO51129,Primary tumour - solid tissue
+485,FI807412,4ba16a3c-0608-57c3-99a4-57d945d6f734,mini-5eca29f664ab6a448d2bb0c912da994b.bam,DO51132,Primary tumour - solid tissue
+486,FI807366,8a06cbc9-f608-5470-abd0-0a3316fb599a,mini-be4b04f3b2a1e09bbbc4c085b3527cfc.bam,DO51125,Normal - blood derived
+487,FI807284,7f96fdec-e0e5-51d3-972c-6d6ad98193f7,mini-d8f77f5816d14a2af69d912ca0f61a77.bam,DO51111,Normal - blood derived
+488,FI807242,11bf62c7-f957-5d2f-90f2-85407d071c0b,mini-250a030aa92d1554a61373ce2ca219e4.bam,DO46788,Primary tumour - solid tissue
+489,FI807256,494eb6a4-31f5-5328-9aef-a965b6763065,mini-e39895f3587ce76ab22c4b10de302ae4.bam,DO51131,Normal - blood derived
+490,FI807268,f6126282-ee04-523b-ae30-11a87ca843e5,mini-18f021906914f32c753ba0da0ad36895.bam,DO51080,Normal - blood derived
+491,FI807206,3bc9db43-9d19-53ce-8a46-758cd718cd94,mini-35604afd8c269adf04e3b9a43ac503a3.bam,DO51104,Normal - blood derived
+492,FI807218,aab18364-7f90-5ac5-8454-602eaded1653,mini-6828fd112a0ac638734e60f65e787da3.bam,DO51139,Primary tumour - solid tissue
+493,FI807160,4ea1c459-8263-549b-8055-61107b08a835,mini-2fbf2f834447c736048728a009bb78f0.bam,DO51092,Primary tumour - solid tissue
+494,FI807190,76a3e371-7777-5e19-90eb-b027d7b5c1da,mini-b0505c85b6c6b157bb0ef0cbaa5e3346.bam,DO51075,Normal - blood derived
+495,FI807146,bc53818b-c1aa-503f-8cff-fab03ab661b7,mini-8af8bce39ec001fb05aea97959671ac3.bam,DO51074,Primary tumour - solid tissue
+496,FI807156,86961b06-f039-5d2a-b0f9-85a551294248,mini-5bf6c8aa96fb0aeb36c4469c564bb0d0.bam,DO51143,Primary tumour - solid tissue
+497,FI807102,7c43866a-22de-51e7-86d3-06674f2599d7,mini-177444b778652e69309dfed72699c9a4.bam,DO51110,Normal - blood derived
+498,FI807118,09b5e4af-530a-5d18-933f-e6f3a613b173,mini-691d9fe5c01c262b172b27e198457871.bam,DO51094,Normal - blood derived
+499,FI23960,84751897-94e5-5906-adda-215f1bdb877e,9cddfb2511084b0e068952d62575f00d.bam,DO51125,Primary tumour - solid tissue
+500,FI806665,42add42b-08c0-571a-977a-65e68fefc5d5,mini-9e76372d406025cd483c1e18e8e78129.bam,DO51140,Normal - blood derived
+501,FI22946,5aa8ac2d-c18c-54ae-8cb8-b0bd092ad650,cb5d84e03cc028b4130c226c22cace00.bam,DO46796,Normal - blood derived
+502,FI26731,bb8199d8-dd12-5b0b-bdad-5643e014724e,c0167ca0464d50855f228fa0165d4fef.bam,DO50416,Normal - blood derived
+503,FI809627,be6a6374-3a72-5e97-9c32-41cfae15c0fb,mini-43a790572e99bff499df4417405562e7.bam,DO51047,Primary tumour - solid tissue
+504,FI809643,a8de2a9e-b301-5b4b-bcb3-afd9c5950133,mini-3a39c858ec4ca71bc3baafe5b3a9831d.bam,DO51064,Primary tumour - solid tissue
+505,FI3610,b2cdb43f-3a95-56bb-8602-0dc19735b84d,b0505c85b6c6b157bb0ef0cbaa5e3346.bam,DO51075,Normal - blood derived
+506,FI10989,1128ed36-1fd5-590a-b615-7dd76f7d9e02,250a030aa92d1554a61373ce2ca219e4.bam,DO46788,Primary tumour - solid tissue
+507,FI24950,e62a1fc5-1f58-5d80-a5aa-ef80a9d2200c,ff6e89e8995ca36f5309f5d4be0a63c7.bam,DO51081,Primary tumour - solid tissue
+508,FI808167,f66a5b1d-aebf-5a81-bea5-92cc3316f3ad,mini-4d086d1340eb9f85f4ed8f0faac4abc0.bam,DO36221,Primary tumour - solid tissue
+509,FI808163,421cce7a-faa0-55ac-a60c-3f849d9c6352,mini-d83c982a8970cf6f08cbf4ff394dc855.bam,DO36221,Primary tumour - solid tissue
+510,FI808087,006d4357-c2b5-5278-abd3-64fe04320659,mini-c6d0c27d73ff1a6bffdae6c1993bffdf.bam,DO50419,Normal - blood derived
+511,FI810273,a53fd8ab-732f-5df0-bfdc-c06579ecf7fc,mini-5c66b651afd946d53860fa1a8be3cc6e.bam,DO51958,Metastatic tumour - metastasis to distant location
+512,FI40862,f476071d-ca26-51dc-87f7-d5962bb3f66d,4fbd557376c78b1a0c881de9104c338f.bam,DO51099,Primary tumour - solid tissue
+513,FI40251,b673daaa-17fb-5bc0-86d8-ea1470f5122b,8026fb51494501e7c126d46a9a10eb26.bam,DO51090,Normal - blood derived
+514,FI8874,504761fa-174e-5f1b-ad6b-655fe5ea4c15,2d28e7cb18cc50b98ab5a308e7b7da7f.bam,DO51103,Normal - blood derived
+515,FI43463,60644314-5e6c-57f9-8574-8c0c532fda3e,6db1313e385e5e8a0497c0fd6a6d2998.bam,DO51129,Primary tumour - solid tissue
+516,FI45039,a5adcc94-6b16-56a9-9b5e-b875a5f0c152,982bd0686cf74d4a081e2c24b74d888e.bam,DO51115,Normal - blood derived
+517,FI16535,07c64c28-5b9d-5e96-9de7-dcfd748b9ecd,ff7b2d01a5cbef731e887fc0ef59b665.bam,DO51956,Metastatic tumour - metastasis to distant location
+518,FI33053,4bfd2d52-4ae1-5d61-b300-c139af9d35b1,ace2cc77392a6bb96559b6c27ce8e87b.bam,DO51130,Normal - blood derived
+519,FI5494,271b5675-ae82-595d-ad19-35d8e0c0e6ae,b84ea165212637cdc6046402cc645436.bam,DO51953,Metastatic tumour - lymph node
+520,FI5511,652f80ca-72e6-5521-b6ad-32aa7e5920e0,9525f90387c359da446356c8a6c63c6d.bam,DO51953,Primary tumour - solid tissue
+521,FI46647,6fd1df41-1cca-51db-a150-a146c81482e1,c4a77d523c76d2f0a568732ea0067c52.bam,DO51111,Primary tumour - solid tissue
+522,FI46646,0ddd276a-8224-5efb-a3f6-b1d447bde192,d8f77f5816d14a2af69d912ca0f61a77.bam,DO51111,Normal - blood derived
+523,FI34797,d2dd93bc-c709-5021-8833-b96cf1d3a8a8,da3d6b7fefff42837603e641cd42ca46.bam,DO51071,Primary tumour - solid tissue
+524,FI38334,a78706d6-3279-5154-86c3-3732d98fb6cd,db024bac0e16a0329539ab3f03a3cc4a.bam,DO51954,Metastatic tumour - metastasis to distant location
+525,FI807392,3202bd4a-6f76-5cb1-b09a-82f7b6d7abce,mini-d7371a3cd15345b630ebf3da04ed47a5.bam,DO51057,Normal - blood derived
+526,FI807320,38647296-4f64-54c2-b7dc-7cac835f7e19,mini-93caf5c92e50f841eef53fa6b915af05.bam,DO51096,Normal - blood derived
+527,FI807344,b24b7f1d-395e-5a11-9126-df0c964b9a8d,mini-4b622f21183d60e032cff4f2f210d2a2.bam,DO51151,Normal - blood derived
+528,FI807342,6826e34a-2783-5716-9ff2-a614d3ede463,mini-9414e47956d1c58e07c0ac6c0faa7e1d.bam,DO51091,Primary tumour - solid tissue
+529,FI807304,2305b3aa-e467-592a-aa53-f8dc99f8aeb0,mini-88677b626018be4e0b97d890ada156e6.bam,DO51062,Normal - blood derived
+530,FI807236,b594e11e-fdfe-5eec-acf6-518729209ae2,mini-8cf46399858244b336327d1b48c521dc.bam,DO51097,Normal - blood derived
+531,FI807170,fca7807d-8f6b-583a-9b46-8789b6631964,mini-7c34fad6e499138521ef51c40ddb0787.bam,DO51155,Primary tumour - solid tissue
+532,FI22889,177fa3ac-eec3-5f38-8204-3d97b85af187,56f763fcf08584ad43e9a5a5d0381628.bam,DO51070,Primary tumour - solid tissue
+533,FI22421,481e94d1-03f5-5c5c-add6-7603dfb4da73,6af68c89db6681389ea0b2193b53214b.bam,DO51141,Primary tumour - solid tissue
+534,FI22096,79abf49d-1a93-5aca-8f80-a2eab6417549,13e5c42c9635c21723990bd398ac1937.bam,DO50417,Normal - blood derived
+535,FI809777,01e56106-50fb-58af-a883-112dccf20c4d,mini-c0167ca0464d50855f228fa0165d4fef.bam,DO50416,Normal - blood derived
+536,FI809701,d871faed-4e81-5e7b-8fc8-adeb6b72ca71,mini-2331e9fcec83143d126b89938f911397.bam,DO51135,Normal - blood derived
+537,FI809665,5f349989-7fc8-589d-acdd-3925cb702534,mini-20647c7d69021a14284ed18848daca2a.bam,DO51073,Normal - blood derived
+538,FI809621,2ea4ccbe-920c-5a9b-b456-36179a89c079,mini-ce58f6f643557c144d02b720d56c4547.bam,DO46793,Normal - blood derived
+539,FI809631,1fa82195-35f8-5b69-9595-310fa9e4c54f,mini-80e21890a0568b16e88b24f84810d74a.bam,DO51066,Primary tumour - solid tissue
+540,FI809603,66a6596d-f625-551f-9c09-cb8531969b67,mini-3e208d5466847d11f043981815a70790.bam,DO46792,Primary tumour - solid tissue
+541,FI50402,3b5ee9fb-cf66-5e9d-a4d7-0ec7606bc182,dcb2c53dc9628e6fcdc76bb5aa754d48.bam,DO48577,Primary tumour - solid tissue
+542,FI50384,54cf8eff-9a8a-5eef-973e-f4e0722766e5,f5bb47dc0710fd7be97e9efc005dfc06.bam,DO48577,Normal - blood derived
+543,FI808175,0b16b860-d8da-5f15-a657-99d935862c4d,mini-2b017191ed985076cb5c0796ab300150.bam,DO36223,Primary tumour - solid tissue
+544,FI808135,d5432f9f-2e64-5112-bf8e-f666994ee138,mini-e86cdffcd023f00765ba392ddcd7b0ec.bam,DO51964,Metastatic tumour - metastasis to distant location
+545,FI808131,b46ad8fb-90b5-5d27-aa19-d888604d666e,mini-71a06f45357e5e69e6ca2dd23d31b058.bam,DO51964,Metastatic tumour - metastasis to distant location
+546,FI808161,60457c32-52a8-519a-bc0e-7056605b6483,mini-fd0c836fba1882606f1d62cf2a7b41e3.bam,DO36221,Primary tumour - solid tissue
+547,FI808119,ded3ec65-72ec-5084-82dc-184116d3dca2,mini-c4b27bf38db83f24f48cc887fb811a9f.bam,DO51955,Normal - lymph node
+548,FI808059,2fa6cb61-d108-52b8-8f24-a5b4cf9e4322,mini-13e5c42c9635c21723990bd398ac1937.bam,DO50417,Normal - blood derived
+549,FI808069,5a4553c9-a95a-5346-897b-a9af5e0e1e18,mini-224c7d03fef67256448ff82fb32d5aa9.bam,DO50432,Primary tumour - solid tissue
+550,FI808043,40a848b3-ec96-5e87-b8f4-9fd322cfc777,mini-dc835071ba70dfd1640e935edb9c6d14.bam,DO50418,Normal - blood derived
+551,FI13503,0ad14f9d-f12e-544c-9b60-5ced4adb7695,34d31f7b045421a5f65a0fe206e14aba.bam,DO51126,Normal - blood derived
+552,FI810475,81b89c48-6c52-556b-82a1-6f839bb80fff,mini-7590b19bb8d7c8c455b89bc8e66e0773.bam,DO51954,Metastatic tumour - lymph node
+553,FI40803,d6bed6fa-199b-5924-9771-79b9567c6c76,ce58f6f643557c144d02b720d56c4547.bam,DO46793,Normal - blood derived
+554,FI15561,b54b1d61-7846-5163-80ce-6537abbfa1e3,e8a5e55c6bcbd44cf56d7e2a385c9a34.bam,DO51095,Primary tumour - solid tissue
+555,FI7621,2d1d890a-c5c9-5eb5-a34d-c85759174ea5,bdb1b9fbf74037544960ac13add887ee.bam,DO51098,Normal - blood derived
+556,FI807368,8c45edfc-6310-5569-ae4c-329d82700933,mini-9cddfb2511084b0e068952d62575f00d.bam,DO51125,Primary tumour - solid tissue
+557,FI807354,1682f399-eea1-5bd3-b4e8-8c5466d41be5,mini-e35ffbe685865cb5f4825aebad9dfb1f.bam,DO51107,Primary tumour - solid tissue
+558,FI807238,0eb6c31d-6e82-5fa1-81da-86f23e9f474b,mini-d37bec433e50561658c5552ec6143fee.bam,DO51097,Primary tumour - solid tissue
+559,FI807136,dc90f7b3-68e8-5049-8e8c-eaf57538093d,mini-ff6e89e8995ca36f5309f5d4be0a63c7.bam,DO51081,Primary tumour - solid tissue
+560,FI807098,fc4e2d16-3b91-52ba-844a-dc39bdd0edd8,mini-47b99ee84d4bae31b2e234c5d30b4473.bam,DO51158,Normal - blood derived
+561,FI22097,728fb047-981b-5f9f-ae60-4054d70d1aae,7af33d02bd02caadd0706855a249b316.bam,DO50417,Primary tumour - solid tissue
+562,FI51172,bf8750d3-91ff-50e0-87fe-97dd57c6146d,43a790572e99bff499df4417405562e7.bam,DO51047,Primary tumour - solid tissue
+563,FI809843,9ff9f4b9-22f7-56c5-92fb-abda559359a2,mini-9525f90387c359da446356c8a6c63c6d.bam,DO51953,Primary tumour - solid tissue
+564,FI809677,af04a365-2127-51c9-8f9e-6db62e592c35,mini-2d6606d2e300d3b7fd0df7dcce0f56f9.bam,DO51100,Normal - blood derived
+565,FI809695,f9828612-a7f3-5b38-8fa9-d2d8803efcf8,mini-cb90e861e06a071050cab917d390484e.bam,DO51113,Primary tumour - solid tissue
+566,FI809653,7c012df1-6743-5492-91fe-4cd3f517e632,mini-0ac5ebd6f4c6381b430565f1ed00df05.bam,DO51088,Normal - blood derived
+567,FI809609,8df171db-8221-528f-80c0-16bc5ad51224,mini-656aa9e794e1813d02cd90b5a4c3ba7b.bam,DO51050,Normal - blood derived
+568,FI25946,d413b834-09c8-5c76-a0fe-d55b67fdfe00,1983010f49a00461a14ff44660dabaad.bam,DO51110,Primary tumour - solid tissue
+569,FI11269,3498b819-01d4-5b4d-9398-86eab5bf48b1,5eca29f664ab6a448d2bb0c912da994b.bam,DO51132,Primary tumour - solid tissue
+570,FI3481,e3133438-ae79-559b-bf3a-4b53575c5e85,e5c144a54080825b7fb49515653950af.bam,DO36223,Normal - blood derived
+571,FI13089,7318c939-433c-5980-a742-4e8fd0116401,d39d0c82793ec5922eac752c232b1b31.bam,DO51153,Primary tumour - solid tissue
+572,FI16552,c9476a45-6c52-5abe-a959-7713f1f1126b,982c58336a424582f71932a5c5bdf87e.bam,DO51956,Metastatic tumour - metastasis to distant location
+573,FI16483,2b3590ff-ccab-5717-acb5-d5b4c09b9e26,838c0b4f768ce8c9574a7c96ede0d14d.bam,DO51956,Normal - lymph node
+574,FI18298,212e37a7-6512-53f7-a6fc-efa0b076b21f,368df9126354854724f4bd163a8e094b.bam,DO51093,Normal - blood derived
+575,FI8875,d0f782c5-3615-5cc4-9ac4-6bafc93d5caf,23acf4688d7c695ff52d0147e6c9ae2f.bam,DO51103,Primary tumour - solid tissue
+576,FI43573,7971ec1c-6841-5591-b350-d0f437dc62db,35f92d4c7e66e8ea5cefd10045b03256.bam,DO51149,Primary tumour - solid tissue
+577,FI42648,843f41f7-3c24-5642-b7b6-1cfb678464ad,ce75215d7dab7c3c3e68769efadd7b76.bam,DO50415,Normal - blood derived
+578,FI9644,d7d1fb90-af4c-5731-afd1-627955b600f3,70464546bc8f729b2fc9a5357900e3f9.bam,DO51114,Normal - blood derived
+579,FI44230,bf1856ab-f985-5775-ad9c-ab5bcd57f8d0,c4b27bf38db83f24f48cc887fb811a9f.bam,DO51955,Normal - lymph node
+580,FI33036,1af15027-de25-597a-b45c-dbb840337b31,7b32ba8e4ee40a02572d78a63a105a56.bam,DO51145,Primary tumour - solid tissue
+581,FI45267,d3dcadc9-f7b4-58c4-85e8-a7fcc11e95be,963c715ae2fb5dedff9e400d93894ae9.bam,DO50425,Normal - blood derived
+582,FI30848,99802578-81fc-5825-9101-75e47beaf297,584e5bee742cc7a95dd657f6d90628e1.bam,DO51044,Normal - blood derived
+583,FI35980,b74cebec-2639-55eb-9555-03b758fbb352,47e0c917aecce2affd8bf4c696a8eb5e.bam,DO51080,Primary tumour - solid tissue
+584,FI48684,cc214af2-3662-5b9e-a33c-076945420555,b7baa3411fcc80f017ba53f7961ad16c.bam,DO50420,Normal - blood derived
+585,FI34024,aba5a504-6840-5238-b628-9b9ee4e96a14,4ed9dc9bec68c5a92c089988a3377104.bam,DO51958,Metastatic tumour - lymph node
+586,FI48889,b17216ca-4aad-5191-a19d-2c0f6b658bc6,5b09ae031a655cacfceb6bc5dd91ffd9.bam,DO51965,Metastatic tumour - lymph node
+587,FI38335,bd310c95-c5ba-5e51-aed6-52a015c05958,ec4915864f0c837a12cfb09f95ea0563.bam,DO51954,Metastatic tumour - lymph node
+588,FI807595,756e7634-70c4-511b-8687-6282fe7c66a5,mini-3913cbb519e7e557747b3cbeca97c4ba.bam,DO50424,Normal - blood derived
+589,FI10783,6dea3b18-ddf0-52d2-9c93-f94519a1259b,f600d289623c6e1e57021fcbf704dc2a.bam,DO51067,Normal - blood derived
+590,FI808145,aecd2d77-7dfc-5023-a3f5-af92ab067b9a,mini-66975c233b17512844f52ecc2860744a.bam,DO51965,Normal - lymph node
+591,FI808111,11b3ca7b-3400-5a49-a1d2-5cb922bf9139,mini-7865761a97c9701de698081244eefa1c.bam,DO51960,Metastatic tumour - metastasis to distant location
+592,FI808115,593da801-4723-5bb1-bba1-5e7913c3a507,mini-cc01905187b18190727460f61bd92629.bam,DO51960,Metastatic tumour - lymph node
+593,FI808089,bd8c7305-78a2-5f55-b09f-6df1c095310f,mini-64a1c72acf741e7ee4427cd9776691dc.bam,DO50419,Primary tumour - solid tissue
+594,FI44078,551e69f5-2384-5a7e-911d-886279130697,f08622f5b05cf4e5d1a3d32d9f2352f4.bam,DO51139,Normal - blood derived
+595,FI33108,fed6c599-7e8a-52b4-a9b0-12aa1044559f,0c5d838fbe81fb28ca5b737f1898521a.bam,DO51055,Primary tumour - solid tissue
+596,FI33090,d744a1ee-a212-5229-9d50-bb01c4256f76,3e208d5466847d11f043981815a70790.bam,DO46792,Primary tumour - solid tissue
+597,FI40804,00154198-023b-5137-ba0c-c7a612883ccf,1a646365c6d2a27fefacae54b22798a0.bam,DO46793,Primary tumour - solid tissue
+598,FI12843,826a1a2d-d04d-5ee3-b119-deb4fa23532c,52b975e12fe652b0b9c36f1202b26e11.bam,DO51069,Normal - blood derived
+599,FI17112,0285dfea-ec3a-5900-95d9-b712f070745a,3a39c858ec4ca71bc3baafe5b3a9831d.bam,DO51064,Primary tumour - solid tissue
+600,FI9271,c24a35b4-f507-5aa3-a4e3-dffb6a4a75f2,e35ffbe685865cb5f4825aebad9dfb1f.bam,DO51107,Primary tumour - solid tissue
+601,FI6446,d3de50e4-7fc6-5399-b60a-4b12f5760026,831cbf986a109e59bf76dfcb202222b1.bam,DO51062,Primary tumour - solid tissue
+602,FI810473,340660cc-88d8-5f7c-a3c0-add54bccfe0b,mini-eeea57cadac1c8b3dedbd13e61c6f969.bam,DO51954,Metastatic tumour - metastasis to distant location
+603,FI10784,fb4faccb-cbcd-5706-bb5a-a8180c7f22bd,2238ab07083b519abceb375f12d7f5f9.bam,DO51067,Primary tumour - solid tissue
+604,FI808139,2af94374-89e3-5cc8-8f45-412948de62f4,mini-d4e132ae883599bb59be024b5c2fdf70.bam,DO51964,Metastatic tumour - metastasis to distant location
+605,FI808169,9e084aaf-db93-51a1-8eb7-7f69868debbd,mini-e5c144a54080825b7fb49515653950af.bam,DO36223,Normal - blood derived
+606,FI808125,0b967ec5-16f3-5856-9d25-f5ce60e44ec5,mini-50578ce4f5a4c8ce5ece03f282dc399d.bam,DO51964,Normal - lymph node
+607,FI808093,57dd2715-5b47-5a8e-b139-9088c6bc6f99,mini-8d93f52fc0bbf290218c356f6b2e3093.bam,DO50414,Primary tumour - solid tissue
+608,FI808083,4f489b73-ca12-51d9-8134-ccc04a659f2f,mini-917229c21ec442cc07cdf591889845a0.bam,DO221503,Normal - blood derived
+609,FI808037,3f3a0f88-593f-5d66-a3a0-655b01e5c104,mini-ee791f89bf9acb8e38dc0da7ce094bbe.bam,DO50428,Primary tumour - solid tissue
+610,FI808035,8a97d1bd-030b-5ee7-8afc-356a9b955053,mini-085797859c8daf0a5a7fdab90473de01.bam,DO50428,Normal - blood derived
+611,FI49184,4d9df4c3-89fb-5d80-b5b3-deae8088abf6,64a1c72acf741e7ee4427cd9776691dc.bam,DO50419,Primary tumour - solid tissue
+612,FI49183,52d0305c-8962-5358-b8f1-dd3d94059aad,c6d0c27d73ff1a6bffdae6c1993bffdf.bam,DO50419,Normal - blood derived
+613,FI20424,9e5917f0-782d-5306-b89a-912aa01fb8a0,3baca3b62720cbf25c0309b3d0e44ab8.bam,DO51117,Normal - blood derived
+614,FI34007,e468b4a3-9cc0-5339-a178-ece248a3d047,01438f392ca16551d81218111181b9dd.bam,DO51958,Metastatic tumour - metastasis to distant location
+615,FI48821,fd246758-136b-5783-8377-e8760dff9a6a,2fa14f3151c24ee4abf9cf2f329a916c.bam,DO51965,Metastatic tumour - lymph node
+616,FI24260,cb80f145-46f5-5c3b-9842-8686daf34306,9f02d8f6b6d83721a4c26c99b43ac338.bam,DO50423,Primary tumour - solid tissue
+617,FI807406,1fa075c6-cb86-5ad7-961a-9ca36d3cc132,mini-c7a936b1e65c856713b17965a5612cb3.bam,DO51129,Normal - blood derived
+618,FI807416,9375ffdd-3180-5aec-a1de-4ccf717fe454,mini-e8a5e55c6bcbd44cf56d7e2a385c9a34.bam,DO51095,Primary tumour - solid tissue
+619,FI23815,9480c51e-7982-5af0-9e90-ca48c630f0cc,4b622f21183d60e032cff4f2f210d2a2.bam,DO51151,Normal - blood derived
+620,FI807352,dd8b9ac1-0d89-5a3f-8272-a78203524d38,mini-864a333e9fbe17ebc5ba4c41ff29f42a.bam,DO51107,Normal - blood derived
+621,FI807308,a853202a-e40e-5a22-83f9-9bb085ade75b,mini-9fd6d3e2ec77ce0001bfbee7c9232051.bam,DO51056,Normal - blood derived
+622,FI807254,cf886b49-1d71-57cd-8fac-bd99260aa053,mini-9256eb2161226005016c03a106360cb1.bam,DO46796,Primary tumour - solid tissue
+623,FI807216,df4e0d63-0d86-5713-b95e-e2f5c3a1cc74,mini-f08622f5b05cf4e5d1a3d32d9f2352f4.bam,DO51139,Normal - blood derived
+624,FI807232,9090f79c-7e50-5183-9781-21780af5112e,mini-6df5c38b7b6f8c2d82869315b94fd4bc.bam,DO51122,Normal - blood derived
+625,FI807108,cb601562-6f2c-5912-97ce-3a38cf846e17,mini-52b975e12fe652b0b9c36f1202b26e11.bam,DO51069,Normal - blood derived
+626,FI23941,a4e1be43-81fe-5b1b-910a-f5226a30da00,a2e710a5c382d0daaccc260de98889fa.bam,DO51121,Normal - blood derived
+627,FI807090,110d48db-ca57-55de-becd-7dfbd297b74e,mini-ceddee12542b3a8e4539bd2bed698792.bam,DO51083,Normal - blood derived
+628,FI23214,e89c60a0-a344-55f1-82f4-ce61a6611c76,a68065b22c01d38a318e46d6146ac1e3.bam,DO51158,Primary tumour - solid tissue
+629,FI37737,803adb46-4a18-53ca-b0db-08a6ba9db64b,7e226947185a9d92327341dde8f43573.bam,DO46787,Normal - blood derived
+630,FI806687,10de586c-1121-5f02-8829-dbe7522a95a6,mini-e5831d43ef17ecd0273a8ba5d3647ebc.bam,DO51117,Primary tumour - solid tissue
+631,FI806685,f639a989-235d-5e05-8263-fd94fde6b863,mini-3baca3b62720cbf25c0309b3d0e44ab8.bam,DO51117,Normal - blood derived
+632,FI37278,7155f257-f4b8-52ac-9f20-1bf743b1e8bb,60b38fa2d9ac9d8e614e82ea68f1d86d.bam,DO51087,Primary tumour - solid tissue
+633,FI22947,eb233756-a262-5fde-bd00-83f3aed1fb25,9256eb2161226005016c03a106360cb1.bam,DO46796,Primary tumour - solid tissue
+634,FI22459,8b847826-1db0-569e-8b0f-a21903c1915e,2ddb5af0e190d5aa2f267b858b8c9b65.bam,DO51144,Primary tumour - solid tissue
+635,FI2577,dd93d0a9-dc66-5835-b79f-6cf857b635a1,ceddee12542b3a8e4539bd2bed698792.bam,DO51083,Normal - blood derived
+636,FI51451,d7cb7ddb-2963-5f7e-bf84-104c71dd1595,731e9b80ade780ce5ef2f27b9340f066.bam,DO51156,Normal - blood derived
+637,FI11979,fd22f0c2-d50f-551c-9b11-5496df8a56ef,1c2dad03e47d34118d63bf4cb89d97a4.bam,DO51142,Primary tumour - solid tissue
+638,FI809697,ac8e5d02-36ac-5954-9763-f7abf06e755c,mini-70464546bc8f729b2fc9a5357900e3f9.bam,DO51114,Normal - blood derived
+639,FI39510,e2c7b60e-7e08-5af1-a900-1649aef98f4a,b90386789002474713c0d57ed4577c58.bam,DO51060,Normal - blood derived
+640,FI45943,301db1d1-307e-5652-9faa-4849ccbad997,e86cdffcd023f00765ba392ddcd7b0ec.bam,DO51964,Metastatic tumour - metastasis to distant location
+641,FI45517,34710051-1fc7-558a-a19f-62ae9491a1bd,e7b5d9e7489c7a79810f3c3d45d68510.bam,DO51123,Normal - blood derived
+642,FI45245,a3521338-1000-5586-ad74-4f2f915de4e8,ac6867314535b751affc3a6632fed189.bam,DO51074,Normal - blood derived
+643,FI30849,2c4ecc7d-0a6a-5e48-a943-b43049b50e85,b7e72d69d80e826c90a8c5fb971e9013.bam,DO51044,Primary tumour - solid tissue
+644,FI29599,f52c0520-db54-50a5-ae48-6c4b0112ceea,063c8207682a6b9dbaf696adc79b8d21.bam,DO51048,Primary tumour - solid tissue
+645,FI7639,bcbcbd1c-1de1-5427-8600-e77b09940b30,93caf5c92e50f841eef53fa6b915af05.bam,DO51096,Normal - blood derived
+646,FI230,314cecfe-92fe-596c-aabd-2216b3692b6e,05a574543e9350f4e1632ac33bcfb8ea.bam,DO51148,Primary tumour - solid tissue
+647,FI495,b4176448-d964-5199-85c2-75bb7a56053a,cf622ce7fa8cd45eeaeac11cb4663767.bam,DO51137,Normal - blood derived
+648,FI12844,d6002f62-30b6-576a-89b9-78e4fd50c7b4,390a419235a83b1d332ef2f72de28793.bam,DO51069,Primary tumour - solid tissue
+649,FI16501,ba225dda-f0e3-57ea-9d24-eb407e0f39ef,8183fc2c1d714429675b3ff078c9c0c3.bam,DO51956,Metastatic tumour - metastasis to distant location
+650,FI9458,5cf5097f-4d17-5fe3-a2ee-0e0262aa4a4d,691d9fe5c01c262b172b27e198457871.bam,DO51094,Normal - blood derived
+651,FI18299,91e7e8ac-8e86-5a68-a7bc-898f2fba03b7,3ef095431d6e8a4223e30787db2759d5.bam,DO51093,Primary tumour - solid tissue
+652,FI43572,36eade90-04ca-579f-9948-a93c8306c49c,6cbc428b15e5c0409ca212a7a2b1d432.bam,DO51149,Normal - blood derived
+653,FI52036,9ddd969f-e471-5939-9e12-2d8c1d432054,b5fd66fac614f240655b977fb2cb0b68.bam,DO51119,Normal - blood derived
+654,FI810465,ea486cfb-0f57-5337-b80b-c9181d53447a,mini-db024bac0e16a0329539ab3f03a3cc4a.bam,DO51954,Metastatic tumour - metastasis to distant location
+655,FI38571,ae60f552-cd83-5810-bc9d-96338604ba8d,fc6d342e36e104470947ab470e1e8176.bam,DO51092,Normal - blood derived
+656,FI38101,8a1f23fb-0f4e-5e11-9d1f-cebf8551363c,901d77913ab2196abb6764dcb409744d.bam,DO51054,Normal - blood derived
+657,FI807414,679550e4-0f5c-5e70-be27-930488e5271b,mini-827961169a3a63dfc4ac8263dfabc092.bam,DO51095,Normal - blood derived
+658,FI807386,09b8c8fb-f493-54c0-a28f-a12ef74afa07,mini-709780614dcfa64f06bea39dabbd774c.bam,DO51105,Primary tumour - solid tissue
+659,FI807306,445775d4-3682-51e8-8639-ecc28d166afb,mini-831cbf986a109e59bf76dfcb202222b1.bam,DO51062,Primary tumour - solid tissue
+660,FI807310,187ee4fd-5755-5f30-a694-94905b523d88,mini-d1dc0e2c2afe463f2cbf21ff03dbe746.bam,DO51056,Primary tumour - solid tissue
+661,FI807240,a4aaa9a7-6d93-5b60-996c-d67e2c680360,mini-c31ab6c661ff7b346f4e1e29202c6311.bam,DO46788,Normal - blood derived
+662,FI807246,edd9d8dc-a757-56e0-806c-65dc37a1d7ed,mini-e89507cfe067e7d362b06b0d9aaa832f.bam,DO51130,Primary tumour - solid tissue
+663,FI807222,d5870c5f-a65e-5c58-9cf7-5b9bc1362df2,mini-5f62bfbe66ac61cb10c71cf0282944c4.bam,DO51045,Primary tumour - solid tissue
+664,FI807168,b3232398-82e4-5567-945d-d831d9b59550,mini-0dbbeb608901102459bffca3e86b84ca.bam,DO51155,Normal - blood derived
+665,FI807196,ca48a473-335f-5f0c-a02d-1c9de479dd67,mini-58b2c1649b2eda1c7f53684da1c050d2.bam,DO51065,Primary tumour - solid tissue
+666,FI807122,4242c7e6-af38-5954-8eb8-d2724d15e23d,mini-e62ee56b1c8850078282ad6e91ebd950.bam,DO51127,Normal - blood derived
+667,FI807130,8c84f821-a208-5e19-b582-16a52b7f8309,mini-22cd038929331e99c430deb2fdb43904.bam,DO51157,Normal - blood derived
+668,FI807158,ab6752f7-bb3a-5784-9e1d-94ef967a8e33,mini-fc6d342e36e104470947ab470e1e8176.bam,DO51092,Normal - blood derived
+669,FI806697,5c5f2848-a377-5df6-8e53-a8c6f4537222,mini-2d28e7cb18cc50b98ab5a308e7b7da7f.bam,DO51103,Normal - blood derived
+670,FI36768,e44930ef-50fc-55a9-851c-93823ac427b7,233cbc0855fa9d3ca940e5af30d970ff.bam,DO46790,Normal - blood derived
+671,FI12251,33623629-be74-5373-8457-0e43f805b935,f1c61be3f2beb330e3aa731d8c325ecb.bam,DO51159,Primary tumour - solid tissue
+672,FI2578,5820a5fa-1bef-57fd-a6bd-540eebd5ca71,7720b27d8aac5b2f083485037a35527f.bam,DO51083,Primary tumour - solid tissue
+673,FI51171,6b17ba40-fc6d-5b7e-bd83-588864509296,52749f90c4d7b8762b17cb10e43faeb7.bam,DO51047,Normal - blood derived
+674,FI809837,5783b860-3776-5ebc-8c67-72485f678319,mini-cb1d2169322da017415c60a3541d750e.bam,DO51953,Normal - lymph node
+675,FI809707,6a2826ab-7594-55ad-bec5-c84bfea79eba,mini-7a0090e6dabe350ecc19afb773d430e7.bam,DO51136,Primary tumour - solid tissue
+676,FI809673,f0d05d16-7021-5e88-8e5b-bbc66f1aa635,mini-8026fb51494501e7c126d46a9a10eb26.bam,DO51090,Normal - blood derived
+677,FI809685,7305e170-f4ba-5416-9f18-5eca00cbd904,mini-ee40b9653415ee742343e48a35688fbf.bam,DO51109,Normal - blood derived
+678,FI809647,c3213b05-70ab-58fe-b949-e08ee56d55f9,mini-f7403f9725e84443ddcfe51581090780.bam,DO51079,Primary tumour - solid tissue
+679,FI809659,3c3df1ef-4364-5154-9411-be813ec9c69c,mini-39ee1f33dc731ea235afaed685ccf975.bam,DO51089,Primary tumour - solid tissue
+680,FI25834,214053a0-9eb6-5214-bce3-29f243005e62,dc835071ba70dfd1640e935edb9c6d14.bam,DO50418,Normal - blood derived
+681,FI808157,96f8c805-0606-537b-9670-50af277bdbb3,mini-f6a729dfc9df90889d1f04696e28ee21.bam,DO36221,Normal - blood derived
+682,FI808055,e4ed8a0f-8c8e-5360-a880-c3c1cec43f3c,mini-49df2f51b9cc662b6e2fba9c9e3dbdbd.bam,DO50430,Normal - blood derived
+683,FI808085,83a66e73-bd19-5f45-a73a-73efd546cfef,mini-57189645719297dc5bd42329c4e70448.bam,DO221503,Primary tumour - solid tissue
