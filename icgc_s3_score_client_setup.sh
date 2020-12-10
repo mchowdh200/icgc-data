@@ -11,7 +11,7 @@ sudo apt-get install -y \
     python-pip libbz2-dev liblzma-dev unzip imagemagick openjdk-11-jdk
 
 # mount storage -----------------------------------------------------------------------------------
-export TMPDIR=/mnt/local
+export TMPDIR=/mnt/local/temp
 sudo mkfs -t ext4 /dev/nvme0n1 
 
 sudo mkdir /mnt/local
@@ -19,6 +19,8 @@ sudo mount /dev/nvme0n1 /mnt/local
 sudo chown ubuntu /mnt/local
 
 mkdir /mnt/local/data
+mkdir /mnt/local/temp
+echo "export TMPDIR=/mnt/local/temp" >> ~/.profile
 
 # conda setup -------------------------------------------------------------------------------------
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -55,8 +57,6 @@ wget -O score-client.tar.gz https://artifacts.oicr.on.ca/artifactory/dcc-release
 mkdir score-client &&
     tar -xvzf score-client.tar.gz -C score-client --strip-components 1
 ln -s score-client/bin/score-client /mnt/local/bin
-
-
 
 
 

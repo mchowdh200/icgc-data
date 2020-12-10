@@ -1,0 +1,39 @@
+#+Title: ICGC data analysis procedure
+* Run Setup Script
+#+BEGIN_SRC bash
+bash icgc_s3_score_client_setup.sh
+#+END_SRC
+
+* Add your access token
+#+BEGIN_SRC bash
+# From icgc-data/score-client/conf/application.properties
+accessToken= # add your token here
+#+END_SRC
+
+# * Download bams using score-client and manifest
+# #+BEGIN_SRC bash
+# score-client/bin/score-client download \
+#     --manifest manifest.aws-virginia.1599710870723.tsv \
+#     --output-dir /mnt/local/data \
+#     --validate false \
+#     --verify-connection false
+
+# #+END_SRC
+
+* Mount the files from the manifest as a FUSE filesystem
+#+BEGIN_SRC bash
+sudo mkdir /mnt/icgc
+sudo chmod 777 /mnt/icgc
+
+score-client mount \ 
+    --mount-point /mnt/icgc \
+    --manifest $manifest \
+    --cache-metadata
+    
+#+END_SRC
+
+Once you mount the files from the manifest they will be organized into a
+=object_id/file_name= directory structure.  The object_id and file_name are found in
+the manifest and will allow us to determine the donor ID as well as what type
+of sample we have (ie tumor/normal) 
+
