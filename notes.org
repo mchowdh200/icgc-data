@@ -1,0 +1,58 @@
+#+TITLE: Notes
+* Score client
+** Download command
+#+BEGIN_SRC 
+Usage: score-client download [options]                                                                                                                                                         
+  Command:
+    download   Retrieve file object(s) from the remote storage repository
+  Options:
+        --length
+       The number of bytes to download
+       Default: -1
+        --verify-connection
+       Verify connection to repository
+       Default: true
+        --offset
+       The byte position in source file to begin download from
+       Default: 0
+  *     --output-dir
+       Path to output directory
+        --force
+       Force re-download (override local file)
+       Default: false
+        --analysis-id
+       Analysis to download
+        --index
+       Download file index if available?
+       Default: true
+        --manifest
+       Manifest id, url, or path to manifest file
+    --program-id, --study-id
+       Program Id for the analysis to download
+        --output-layout
+       Layout of the output-dir. One of 'bundle' (saved according to filename under GNOS bundle id directory), 'filename' (saved according to filename in output directory), or
+       'id' (saved according to object id in output directory)
+       Default: filename
+        --object-id
+       Object id to download
+       Default: []
+        --validate
+       Perform check of MD5 checksum (if available)
+       Default: true
+#+END_SRC 
+
+- use =manifest= or =object-id=
+  - The manifest should just contain the BAMS for a single donor (ie one manifest per donor)
+  - Then we can parallelize by manifest
+
+- set =validate= to false
+- may set =verify-connection= to false
+  
+  
+* Procedure
+** Construct "mini manifest"
+1. get header of manifest as text file
+2. for each line in the rest of the manifest
+       cat the header to the line
+** Download BAM from manifest
+
