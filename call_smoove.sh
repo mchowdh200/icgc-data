@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -u
 
 function setup() {
     local data_dir=$1
@@ -57,7 +57,7 @@ function download_and_call() {
         > $data_dir/$donor_id/$specimen_type/manifest.tsv
 
     ## Download BAM
-    score-client/bin/scoreclient download \
+    score-client/bin/score-client download \
         --verify-connection false \
         --validate false \
         --output-dir $data_dir/$donor_id/$specimen_type \
@@ -70,7 +70,8 @@ function download_and_call() {
             --exclude $data_dir/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed \
             --outdir $donor_id/$specimen_type \
             --genotype \
-            --duphold
+            --duphold \
+            $data_dir/$donor_id/$specimen_type/$file_name
 
     ## Upload results VCF TODO
     ## Cleanup working directory TODO
@@ -78,14 +79,14 @@ function download_and_call() {
 }
 
 function testing() {
-    local data_dir=~/Repositories/icgc-data
-    local manifest=$data_dir/prostate_cancer_manifest.tsv
-    local donor_table=$data_dir/object_donor_specimen.tsv
+    local data_dir=/mnt/local/data
+    local manifest=prostate_cancer_manifest.tsv
+    local donor_table=object_donor_specimen.tsv
 
     # get the second line from the manifest for testing
     local manifest_line=$(head -2 $manifest | tail -1)
 
-    # setup $data_dir $manifest
+    setup $data_dir $manifest
 
     download_and_call "$data_dir" "$manifest_line" "$donor_table"
 }
