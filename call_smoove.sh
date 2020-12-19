@@ -13,7 +13,7 @@ function setup() {
     aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai $data_dir/ref/
 
     # get exclude bed
-    aws s3 cp s3://layerlabcu/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed $data_dir/BED
+    aws s3 cp s3://layerlabcu/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed $data_dir/BED/
 }
 
 function download_and_call() {
@@ -23,14 +23,8 @@ function download_and_call() {
     # 2. path to the object_donor_specimen.tsv
     #
     ## Procedure:
-    # 1. DONE get the $file_name from the manifest line
-    # 2. DONE match the $file_name to the $donor_id/$specimen_type
-    # 3. DONE cat the manifest line to the header to create a "mini-manifest"
-    # 4. DONE create output directory using $donor_id/$specimen_type
-    # 5. DONE use the score client to download file using the mini manifest
-    # 6. DONE call svs with smoove
-    # 7. TODO upload results vcf to s3
-    # 8. TODO clean up working directory
+    # TODO upload results vcf to s3
+    # TODO clean up working directory
     
     local data_dir=$1
     local manifest_line=$2
@@ -68,7 +62,7 @@ function download_and_call() {
             --name $donor_id.$specimen_type \
             --fasta $data_dir/ref/hs37d5.fa \
             --exclude $data_dir/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed \
-            --outdir $donor_id/$specimen_type \
+            --outdir $data_dir/$donor_id/$specimen_type \
             --genotype \
             --duphold \
             $data_dir/$donor_id/$specimen_type/$file_name
