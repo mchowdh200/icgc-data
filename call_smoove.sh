@@ -3,10 +3,6 @@ set -u
 
 function setup() {
     local data_dir=$1
-    local manifest=$2
-
-    # get the header of the manifset
-    head -1 $manifest > $data_dir/manifest_header.tsv
 
     # get the ref genome
     aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa $data_dir/ref/
@@ -67,19 +63,14 @@ function download_and_call() {
     rm -r $data_dir/$donor_id/$specimen_type
 
 }
-
-function testing() {
-    local data_dir=/mnt/local/data
-    local manifest=prostate_cancer_manifest.tsv
-    local donor_table=object_donor_specimen.tsv
-
-    # get the second line from the manifest for testing
-    local manifest_line=$(head -2 $manifest | tail -1)
-
-    setup $data_dir $manifest
-
-    download_and_call "$data_dir" "$manifest_line" "$donor_table"
-}
+export -f download_and_call
 
 ### Run everything
-testing
+local manifest=$1
+
+# get the second line from the manifest for testing
+# local manifest_line=$(head -2 $manifest | tail -1)
+
+setup $data_dir
+
+cat $manifest | gargs --dry-run -p 4 'download_and_call /mnt/local/data "{}" object_donor_specimen.tsv'
