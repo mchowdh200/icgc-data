@@ -35,7 +35,7 @@ function download_and_call() {
         mkdir $data_dir/$donor_id
     [[ ! -d $data_dir/$donor_id/$specimen_type ]] &&
         mkdir $data_dir/$donor_id/$specimen_type
-    cat $data_dir/manifest_header.tsv <(echo "$manifest_line") \
+    cat manifest_header.tsv <(echo "$manifest_line") \
         > $data_dir/$donor_id/$specimen_type/manifest.tsv
 
     ## Download BAM
@@ -66,11 +66,11 @@ function download_and_call() {
 export -f download_and_call
 
 ### Run everything
-local manifest=$1
+manifest=$1
 
 # get the second line from the manifest for testing
 # local manifest_line=$(head -2 $manifest | tail -1)
 
-setup $data_dir
+# setup /mnt/local/data
 
-cat $manifest | gargs --dry-run -p 4 'download_and_call /mnt/local/data "{}" object_donor_specimen.tsv'
+cat $manifest | gargs  -p 4 'download_and_call /mnt/local/data "{}" object_donor_specimen.tsv'
