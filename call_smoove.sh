@@ -17,14 +17,6 @@ function setup() {
 }
 
 function download_and_call() {
-    ## Inputs:
-    # 0. base $data_dir
-    # 1. line of manifest to download with
-    # 2. path to the object_donor_specimen.tsv
-    #
-    ## Procedure:
-    # TODO upload results vcf to s3
-    # TODO clean up working directory
     
     local data_dir=$1
     local manifest_line=$2
@@ -58,17 +50,21 @@ function download_and_call() {
         --manifest $data_dir/$donor_id/$specimen_type/manifest.tsv \
 
     ## Call SVs
-        smoove call \
-            --name $donor_id.$specimen_type \
-            --fasta $data_dir/ref/hs37d5.fa \
-            --exclude $data_dir/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed \
-            --outdir $data_dir/$donor_id/$specimen_type \
-            --genotype \
-            --duphold \
-            $data_dir/$donor_id/$specimen_type/$file_name
+    smoove call \
+        --name $donor_id.$specimen_type \
+        --fasta $data_dir/ref/hs37d5.fa \
+        --exclude $data_dir/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed \
+        --outdir $data_dir/$donor_id/$specimen_type \
+        --genotype \
+        --duphold \
+        $data_dir/$donor_id/$specimen_type/$file_name
 
-    ## Upload results VCF TODO
-    ## Cleanup working directory TODO
+    ## Upload results VCF
+    aws s3 cp $data_dir/$donor_id/$specimen_type/$donor_id.$specimen_type-smoove.genotyped.vcf.gz \
+        s3://layerlabcu/icgc/smoove/$donor_id/$specimen_type/
+
+    ## Cleanup working directory
+    rm -r $data_dir/$donor_id/$specimen_type
 
 }
 
