@@ -43,7 +43,7 @@ function download_and_call() {
         --verify-connection false \
         --validate false \
         --output-dir $data_dir/$donor_id/$specimen_type \
-        --manifest $data_dir/$donor_id/$specimen_type/manifest.tsv \
+        --manifest $data_dir/$donor_id/$specimen_type/manifest.tsv
 
     ## Call SVs
     smoove call \
