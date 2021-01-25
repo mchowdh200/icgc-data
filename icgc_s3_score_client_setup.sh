@@ -58,5 +58,6 @@ mkdir score-client &&
     tar -xvzf score-client.tar.gz -C score-client --strip-components 1
 ln -s score-client/bin/score-client /mnt/local/bin
 
+conda create -y -c bioconda -n smoove smoove
 
 

@@ -56,6 +56,8 @@ function download_and_run() {
     bgzip -c > $data_dir/$donor_id/$specimen_type/$donor_id.$specimen_type.excord.bed.gz
 
     ## Upload results
+    aws s3 cp $data_dir/$donor_id/$specimen_type/$donor_id.$specimen_type.excord.bed.gz \
+              s3://layerlabcu/icgc/excord/$donor_id/$specimen_type/
 
     ## Cleanup working directory
     rm -r $data_dir/$donor_id/$specimen_type
@@ -64,5 +66,6 @@ export -f download_and_run
 
 ### Run everything
 manifest=$1
+setup /mnt/local/data
 cat $manifest | gargs  -p 5 'download_and_run /mnt/local/data "{}" object_donor_specimen.tsv'
 
