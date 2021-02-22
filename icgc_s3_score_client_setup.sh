@@ -60,4 +60,12 @@ ln -s score-client/bin/score-client /mnt/local/bin
 
 conda create -y -c bioconda -n smoove smoove
 
+# install manta -----------------------------------------------------------------------------------
+wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.centos6_x86_64.tar.bz2
+
+tar -xjvf manta-1.6.0.centos6_x86_64.tar.bz2 && 
+    mv manta-1.6.0.centos6_x86_64 /mnt/local/manta/
+
+
+
 
