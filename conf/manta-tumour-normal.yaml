@@ -1,11 +1,8 @@
 donor_list:
-  "/home/murad/Repositories/icgc-data/data_listings/donor_list00"
+  "/home/ubuntu/icgc-data/data_listings/donor_list00"
 manifest_dir:
-  "/home/murad/Repositories/icgc-data/tumour-normal-manifests/"
+  "/home/ubuntu/icgc-data/tumour-normal-manifests/"
 
-manta_install_path: ## TODO
+manta_install_path: "/mnt/local/manta/bin"
 
-outdir: ## TODO
-
-processes: ## TODO
-
+outdir: "/mnt/local/data"

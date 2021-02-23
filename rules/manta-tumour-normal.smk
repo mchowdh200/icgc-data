@@ -27,8 +27,8 @@ rule RunManta:
         normal_bai = outdir+"/{donor}/bam/{donor}-normal.bam.bai",
         tumour_bam = outdir+"/{donor}/bam/{donor}-tumour.bam",
         tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
-        fasta = rules.getReference.output.fasta,
-        fai =rules.getReference.output.fai,
+        fasta = rules.GetReference.output.fasta,
+        fai =rules.GetReference.output.fai,
         runDir = outdir+"/{donor}"
     output:
         outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
