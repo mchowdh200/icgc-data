@@ -98,5 +98,5 @@ rule RunManta:
             --tumorBam {input.tumour_bam} \
             --referenceFasta {input.fasta} \
             --runDir {params.runDir}
-        {input.RunDir}/runWorkflow.py -j {threads}
+        {params.RunDir}/runWorkflow.py -j {threads}
         """
