@@ -1,0 +1,3 @@
+repo_code	file_id	object_id	file_format	file_name	file_size	md5_sum	index_object_id	donor_id/donor_count	project_id/project_count	study
+aws-virginia	FI48838	32fa55db-71bf-5bc9-9bfc-e00709b16f63	BAM	20ba622adacc04fd5580a114f56ff37f.bam	180838008804	20ba622adacc04fd5580a114f56ff37f	4dea5400-0242-588a-af90-16d0ab0a6282	DO51965	PRAD-UK	PCAWG
+aws-virginia	FI48820	ab37ff7b-d162-50f4-9a6b-aac164becafd	BAM	66975c233b17512844f52ecc2860744a.bam	87188741932	66975c233b17512844f52ecc2860744a	55546ecf-033c-5cf5-9460-785c6e8542fe	DO51965	PRAD-UK	PCAWG
