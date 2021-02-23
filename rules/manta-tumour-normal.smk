@@ -16,38 +16,6 @@ outdir = config['outdir']
 ## Rules
 ################################################################################
 
-rule RunManta:
-    """
-    For a given donor, run the config and SV calling steps of manta
-    in Tumour/Normal mode.
-    """
-    input:
-        manta_install_path = config['manta_install_path'],
-        normal_bam = outdir+"/{donor}/bam/{donor}-normal.bam",
-        normal_bai = outdir+"/{donor}/bam/{donor}-normal.bam.bai",
-        tumour_bam = outdir+"/{donor}/bam/{donor}-tumour.bam",
-        tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
-        fasta = rules.GetReference.output.fasta,
-        fai =rules.GetReference.output.fai,
-        runDir = outdir+"/{donor}"
-    output:
-        outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
-        outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
-        outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
-        outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
-    resources:
-        manta_running = 1
-    threads:
-        workflow.cores - 1
-    shell:
-        """
-        {input.manta_install_path}/bin/configManta.py \
-            --normalBam {input.normal_bam} \
-            --tumorBam {input.tumour_bam} \
-            --referenceFasta {input.fasta} \
-            --runDir {input.runDir}
-        {input.RunDir}/runWorkflow.py -j {threads}
-        """
 
 rule GetBams:
     """
@@ -89,4 +57,37 @@ rule GetReference:
         """
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {output.fasta}
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fasta.fai}
+        """
+
+rule RunManta:
+    """
+    For a given donor, run the config and SV calling steps of manta
+    in Tumour/Normal mode.
+    """
+    input:
+        manta_install_path = config['manta_install_path'],
+        normal_bam = outdir+"/{donor}/bam/{donor}-normal.bam",
+        normal_bai = outdir+"/{donor}/bam/{donor}-normal.bam.bai",
+        tumour_bam = outdir+"/{donor}/bam/{donor}-tumour.bam",
+        tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
+        fasta = rules.GetReference.output.fasta,
+        fai =rules.GetReference.output.fai,
+        runDir = outdir+"/{donor}"
+    output:
+        outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
+        outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
+        outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
+        outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
+    resources:
+        manta_running = 1
+    threads:
+        workflow.cores - 1
+    shell:
+        """
+        {input.manta_install_path}/bin/configManta.py \
+            --normalBam {input.normal_bam} \
+            --tumorBam {input.tumour_bam} \
+            --referenceFasta {input.fasta} \
+            --runDir {input.runDir}
+        {input.RunDir}/runWorkflow.py -j {threads}
         """
