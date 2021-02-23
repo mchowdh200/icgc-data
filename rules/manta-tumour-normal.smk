@@ -80,6 +80,7 @@ rule RunManta:
         tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
         fasta = rules.GetReference.output.fasta,
         fai =rules.GetReference.output.fai,
+    params:
         runDir = outdir+"/{donor}"
     output:
         outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
@@ -96,6 +97,6 @@ rule RunManta:
             --normalBam {input.normal_bam} \
             --tumorBam {input.tumour_bam} \
             --referenceFasta {input.fasta} \
-            --runDir {input.runDir}
+            --runDir {params.runDir}
         {input.RunDir}/runWorkflow.py -j {threads}
         """
