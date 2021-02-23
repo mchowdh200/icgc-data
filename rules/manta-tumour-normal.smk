@@ -18,6 +18,7 @@ outdir = config['outdir']
 
 rule all:
     input:
+        expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors)
         expand(outdir+"/{donor}/results/variants/diploidSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/somaticSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/candidateSV.vcf.gz", donor=donors),
