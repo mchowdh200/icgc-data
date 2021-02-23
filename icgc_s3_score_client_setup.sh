@@ -28,6 +28,7 @@ bash ~/miniconda.sh -b -p $HOME/miniconda
 eval "$($HOME/miniconda/bin/conda shell.bash hook)"
 conda init
 conda config --add channels bioconda
+conda install -y -c conda-forge mamba
 
 # tmux/neovim setup -------------------------------------------------------------------------------
 echo "source-file ~/.tmux.d/.tmux.conf" > ~/.tmux.conf
@@ -65,6 +66,9 @@ wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.cent
 
 tar -xjvf manta-1.6.0.centos6_x86_64.tar.bz2 && 
     mv manta-1.6.0.centos6_x86_64 /mnt/local/manta/
+
+# install snakemake --------------------------------------------------------------------------------
+mamba create -y -c conda-forge -c bioconda -n snakemake snakemake
 
 
 
