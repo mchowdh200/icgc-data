@@ -56,7 +56,7 @@ chmod +x /mnt/local/bin/gargs
 wget -O score-client.tar.gz https://artifacts.oicr.on.ca/artifactory/dcc-release/bio/overture/score-client/[RELEASE]/score-client-[RELEASE]-dist.tar.gz
 mkdir score-client &&
     tar -xvzf score-client.tar.gz -C score-client --strip-components 1
-ln -s score-client/bin/score-client /mnt/local/bin
+echo "PATH=$PATH:~/icgc-data/score-client/bin" >> ~/.profile
 
 conda create -y -c bioconda -n smoove smoove
 
