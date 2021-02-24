@@ -16,7 +16,7 @@ export TMPDIR=/mnt/local/temp
 sudo mkdir /mnt/local
 
 # setup raid 0 if more than one drive specified
-num_drives=$(lsblk -o NAME | 'nvme.n1' | wc -l)
+num_drives=$(lsblk -o NAME | grep 'nvme.n1' | wc -l)
 if [[ $num_drives > 1 ]]; then
     drive_list=$(lsblk -o NAME | grep 'nvme.n1' |
                  awk 'BEGIN{ORS=' '}{print "/dev/"$0 }')
