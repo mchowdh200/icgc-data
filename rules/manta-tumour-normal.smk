@@ -34,7 +34,7 @@ rule GetBams:
     """
     resources:
         # get what we currently have on disk and add 2 future bams
-        bams_on_disk = lambda: 2 + len(list(Path(outdir).rglob('*.bam')))
+        bams_on_disk = lambda _: 2 + len(list(Path(outdir).rglob('*.bam')))
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
