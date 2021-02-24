@@ -27,7 +27,7 @@ rule all:
         expand(outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz", donor=donors)
 
 
-rule GetBams:
+checkpoint GetBams:
     """
     Download tumour normal pair.  Rename the files for better
     rule interoperability.
@@ -61,12 +61,6 @@ rule GetBams:
         mv $outdir/$tumour {output.tumour_bam}
         mv $outdir/$tumour.bai {output.tumour_bai}
         """
-checkpoint checkBam:
-    input:
-        outdir+"/{donor}/bam/{donor}-tumour.bam",
-        outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
-        outdir+"/{donor}/bam/{donor}-normal.bam",
-        outdir+"/{donor}/bam/{donor}-normal.bam.bai"
         
 
 rule GetReference:
