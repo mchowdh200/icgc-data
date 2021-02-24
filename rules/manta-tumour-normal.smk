@@ -33,8 +33,9 @@ rule GetBams:
     rule interoperability.
     """
     resources:
-        # get what we currently have on disk and add 2 future bams
+        num_downloads = 1,
         bams_on_disk = lambda _: 2 + len(list(Path(outdir).rglob('*.bam')))
+    threads: 1
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
