@@ -2,6 +2,7 @@
 
 set exuo pipefail
 
+
 # some common dependencies ------------------------------------------------------------------------
 sudo apt-get update
 sudo apt-get install -y \
@@ -12,12 +13,24 @@ sudo apt-get install -y \
 
 # mount storage -----------------------------------------------------------------------------------
 export TMPDIR=/mnt/local/temp
-sudo mkfs -t ext4 /dev/nvme0n1 
-
 sudo mkdir /mnt/local
-sudo mount /dev/nvme0n1 /mnt/local
-sudo chown ubuntu /mnt/local
 
+# setup raid 0 if more than one drive specified
+num_drives=$(lsblk -o NAME | 'nvme.n1' | wc -l)
+if [[ $num_drives > 1 ]]; then
+    drive_list=$(lsblk -o NAME | grep 'nvme.n1' |
+                 awk 'BEGIN{ORS=' '}{print "/dev/"$0 }')
+    sudo mdadm --create --verbose \
+         /dev/md0 \
+         --level=0 \
+         --raid-devices=$num_drives $drive_list
+    sudo mkfs -t ext4 /dev/md0
+else
+    sudo mkfs -t ext4 /dev/nvme0n1 
+    sudo mount /dev/nvme0n1 /mnt/local
+fi
+
+sudo chown ubuntu /mnt/local
 mkdir /mnt/local/data
 mkdir /mnt/local/temp
 echo "export TMPDIR=/mnt/local/temp" >> ~/.profile

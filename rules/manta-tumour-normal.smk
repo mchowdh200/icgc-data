@@ -31,7 +31,7 @@ rule GetBams:
     rule interoperability.
     """
     resources:
-        downloads = 1
+        bams_on_disk = 2
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
@@ -88,7 +88,8 @@ rule RunManta:
         outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
         outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
     resources:
-        manta_running = 1
+        manta_running = 1,
+        bams_on_disk = 2
     threads:
         workflow.cores - 1
     shell:
