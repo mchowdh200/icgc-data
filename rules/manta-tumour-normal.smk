@@ -100,3 +100,18 @@ rule RunManta:
             --runDir {params.runDir}
         {params.runDir}/runWorkflow.py -j {threads}
         """
+
+rule UploadResults:
+    input:
+        diploidSV = outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
+        somaticSV = outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
+        candidateSV = outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
+        candidateSmallIndels = outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
+    shell:
+        """
+        aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{donor}/diploidSV.vcf.gz
+        aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{donor}/somaticSV.vcf.gz
+        aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{donor}/candidateSV.vcf.gz
+        aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{donor}/candidateSmallIndels.vcf.gz
+        """
+        
