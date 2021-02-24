@@ -3,6 +3,6 @@ donor_list:
 manifest_dir:
   "/home/ubuntu/icgc-data/tumour-normal-manifests"
 
-manta_install_path: "/mnt/local/manta/bin"
+manta_install_path: "/mnt/local/manta"
 
 outdir: "/mnt/local/data"
