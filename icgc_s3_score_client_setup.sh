@@ -23,7 +23,7 @@ num_drives=$(lsblk -o NAME,SIZE | grep 'nvme'| awk '$2 ~ /G$/ && $2+0 > 40' | wc
 if [[ $num_drives > 1 ]]; then
     drive_list=$(lsblk -o NAME,SIZE | grep 'nvme' |
                  awk '$2 ~ /G$/ && $2+0 > 40' |
-                 awk 'BEGIN{ORS=' '}{print "/dev/"$1 }')
+                 awk 'BEGIN{ORS=" "}{print "/dev/"$1 }')
     sudo mdadm --create --verbose \
          /dev/md0 \
          --level=0 \
