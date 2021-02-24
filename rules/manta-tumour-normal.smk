@@ -80,7 +80,7 @@ rule RunManta:
         tumour_bam = outdir+"/{donor}/bam/{donor}-tumour.bam",
         tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
         fasta = rules.GetReference.output.fasta,
-        fai =rules.GetReference.output.fai,
+        fai = rules.GetReference.output.fai,
     params:
         runDir = outdir+"/{donor}"
     output:
