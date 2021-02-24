@@ -16,10 +16,14 @@ export TMPDIR=/mnt/local/temp
 sudo mkdir /mnt/local
 
 # setup raid 0 if more than one drive specified
-num_drives=$(lsblk -o NAME | grep 'nvme.n1' | wc -l)
+# the nvme drive naming convention is not consistent enough
+# so I have just resorted to filtering out nvme disks with
+# the expected size (ex smallest c5d has a 50GB so > 40 is my threshold)
+num_drives=$(lsblk -o NAME,SIZE | grep 'nvme'| awk '$2 ~ /G$/ && $2+0 > 40' | wc -l)
 if [[ $num_drives > 1 ]]; then
-    drive_list=$(lsblk -o NAME | grep 'nvme.n1' |
-                 awk 'BEGIN{ORS=' '}{print "/dev/"$0 }')
+    drive_list=$(lsblk -o NAME,SIZE | grep 'nvme' |
+                 awk '$2 ~ /G$/ && $2+0 > 40' |
+                 awk 'BEGIN{ORS=' '}{print "/dev/"$1 }')
     sudo mdadm --create --verbose \
          /dev/md0 \
          --level=0 \
