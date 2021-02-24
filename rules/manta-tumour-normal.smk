@@ -2,6 +2,8 @@
 Tumour normal SV calling pipeline using manta
 """
 
+from pathlib import Path
+
 ################################################################################
 ## Prelim setup
 ################################################################################
@@ -31,7 +33,8 @@ rule GetBams:
     rule interoperability.
     """
     resources:
-        bams_on_disk = 2
+        # get what we currently have on disk and add 2 future bams
+        bams_on_disk = lambda: 2 + len(list(Path(outdir).rglob('*.bam')))
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
@@ -89,8 +92,7 @@ rule RunManta:
         outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
         outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
     resources:
-        manta_running = 1,
-        bams_on_disk = 2
+        manta_running = 1
     threads:
         workflow.cores - 1
     shell:
