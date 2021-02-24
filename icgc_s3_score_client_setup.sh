@@ -29,6 +29,7 @@ if [[ $num_drives > 1 ]]; then
          --level=0 \
          --raid-devices=$num_drives $drive_list
     sudo mkfs -t ext4 /dev/md0
+    sudo mount /dev/md0 /mnt/local
 else
     sudo mkfs -t ext4 /dev/nvme0n1 
     sudo mount /dev/nvme0n1 /mnt/local
