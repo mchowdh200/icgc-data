@@ -44,17 +44,18 @@ rule GetBams:
         # Rename bams with specimen type and donor id
         # Normal bam is the first entry, tumour is second
         """
+        outdir=$(dirname {output.tumour_bam})
         score-client download \
             --validate false \
-            --output-dir $(dirname {output.tumour_bam}) \
+            --output-dir $outdir \
             --manifest {input.manifest}
         normal=$(sed '2q;d' {input.manifest} | cut -f5)
         tumour=$(sed '3q;d' {input.manifest} | cut -f5)
         
-        mv $normal {output.normal_bam}
-        mv $normal.bai {output.normal_bai}
-        mv $tumour {output.tumour_bam}
-        mv $tumour.bai {output.tumour_bai}
+        mv $outdir/$normal {output.normal_bam}
+        mv $outdir/$normal.bai {output.normal_bai}
+        mv $outdir/$tumour {output.tumour_bam}
+        mv $outdir/$tumour.bai {output.tumour_bai}
         """
 
 rule GetReference:
