@@ -48,8 +48,8 @@ rule GetBams:
             --validate false \
             --output-dir $(dirname {output.tumour_bam}) \
             --manifest {input.manifest}
-        normal=$(sed '2q;d' {input.manifest})
-        tumour=$(sed '3q;d' {input.manifest})
+        normal=$(sed '2q;d' {input.manifest} | cut -f5)
+        tumour=$(sed '3q;d' {input.manifest} | cut -f5)
         
         mv $normal {output.normal_bam}
         mv $normal.bai {output.normal_bai}
