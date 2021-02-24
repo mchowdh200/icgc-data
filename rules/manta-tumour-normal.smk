@@ -65,7 +65,7 @@ checkpoint checkBam:
     input:
         outdir+"/{donor}/bam/{donor}-tumour.bam",
         outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
-        outdir+"/{donor}/bam/{donor}-normal.bam"),
+        outdir+"/{donor}/bam/{donor}-normal.bam",
         outdir+"/{donor}/bam/{donor}-normal.bam.bai"
         
 
