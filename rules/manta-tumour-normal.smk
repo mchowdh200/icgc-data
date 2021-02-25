@@ -25,6 +25,7 @@ rule all:
         expand(outdir+"/{donor}/results/variants/somaticSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/candidateSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz", donor=donors)
+        expand(outdir+"/{donor}/job-finished.txt", donor=donors)
 
 rule GetReference:
     output:
@@ -118,11 +119,15 @@ rule UploadResults:
         somaticSV = outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
         candidateSV = outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
         candidateSmallIndels = outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
+    output:
+        outdir+"/{donor}/job-finished.txt"
     shell:
         """
         aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{donor}/diploidSV.vcf.gz
         aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{donor}/somaticSV.vcf.gz
         aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{donor}/candidateSV.vcf.gz
         aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{donor}/candidateSmallIndels.vcf.gz
+        
+        touch {output}
         """
         
