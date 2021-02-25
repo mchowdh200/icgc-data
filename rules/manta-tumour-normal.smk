@@ -47,19 +47,22 @@ checkpoint GetBams:
         # Download bams
         # Rename bams with specimen type and donor id
         # Normal bam is the first entry, tumour is second
-        """
-        outdir=$(dirname {output.tumour_bam})
-        score-client download \
-            --validate false \
-            --output-dir $outdir \
-            --manifest {input.manifest}
-        normal=$(sed '2q;d' {input.manifest} | cut -f5)
-        tumour=$(sed '3q;d' {input.manifest} | cut -f5)
+        # """
+        # outdir=$(dirname {output.tumour_bam})
+        # score-client download \
+        #     --validate false \
+        #     --output-dir $outdir \
+        #     --manifest {input.manifest}
+        # normal=$(sed '2q;d' {input.manifest} | cut -f5)
+        # tumour=$(sed '3q;d' {input.manifest} | cut -f5)
         
-        mv $outdir/$normal {output.normal_bam}
-        mv $outdir/$normal.bai {output.normal_bai}
-        mv $outdir/$tumour {output.tumour_bam}
-        mv $outdir/$tumour.bai {output.tumour_bai}
+        # mv $outdir/$normal {output.normal_bam}
+        # mv $outdir/$normal.bai {output.normal_bai}
+        # mv $outdir/$tumour {output.tumour_bam}
+        # mv $outdir/$tumour.bai {output.tumour_bai}
+        # """
+        """
+        touch {output}
         """
         
 
@@ -98,26 +101,29 @@ rule RunManta:
     threads:
         workflow.cores - 1
     shell:
+        # """
+        # {input.manta_install_path}/bin/configManta.py \
+        #     --normalBam {input.normal_bam} \
+        #     --tumorBam {input.tumour_bam} \
+        #     --referenceFasta {input.fasta} \
+        #     --runDir {params.runDir}
+        # {params.runDir}/runWorkflow.py -j {threads}
+        # """
         """
-        {input.manta_install_path}/bin/configManta.py \
-            --normalBam {input.normal_bam} \
-            --tumorBam {input.tumour_bam} \
-            --referenceFasta {input.fasta} \
-            --runDir {params.runDir}
-        {params.runDir}/runWorkflow.py -j {threads}
+        touch {output}
         """
 
-rule UploadResults:
-    input:
-        diploidSV = outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
-        somaticSV = outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
-        candidateSV = outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
-        candidateSmallIndels = outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
-    shell:
-        """
-        aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{donor}/diploidSV.vcf.gz
-        aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{donor}/somaticSV.vcf.gz
-        aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{donor}/candidateSV.vcf.gz
-        aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{donor}/candidateSmallIndels.vcf.gz
-        """
+# rule UploadResults:
+#     input:
+#         diploidSV = outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
+#         somaticSV = outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
+#         candidateSV = outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
+#         candidateSmallIndels = outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
+#     shell:
+#         """
+#         aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{donor}/diploidSV.vcf.gz
+#         aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{donor}/somaticSV.vcf.gz
+#         aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{donor}/candidateSV.vcf.gz
+#         aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{donor}/candidateSmallIndels.vcf.gz
+#         """
         
