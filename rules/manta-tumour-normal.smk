@@ -61,13 +61,16 @@ rule GetBams:
         while [[ $(find {params.odir} -name '*.bam' | wc -l) -ge {config[max_bams]} ]]; do
             sleep 5
         done
+
         outdir=$(dirname {output.tumour_bam})
         score-client download \
             --validate false \
             --output-dir $outdir \
             --manifest {input.manifest}
+
         normal=$(sed '2q;d' {input.manifest} | cut -f5)
         tumour=$(sed '3q;d' {input.manifest} | cut -f5)
+
         mv $outdir/$normal {output.normal_bam}
         mv $outdir/$normal.bai {output.normal_bai}
         mv $outdir/$tumour {output.tumour_bam}

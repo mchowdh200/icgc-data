@@ -7,4 +7,4 @@ manta_install_path:
 outdir:
     "/mnt/local/data"
 max_bams:
-    4
+    6
