@@ -105,6 +105,8 @@ rule RunManta:
         workflow.cores - 1
     shell:
         """
+        [[ -f {params.runDir}/runWorkflow.py ]] && rm {params.runDir}/runWorkflow.py
+        [[ -f {params.runDir}/runWorkflow.py.pickle ]] && rm {params.runDir}/runWorkflow.py.pickle
         {input.manta_install_path}/bin/configManta.py \
             --normalBam {input.normal_bam} \
             --tumorBam {input.tumour_bam} \
