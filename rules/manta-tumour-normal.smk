@@ -24,7 +24,7 @@ rule all:
         expand(outdir+"/{donor}/results/variants/diploidSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/somaticSV.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/results/variants/candidateSV.vcf.gz", donor=donors),
-        expand(outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz", donor=donors)
+        expand(outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz", donor=donors),
         expand(outdir+"/{donor}/job-finished.txt", donor=donors)
 
 rule GetReference:
