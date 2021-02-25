@@ -123,10 +123,10 @@ rule UploadResults:
         outdir+"/{donor}/job-finished.txt"
     shell:
         """
-        aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{donor}/diploidSV.vcf.gz
-        aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{donor}/somaticSV.vcf.gz
-        aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{donor}/candidateSV.vcf.gz
-        aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{donor}/candidateSmallIndels.vcf.gz
+        aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/diploidSV.vcf.gz
+        aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/somaticSV.vcf.gz
+        aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/candidateSV.vcf.gz
+        aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{wildcards.donor}/candidateSmallIndels.vcf.gz
         
         touch {output}
         """
