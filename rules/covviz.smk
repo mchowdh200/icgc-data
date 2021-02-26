@@ -14,7 +14,7 @@ rule all:
         normals=({input.normal})
         tumours=({input.tumour})
 
-        for f in ${{normals}}[@]; do
+        for f in ${{normals[@]}}; do
             echo "$f"
         done
         """
