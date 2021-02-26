@@ -11,8 +11,9 @@ rule all:
 
     shell:
         """
-        for f in "{input.normal}":
+        for f in "{input.normal}"; do
             echo $f
+        done
         """
 
 rule CombineManifests:
