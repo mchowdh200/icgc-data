@@ -66,7 +66,7 @@ rule get_bam_index:
         normal_bam=$(sed '2q;d' {input.manifest} | cut -f5)
         tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
         normal_bai=$(find {params.mountdir} -name '*.bai' | grep $normal_bam)
-        tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumor_bam)
+        tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumour_bam)
         cp $normal_bai {output.normal}
         cp $tumour_bai {output.tumour}
         """
