@@ -13,7 +13,7 @@ rule get_bam_index:
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
-        normal = outdir+'/{donor}/{donor}-normal.bai'
+        normal = outdir+'/{donor}/{donor}-normal.bai',
         tumour = outdir+'/{donor}/{donor}-normal.bai'
     shell:
         """
