@@ -11,7 +11,7 @@ rule all:
 
     shell:
         """
-        for f in {input.normal}:
+        for f in "{input.normal}":
             echo $f
         """
 
