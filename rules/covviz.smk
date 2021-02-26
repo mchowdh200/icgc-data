@@ -11,8 +11,11 @@ rule all:
 
     shell:
         """
-        for f in "{input.normal}"; do
-            echo $f
+        normals=({input.normal})
+        tumours=({input.tumour})
+
+        for f in ${{normals}}[@]; do
+            echo "$f"
         done
         """
 
