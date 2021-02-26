@@ -9,18 +9,23 @@ rule all:
         normal = expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
         tumour = expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
 
+rule UploadIndices:
+    input:
+        normal = outdir+'/{donor}/{donor}-normal.bam.bai',
+        tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
+
     shell:
         """
-        normals=({input.normal})
-        tumours=({input.tumour})
+        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+              grep -q $(basename {input.normal}); then
+            aws s3 cp {input.normal} s3://layerlabcu/icgc/bam_indices/
+        fi
+        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+              grep -q $(basename {input.tumour}); then
+            aws s3 cp {input.tumour} s3://layerlabcu/icgc/bam_indices/
+        fi
 
-        for f in ${{normals[@]}}; do
-            aws s3 cp $f s3://layerlabcu/icgc/bam_indices/
-        done
 
-        for f in ${{tumours[@]}}; do
-            aws s3 cp $f s3://layerlabcu/icgc/bam_indices/
-        done
         """
 
 rule CombineManifests:
