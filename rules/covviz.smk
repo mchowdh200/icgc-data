@@ -45,7 +45,6 @@ rule MountDirectory:
         """
         [[ ! -d {params.mountdir} ]] && mkdir {params.mountdir}
         if mount | grep -q {params.mountdir} ; then
-            umount {params.mountdir}
             touch {output}
             exit 0
         fi
