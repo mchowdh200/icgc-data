@@ -38,6 +38,7 @@ rule MountDirectory:
     shell:
         """
         [[ ! -d {params.mountdir}]] && mkdir {params.mountdir}
+        set +o pipefail
         if mount | grep {params.mountdir} > /dev/null; then
             umount {params.mountdir}
         fi
