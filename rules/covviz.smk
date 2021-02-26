@@ -38,7 +38,7 @@ rule MountDirectory:
     shell:
         """
         [[ ! -d {params.mountdir}]] && mkdir {params.mountdir}
-        mount | grep -q {params.mountdir} || unmount {params.mountdir}
+        [[ mount | grep -q {params.mountdir} ]] || unmount {params.mountdir}
 
         score-client mount --daemonize \
             --mount-point {params.mountdir} \
