@@ -6,8 +6,14 @@ with open(config['donor_list']) as f:
 
 rule all:
     input:
-        expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
-        expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
+        normal = expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
+        tumour = expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
+
+    shell:
+        """
+        for f in {output.normal}:
+            echo f
+        """
 
 rule CombineManifests:
     input:
