@@ -11,8 +11,8 @@ rule all:
 
     shell:
         """
-        for f in {output.normal}:
-            echo f
+        for f in {input.normal}:
+            echo $f
         """
 
 rule CombineManifests:
