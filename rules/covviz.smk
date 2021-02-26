@@ -13,7 +13,7 @@ rule CombineManifests:
     input:
         expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors)
     output:
-        combined_manifest = temp(outdir+'/combined-manifest.tsv')
+        combined_manifest = outdir+'/combined-manifest.tsv'
     run:
         # get top line of a manifest
         with open(input[0]) as manifest:
@@ -38,7 +38,9 @@ rule MountDirectory:
     shell:
         """
         [[ ! -d {params.mountdir} ]] && mkdir {params.mountdir}
-        [[ mount | grep -q {params.mountdir} ]] || unmount {params.mountdir}
+        if mount | grep -q {params.mountdir} ; then
+            unmount {params.mountdir}
+        fi
 
         score-client mount --daemonize \
             --mount-point {params.mountdir} \
@@ -57,10 +59,11 @@ rule get_bam_index:
         mountdir = outdir+'/temp'
     shell:
         """
+        [[ ! -d $(dirname {output.normal}) ]] && mkdir $(dirname {output.normal})
         normal_bam=$(sed '2q;d' {input.manifest} | cut -f5)
         tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
-        normal_bai=$(find {params.mountdir} -name *.bai | grep $normal_bam)
-        tumour_bai=$(find {params.mountdir} -name *.bai | grep $tumor_bam)
+        normal_bai=$(find {params.mountdir} -name '*.bai' | grep $normal_bam)
+        tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumor_bam)
         cp $normal_bai {output.normal}
         cp $tumour_bai {output.tumour}
         """
