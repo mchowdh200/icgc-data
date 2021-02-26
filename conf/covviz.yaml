@@ -1,3 +1,3 @@
 outdir: "/mnt/local/data"
 manifest_dir: "/home/ubuntu/icgc-data/tumour-normal-manifests"
-donor_list: "/home/ubuntu/icgc-data/donor_list.txt"
+donor_list: "/home/ubuntu/icgc-data/data_listings/donor_list.txt"
