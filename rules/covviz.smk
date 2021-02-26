@@ -6,8 +6,8 @@ with open(config['donor_list']) as f:
 
 rule all:
     input:
-        expand(outdir+'/{donor}/{donor}-normal.bai', donor=donors),
-        expand(outdir+'/{donor}/{donor}-tumour.bai', donor=donors)
+        expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
+        expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
 
 rule CombineManifests:
     input:
@@ -56,8 +56,8 @@ rule get_bam_index:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv',
         receipt = outdir+'/mounted-successfully.out'
     output:
-        normal = outdir+'/{donor}/{donor}-normal.bai',
-        tumour = outdir+'/{donor}/{donor}-tumour.bai'
+        normal = outdir+'/{donor}/{donor}-normal.bam.bai',
+        tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
     params:
         mountdir = outdir+'/temp'
     shell:
@@ -67,6 +67,6 @@ rule get_bam_index:
         tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
         normal_bai=$(find {params.mountdir} -name '*.bai' | grep $normal_bam)
         tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumour_bam)
-        cp $normal_bai {output.normal}
-        cp $tumour_bai {output.tumour}
+        cp --no-preserve=mode $normal_bai {output.normal}
+        cp --no-preserve=mode $tumour_bai {output.tumour}
         """
