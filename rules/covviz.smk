@@ -17,18 +17,20 @@ rule get_bam_index:
         tumour = outdir+'/{donor}/{donor}-tumour.bai'
     shell:
         """
-        [[ ! -d /mnt/{donor} ]] && sudo mkdir /mnt/{donor}
-        sudo chown ubuntu /mnt/{donor}
+        donor={wildcards.donor}
+
+        [[ ! -d /mnt/$donor ]] && sudo mkdir /mnt/$donor
+        sudo chown ubuntu /mnt/$donor
 
         score-client mount --daemonize \
-            --mount-point /mnt/{donor} \
+            --mount-point /mnt/$donor \
             --manifest {input.manifest} 
         
         normal_bam=$(sed '2q;d {input.manifest} | cut -f5)
         tumour_bam=$(sed '3q;d {input.manifest} | cut -f5)
         
-        normal_bai=$(find /mnt/{donor} -name *.bai | grep $normal_bam)
-        tumour_bai=$(find /mnt/{donor} -name *.bai | grep $tumor_bam)
+        normal_bai=$(find /mnt/$donor -name *.bai | grep $normal_bam)
+        tumour_bai=$(find /mnt/$donor -name *.bai | grep $tumor_bam)
         
         cp $normal_bai {output.normal}
         cp $tumour_bai {output.tumour}
