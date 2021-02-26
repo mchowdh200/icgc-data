@@ -50,7 +50,7 @@ rule MountDirectory:
 rule get_bam_index:
     input:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv',
-        outdir+'/mounted-successfully.out'
+        receipt = outdir+'/mounted-successfully.out'
     output:
         normal = outdir+'/{donor}/{donor}-normal.bai',
         tumour = outdir+'/{donor}/{donor}-tumour.bai'
