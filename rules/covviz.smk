@@ -26,8 +26,8 @@ rule get_bam_index:
             --mount-point /mnt/$donor \
             --manifest {input.manifest} 
         
-        normal_bam=$(sed '2q;d {input.manifest} | cut -f5)
-        tumour_bam=$(sed '3q;d {input.manifest} | cut -f5)
+        normal_bam=$(sed '2q;d' {input.manifest} | cut -f5)
+        tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
         
         normal_bai=$(find /mnt/$donor -name *.bai | grep $normal_bam)
         tumour_bai=$(find /mnt/$donor -name *.bai | grep $tumor_bam)
