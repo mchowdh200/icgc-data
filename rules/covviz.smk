@@ -6,6 +6,7 @@ with open(config['donor_list']) as f:
 
 rule all:
     input:
+        temp(outdir+'/upload-finished.out'),
         normal = expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
         tumour = expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
 
@@ -13,6 +14,8 @@ rule UploadIndices:
     input:
         normal = outdir+'/{donor}/{donor}-normal.bam.bai',
         tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
+    output:
+        temp(outdir+'/upload-finished.out')
 
     shell:
         """
@@ -24,8 +27,6 @@ rule UploadIndices:
               grep -q $(basename {input.tumour}); then
             aws s3 cp {input.tumour} s3://layerlabcu/icgc/bam_indices/
         fi
-
-
         """
 
 rule CombineManifests:
