@@ -15,7 +15,11 @@ rule all:
         tumours=({input.tumour})
 
         for f in ${{normals[@]}}; do
-            echo "$f"
+            aws s3 cp $f s3://layerlabcu/icgc/bam_indices/
+        done
+
+        for f in ${{tumours[@]}}; do
+            aws s3 cp $f s3://layerlabcu/icgc/bam_indices/
         done
         """
 
