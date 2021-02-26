@@ -13,7 +13,7 @@ rule all:
 if get_from_s3:
     rule S3GetBamIndex:
         output:
-            normal = outdir+'/{donor}/{donor}-normal.bam.bai'
+            normal = outdir+'/{donor}/{donor}-normal.bam.bai',
             tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
         shell:
             """
