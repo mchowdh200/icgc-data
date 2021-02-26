@@ -14,7 +14,7 @@ rule get_bam_index:
         manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
     output:
         normal = outdir+'/{donor}/{donor}-normal.bai',
-        tumour = outdir+'/{donor}/{donor}-normal.bai'
+        tumour = outdir+'/{donor}/{donor}-tumour.bai'
     shell:
         """
         [[ ! -d /mnt/{donor} ]] && sudo mkdir /mnt/{donor}
