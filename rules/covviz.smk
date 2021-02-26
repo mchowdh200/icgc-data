@@ -69,12 +69,12 @@ rule get_bam_index:
         cp --no-preserve=mode $normal_bai {output.normal}
         cp --no-preserve=mode $tumour_bai {output.tumour}
         
-        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+        if ! aws s3 ls s3://layerlabcu/icgc/bam_indices | 
               grep -q $(basename {output.normal}); then
             aws s3 cp {output.normal} s3://layerlabcu/icgc/bam_indices/
         fi
 
-        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+        if ! aws s3 ls s3://layerlabcu/icgc/bam_indices | 
               grep -q $(basename {output.tumour}); then
             aws s3 cp {output.tumour} s3://layerlabcu/icgc/bam_indices/
         fi
