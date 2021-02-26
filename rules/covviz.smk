@@ -6,28 +6,8 @@ with open(config['donor_list']) as f:
 
 rule all:
     input:
-        temp(outdir+'/upload-finished.out'),
         normal = expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
         tumour = expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
-
-rule UploadIndices:
-    input:
-        normal = outdir+'/{donor}/{donor}-normal.bam.bai',
-        tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
-    output:
-        temp(outdir+'/upload-finished.out')
-
-    shell:
-        """
-        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
-              grep -q $(basename {input.normal}); then
-            aws s3 cp {input.normal} s3://layerlabcu/icgc/bam_indices/
-        fi
-        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
-              grep -q $(basename {input.tumour}); then
-            aws s3 cp {input.tumour} s3://layerlabcu/icgc/bam_indices/
-        fi
-        """
 
 rule CombineManifests:
     input:
@@ -88,4 +68,14 @@ rule get_bam_index:
         tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumour_bam)
         cp --no-preserve=mode $normal_bai {output.normal}
         cp --no-preserve=mode $tumour_bai {output.tumour}
+        
+        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+              grep -q $(basename {input.normal}); then
+            aws s3 cp {input.normal} s3://layerlabcu/icgc/bam_indices/
+        fi
+
+        if aws s3 ls s3://layerlabcu/icgc/bam_indices | 
+              grep -q $(basename {input.tumour}); then
+            aws s3 cp {input.tumour} s3://layerlabcu/icgc/bam_indices/
+        fi
         """
