@@ -37,7 +37,7 @@ rule MountDirectory:
         mountdir = outdir+'/temp'
     shell:
         """
-        [[ ! -d {params.mountdir}]] && mkdir {params.mountdir}
+        [[ ! -d {params.mountdir} ]] && mkdir {params.mountdir}
         [[ mount | grep -q {params.mountdir} ]] || unmount {params.mountdir}
 
         score-client mount --daemonize \
