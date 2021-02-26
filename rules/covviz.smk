@@ -26,7 +26,7 @@ rule CombineManifests:
                 with open(fname, 'r') as f:
                     lines = f.readlines()
                     for line in lines[1:]: #skip header
-                        combine_manifest.write(line)
+                        combined_manifest.write(line)
 
 rule MountDirectory:
     input:
