@@ -39,12 +39,13 @@ rule MountDirectory:
         """
         [[ ! -d {params.mountdir} ]] && mkdir {params.mountdir}
         if mount | grep -q {params.mountdir} ; then
-            unmount {params.mountdir}
+            umount {params.mountdir}
         fi
 
         score-client mount --daemonize \
             --mount-point {params.mountdir} \
             --manifest {input} 
+        sleep 30s
         touch {output}
         """
 
