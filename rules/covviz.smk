@@ -38,10 +38,8 @@ rule MountDirectory:
     shell:
         """
         [[ ! -d {params.mountdir}]] && mkdir {params.mountdir}
-        set +o pipefail
-        if [[ mount | grep {params.mountdir} > /dev/null ]]; then
-            umount {params.mountdir}
-        fi
+        mount | grep -q {params.mountdir} || unmount {params.mountdir}
+
         score-client mount --daemonize \
             --mount-point {params.mountdir} \
             --manifest {input} 
