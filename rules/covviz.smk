@@ -32,7 +32,7 @@ rule MountDirectory:
     input:
         outdir+'/combined-manifest.tsv'
     output:
-        temp(outdir+'/mounted-sucessfully.out')
+        temp(outdir+'/mounted-successfully.out')
     params:
         mountdir = outdir+'/temp'
     shell:
