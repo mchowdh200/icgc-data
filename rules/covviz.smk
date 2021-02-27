@@ -24,7 +24,7 @@ rule RunCovviz:
         outdir+'/{specimen_type}/results/covviz_report.html'
     shell:
         """
-        nextflow run brwnj/covviz -latest \
+        nextflow run brwnj/covviz -latest -profile docker \
             --indexes '{params.baidir}/*.bai' \
             --fai {input.fai} \
             --outdir {params.baidir}
