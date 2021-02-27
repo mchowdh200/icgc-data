@@ -2,5 +2,4 @@
 
 snakemake -s rules/covviz.smk \
           --configfile conf/covviz.yaml \
-          -j $(grep -c ^processor /proc/cpuinfo) \
-          --latency-wait 20
+          -j $(grep -c ^processor /proc/cpuinfo)
