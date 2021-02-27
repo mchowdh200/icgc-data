@@ -25,7 +25,7 @@ rule RunCovviz:
     shell:
         """
         nextflow run brwnj/covviz -latest \
-            --indexes '{params.baidir}/*.bai'
+            --indexes '{params.baidir}/*.bai' \
             --fai {input.fai} \
             --outdir {params.baidir}
         """
