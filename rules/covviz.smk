@@ -24,7 +24,7 @@ rule RunCovviz:
         outdir+'/{specimen_type}/results/covviz_report.html'
     shell:
         """
-        nexflow run brwnj/covviz -latest \
+        nextflow run brwnj/covviz -latest \
             --indexes '{params.baidir}/*.bai'
             --fai {input.fasta} \
             --outdir {params.baidir}
