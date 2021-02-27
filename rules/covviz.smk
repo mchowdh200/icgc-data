@@ -7,8 +7,15 @@ get_from_s3 = config['get_from_s3']
 
 rule all:
     input:
-        expand(outdir+'/{specimen_type}/covviz_report.html',
-               specimen_type=['normal', 'tumour'])
+        normal = outdir+'/normal/covviz_report.html',
+        tumour = outdir+'/tumour/covviz_report.html',
+        # expand(outdir+'/{specimen_type}/covviz_report.html',
+        #        specimen_type=['normal', 'tumour'])
+    shell:
+        """
+        aws s3 cp {input.normal} s3://layerlabcu/icgc/covviz/normal/
+        aws s3 cp {input.tumour} s3://layerlabcu/icgc/covviz/tumour/
+        """
 
 rule RunCovviz:
     threads:
