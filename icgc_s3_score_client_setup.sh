@@ -3,7 +3,8 @@
 set exuo pipefail
 
 
-# some common dependencies ------------------------------------------------------------------------
+### some common dependencies
+################################################################################
 sudo apt-get update
 sudo apt-get install -y \
     build-essential curl git libfuse-dev fuse libcurl4-openssl-dev \
@@ -11,7 +12,8 @@ sudo apt-get install -y \
     automake libtool pkg-config libssl-dev ncurses-dev awscli \
     python-pip libbz2-dev liblzma-dev unzip imagemagick openjdk-11-jdk
 
-# mount storage -----------------------------------------------------------------------------------
+### mount storage
+################################################################################
 export TMPDIR=/mnt/local/temp
 sudo mkdir /mnt/local
 
@@ -40,7 +42,8 @@ mkdir /mnt/local/data
 mkdir /mnt/local/temp
 echo "export TMPDIR=/mnt/local/temp" >> ~/.profile
 
-# conda setup -------------------------------------------------------------------------------------
+### conda/mamba setup
+################################################################################
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
 bash ~/miniconda.sh -b -p $HOME/miniconda
 eval "$($HOME/miniconda/bin/conda shell.bash hook)"
@@ -48,7 +51,15 @@ conda init
 conda config --add channels bioconda
 conda install -y -c conda-forge mamba
 
-# tmux/neovim setup -------------------------------------------------------------------------------
+### conda envs/packages
+################################################################################
+# TODO just use a single env with snakemake and let it manage the conda environmnets
+# TODO also might as well just install in base env at that point.
+mamba create -y -c bioconda -n smoove smoove
+mamba create -y -c conda-forge -c bioconda -n snakemake snakemake nextflow singularity
+
+### tmux/neovim setup
+################################################################################
 echo "source-file ~/.tmux.d/.tmux.conf" > ~/.tmux.conf
 git clone https://github.com/mchowdh200/.tmux.d.git ~/.tmux.d
 
@@ -63,30 +74,30 @@ pip install jedi neovim
 echo "alias vim=nvim" >> ~/.profile
 echo "export EDITOR=nvim" >> ~/.profile
 
-# setup path --------------------------------------------------------------------------------------
+### setup path
+################################################################################
 mkdir /mnt/local/bin
 echo "PATH=$PATH:/mnt/local/bin" >> ~/.profile
 
-# install gargs -----------------------------------------------------------------------------------
+### install gargs
+################################################################################
 wget https://github.com/brentp/gargs/releases/download/v0.3.9/gargs_linux -O /mnt/local/bin/gargs
 chmod +x /mnt/local/bin/gargs
 
-# install score client ----------------------------------------------------------------------------
+### install score client
+################################################################################
 wget -O score-client.tar.gz https://artifacts.oicr.on.ca/artifactory/dcc-release/bio/overture/score-client/[RELEASE]/score-client-[RELEASE]-dist.tar.gz
 mkdir score-client &&
     tar -xvzf score-client.tar.gz -C score-client --strip-components 1
 echo "PATH=$PATH:~/icgc-data/score-client/bin" >> ~/.profile
 
-conda create -y -c bioconda -n smoove smoove
-
-# install manta -----------------------------------------------------------------------------------
+### install manta
+################################################################################
 wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.centos6_x86_64.tar.bz2
-
 tar -xjvf manta-1.6.0.centos6_x86_64.tar.bz2 && 
     mv manta-1.6.0.centos6_x86_64 /mnt/local/manta/
 
-# install snakemake --------------------------------------------------------------------------------
-mamba create -y -c conda-forge -c bioconda -n snakemake snakemake
+
 
 
 
