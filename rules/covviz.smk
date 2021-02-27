@@ -7,7 +7,7 @@ get_from_s3 = config['get_from_s3']
 
 rule all:
     input:
-        expand(outdir+'/{specimen_type}/results/covviz_report.html',
+        expand(outdir+'/{specimen_type}/covviz_report.html',
                specimen_type=['normal', 'tumour'])
 
 rule RunCovviz:
