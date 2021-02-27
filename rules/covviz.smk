@@ -14,7 +14,8 @@ rule RunCovviz:
     threads:
         workflow.cores
     input:
-        bai = expand(outdir+'/{specimen_type}/{donor}-normal.bam.bai', donor=donors),
+        bai = expand(outdir+'/{specimen_type}/{donor}-normal.bam.bai',
+                     spcimen_type='{specimen_type}', donor=donors),
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
