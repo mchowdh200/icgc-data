@@ -5,25 +5,28 @@ with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
 get_from_s3 = config['get_from_s3']
 
+rule all:
+    input:
+        expand(outdir+'/{specimen_type}/results/covviz_report.html',
+               specimen_type=['normal', 'tumour'])
+
 rule RunCovviz:
     threads:
         workflow.cores
     input:
-        normal = expand(outdir+'/normal/{donor}-normal.bam.bai', donor=donors),
-        tumour = expand(outdir+'/tumour/{donor}-tumour.bam.bai', donor=donors),
+        bai = expand(outdir+'/{specimen_type}/{donor}-normal.bam.bai', donor=donors),
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
-        outdir = outdir
+        baidir = outdir+'/{specimen_type}',
     output:
-        normal = outdir+'/normal/results/covviz_report.html',
-        tumour = outdir+'/tumour/results/covviz_report.html',
+        outdir+'/{specimen_type}/results/covviz_report.html'
     shell:
         """
         nexflow run brwnj/covviz -latest \
-            --indexes '{params.normal_resulst}/*.bai' \
+            --indexes '{params.baidir}/*.bai'
             --fai {input.fasta} \
-            --outdir {params.outdir}
+            --outdir {params.baidir}
         """
 
 rule GetReference:
