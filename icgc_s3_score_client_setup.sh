@@ -44,9 +44,9 @@ echo "export TMPDIR=/mnt/local/temp" >> ~/.profile
 
 ### conda/mamba setup
 ################################################################################
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -b -p $HOME/miniconda
-eval "$($HOME/miniconda/bin/conda shell.bash hook)"
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /mnt/local/miniconda.sh
+bash /mnt/local/miniconda.sh -b -p /mnt/local/miniconda
+eval "$(/mnt/local/miniconda/bin/conda shell.bash hook)"
 conda init
 conda config --add channels bioconda
 conda install -y -c conda-forge mamba
