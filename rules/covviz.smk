@@ -5,16 +5,44 @@ with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
 get_from_s3 = config['get_from_s3']
 
-rule all:
+rule RunCovviz:
+    threads:
+        workflow.cores
     input:
-        normal = expand(outdir+'/{donor}/{donor}-normal.bam.bai', donor=donors),
-        tumour = expand(outdir+'/{donor}/{donor}-tumour.bam.bai', donor=donors)
+        normal = expand(outdir+'/normal/{donor}-normal.bam.bai', donor=donors),
+        tumour = expand(outdir+'/tumour/{donor}-tumour.bam.bai', donor=donors)
+        fasta = outdir+'/ref/hs37d5.fa',
+        fai = outdir+'/ref/hs37d5.fa.fai'
+    params:
+        outdir = outdir
+    output:
+        normal = outdir+'/normal/results/covviz_report.html',
+        tumour = outdir+'/tumour/results/covviz_report.html',
+    shell:
+        """
+        nexflow run brwnj/covviz -latest \
+            --indexes '{params.normal_resulst}/*.bai' \
+            --fai {input.fasta} \
+            --outdir {params.outdir}
+        """
+
+rule GetReference:
+    output:
+        fasta = outdir+'/ref/hs37d5.fa',
+        fai = outdir+'/ref/hs37d5.fa.fai'
+    shell:
+        """
+        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {output.fasta}
+        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fai}
+        """
+
+
 
 if get_from_s3:
     rule S3GetBamIndex:
         output:
-            normal = outdir+'/{donor}/{donor}-normal.bam.bai',
-            tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
+            normal = outdir+'/normal/{donor}-normal.bam.bai',
+            tumour = outdir+'/tumour/{donor}-tumour.bam.bai'
         shell:
             """
             aws s3 cp s3://layerlabcu/icgc/bam_indices/$(basename {output.normal}) \
@@ -27,7 +55,7 @@ else:
         input:
             expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors)
         output:
-            combined_manifest = outdir+'/combined-manifest.tsv'
+            combined_manifest = temp(outdir+'/combined-manifest.tsv')
         run:
             # get top line of a manifest
             with open(input[0]) as manifest:
@@ -60,22 +88,33 @@ else:
             score-client mount --daemonize \
                 --mount-point {params.mountdir} \
                 --manifest {input} 
-            sleep 30s
+            sleep 30s # give time for the directory to be mounted
             touch {output}
             """
 
+    rule CreateOutdirs:
+        output:
+            normal = directory(outdir+'/normal'),
+            tumour = directory(outdir+'/tumour')
+        shell:
+            """
+            [[ ! -d {output.normal} ]] && mkdir {output.normal}
+            [[ ! -d {output.tumour} ]] && mkdir {output.tumour}
+            """
+            
     rule ScoreClientGetBamIndex:
         input:
             manifest = manifest_dir+'/{donor}-tumour-normal.tsv',
-            receipt = outdir+'/mounted-successfully.out'
+            receipt = outdir+'/mounted-successfully.out',
+            normal_dir = directory(outdir+'/normal'),
+            tumour_dir = directory(outdir+'/tumour')
         output:
-            normal = outdir+'/{donor}/{donor}-normal.bam.bai',
-            tumour = outdir+'/{donor}/{donor}-tumour.bam.bai'
+            normal = outdir+'/normal/{donor}-normal.bam.bai',
+            tumour = outdir+'/tumour/{donor}-tumour.bam.bai'
         params:
             mountdir = outdir+'/temp'
         shell:
             """
-            [[ ! -d $(dirname {output.normal}) ]] && mkdir $(dirname {output.normal})
             normal_bam=$(sed '2q;d' {input.manifest} | cut -f5)
             tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
             normal_bai=$(find {params.mountdir} -name '*.bai' | grep $normal_bam)
