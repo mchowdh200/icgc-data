@@ -21,7 +21,7 @@ rule RunCovviz:
     params:
         baidir = outdir+'/{specimen_type}',
     output:
-        outdir+'/{specimen_type}/results/covviz_report.html'
+        outdir+'/{specimen_type}/covviz_report.html'
     shell:
         """
         nextflow run brwnj/covviz -latest \
