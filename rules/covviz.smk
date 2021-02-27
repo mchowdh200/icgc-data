@@ -10,7 +10,7 @@ rule RunCovviz:
         workflow.cores
     input:
         normal = expand(outdir+'/normal/{donor}-normal.bam.bai', donor=donors),
-        tumour = expand(outdir+'/tumour/{donor}-tumour.bam.bai', donor=donors)
+        tumour = expand(outdir+'/tumour/{donor}-tumour.bam.bai', donor=donors),
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
