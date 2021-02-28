@@ -24,7 +24,7 @@ rule RunCovviz:
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
-        outdir = outdir
+        outdir = outdir,
         baidir = outdir+'/*/*.bai',
     output:
         outdir+'/covviz_report.html'
@@ -33,7 +33,7 @@ rule RunCovviz:
         nextflow run brwnj/covviz -latest \
             --indexes '{params.baidir}' \
             --fai {input.fai} \
-            --outdir {params.baidir}
+            --outdir {params.outdir}
         """
 
 rule GetReference:
