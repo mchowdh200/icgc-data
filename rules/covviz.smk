@@ -8,14 +8,10 @@ get_from_s3 = config['get_from_s3']
 rule all:
     ## TODO just combine into one report
     input:
-        normal = outdir+'/normal/covviz_report.html',
-        tumour = outdir+'/tumour/covviz_report.html',
-        # expand(outdir+'/{specimen_type}/covviz_report.html',
-        #        specimen_type=['normal', 'tumour'])
+        outdir+'/covviz_report.html'
     shell:
         """
-        aws s3 cp {input.normal} s3://layerlabcu/icgc/covviz/normal/
-        aws s3 cp {input.tumour} s3://layerlabcu/icgc/covviz/tumour/
+        aws s3 cp {input} s3://layerlabcu/icgc/covviz/
         """
 
 rule RunCovviz:
@@ -30,7 +26,7 @@ rule RunCovviz:
     params:
         baidir = outdir+'/*/*.bai',
     output:
-        outdir+'/{specimen_type}/covviz_report.html'
+        outdir+'/covviz_report.html'
     shell:
         """
         nextflow run brwnj/covviz -latest \
