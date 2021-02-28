@@ -20,7 +20,7 @@ rule RunCovviz:
         workflow.cores
     input:
         bai = expand(outdir+'/{specimen_type}/{donor}-{specimen_type}.bam.bai',
-                     specimen_type='{specimen_type}', donor=donors),
+                     specimen_type=['normal', 'tumour'], donor=donors),
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
