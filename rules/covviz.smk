@@ -6,6 +6,7 @@ with open(config['donor_list']) as f:
 get_from_s3 = config['get_from_s3']
 
 rule all:
+    ## TODO just combine into one report
     input:
         normal = outdir+'/normal/covviz_report.html',
         tumour = outdir+'/tumour/covviz_report.html',
@@ -18,6 +19,7 @@ rule all:
         """
 
 rule RunCovviz:
+    ## TODO just combine into one report
     threads:
         workflow.cores
     input:
@@ -26,13 +28,13 @@ rule RunCovviz:
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
-        baidir = outdir+'/{specimen_type}',
+        baidir = outdir+'/*/*.bai',
     output:
         outdir+'/{specimen_type}/covviz_report.html'
     shell:
         """
         nextflow run brwnj/covviz -latest \
-            --indexes '{params.baidir}/*.bai' \
+            --indexes '{params.baidir}' \
             --fai {input.fai} \
             --outdir {params.baidir}
         """
