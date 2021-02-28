@@ -24,6 +24,7 @@ rule RunCovviz:
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
     params:
+        outdir = outdir
         baidir = outdir+'/*/*.bai',
     output:
         outdir+'/covviz_report.html'
