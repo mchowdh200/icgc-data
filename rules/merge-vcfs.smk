@@ -18,30 +18,20 @@ rule all:
         tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
                         donor=donors)
 
-rule GetSmooveVCFs:
-    output:
-        directory(f'{outdir}/smoove-vcf/{{donor}}')
-    shell:
-        f"""
-        aws s3 cp --recursive \
-            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
-            {outdir}/smoove-vcf/{{wildcards.donor}}
-        """
-
 rule RenameSmooveSamples:
-    input:
-        dir = f'{outdir}/smoove-vcf/{{donor}}'
     output:
-        # normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        # tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
-        normal = f'{input.dir}/{{donor}}.normal.vcf.gz',
-        tumour = f'{input.dir}/{{donor}}/{{donor}}.tumour.vcf.gz'
+        normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
     conda:
         'envs/gatk.yaml'
     shell:
+        # get stored smoove vcf
         # grep for the normal/tumour vcfs
         # run gatk to rename samples
         f"""
+        aws s3 cp --recursive \
+            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ {output}
+
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
