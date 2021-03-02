@@ -6,20 +6,27 @@ with open(config['donor_list']) as f:
 
 
 rule all:
-    ## this should be the final SVTyper sites vcf.
-    # Take care when mixing global variables and Snakemake
-    # wildcards in a formatted string. In general, surround
-    # wildcards with double curly braces.
-    # EXAMPLE: BOOK_FILE = f'{INPUT_DIR}{{book}}.txt'
+    ## TODO this should be the final SVTyper sites vcf.
+    # input:
+    #     f'{outdir}/sites-SVTyper.vcf.gz'
+    # shell:
+    #     """
+    #     aws s3 cp {input} s3://layerlabcu/icgc/
+    #     """
     input:
-        f'{outdir}/sites-SVTyper.vcf.gz'
-    shell:
-        """
-        aws s3 cp {input} s3://layerlabcu/icgc/
-        """
+        directory(expand(f'{outdir}/smoove-vcf/{{donor}}'))
 
 ### TODO
 rule GetSmooveVCFs:
+    output:
+        directory(f'{outdir}/smoove-vcf/{{donor}}')
+    shell:
+        f"""
+        aws s3 cp --recursive \
+            s3://layerlabcu/icgc/smoove/{{donor}}/ \
+            {outdir}/smoove-vcf/{{donor}}
+        """
+
 
 ### TODO
 rule RenameSmooveSamples:
@@ -34,9 +41,12 @@ rule RenameMantaVCFs:
 rule SurvivorMergeVCFs:
 
 ### TODO
+# see manta snakefile for similar rule
+# and copy the resource management method
 rule GetBams:
 
 ### TODO
+# can use as many cores as we need.
 rule SmooveGenotype:
 
 ### TODO
