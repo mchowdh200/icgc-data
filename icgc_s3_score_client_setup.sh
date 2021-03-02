@@ -102,10 +102,10 @@ tar -xjvf manta-1.6.0.centos6_x86_64.tar.bz2 &&
 
 ### install SURVIVOR
 wget -O /mnt/local/SURVIVOR.tar.gz https://github.com/fritzsedlazeck/SURVIVOR/archive/1.0.7.tar.gz
-tar xzvf SURVIVOR.tar.gz
-cd SURVIVOR-1.0.7/Debug
+tar xzvf /mnt/local/SURVIVOR.tar.gz
+cd /mnt/local/SURVIVOR-1.0.7/Debug
 make
-cp SURVIVOR-1.0.7/Debug/SURVIVOR /mnt/local/bin
+cp /mnt/local/SURVIVOR-1.0.7/Debug/SURVIVOR /mnt/local/bin
 
 
 
