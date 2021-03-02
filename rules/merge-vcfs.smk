@@ -30,7 +30,8 @@ rule RenameSmooveSamples:
         # run gatk to rename samples
         f"""
         aws s3 cp --recursive \
-            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ {output}
+            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
+            {outdir}/smoove-vcf/{{wildcards.donor}}/
 
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
