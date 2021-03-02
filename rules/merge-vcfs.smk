@@ -23,8 +23,8 @@ rule GetSmooveVCFs:
     shell:
         f"""
         aws s3 cp --recursive \
-            s3://layerlabcu/icgc/smoove/{{donor}}/ \
-            {outdir}/smoove-vcf/{{donor}}
+            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
+            {outdir}/smoove-vcf/{{wildcards.donor}}
         """
 
 
