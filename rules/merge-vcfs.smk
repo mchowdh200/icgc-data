@@ -30,7 +30,7 @@ rule GetSmooveVCFs:
 
 rule RenameSmooveSamples:
     input:
-        dir = f'{outdir}/smoove-vcf/{{donor}}
+        dir = f'{outdir}/smoove-vcf/{{donor}}'
     output:
         # normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
         # tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
