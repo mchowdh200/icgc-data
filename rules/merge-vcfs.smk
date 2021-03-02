@@ -14,7 +14,7 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        directory(expand(f'{outdir}/smoove-vcf/{{donor}}', donor=donors))
+        expand(f'{outdir}/smoove-vcf/{{donor}}', donor=donors)
 
 ### TODO
 rule GetSmooveVCFs:
