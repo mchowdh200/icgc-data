@@ -80,7 +80,7 @@ echo "export EDITOR=nvim" >> ~/.profile
 ### setup path
 ################################################################################
 mkdir /mnt/local/bin
-echo "PATH=$PATH:/mnt/local/bin" >> ~/.profile
+echo 'PATH=$PATH:/mnt/local/bin' >> ~/.profile
 
 ### install gargs
 ################################################################################
@@ -92,7 +92,7 @@ chmod +x /mnt/local/bin/gargs
 wget -O score-client.tar.gz https://artifacts.oicr.on.ca/artifactory/dcc-release/bio/overture/score-client/[RELEASE]/score-client-[RELEASE]-dist.tar.gz
 mkdir score-client &&
     tar -xvzf score-client.tar.gz -C score-client --strip-components 1
-echo "PATH=$PATH:~/icgc-data/score-client/bin" >> ~/.profile
+echo 'PATH=$PATH:~/icgc-data/score-client/bin' >> ~/.profile
 
 ### install manta
 ################################################################################
@@ -106,8 +106,3 @@ tar xzvf /mnt/local/SURVIVOR.tar.gz
 cd /mnt/local/SURVIVOR-1.0.7/Debug
 make
 cp /mnt/local/SURVIVOR-1.0.7/Debug/SURVIVOR /mnt/local/bin
-
-
-
-
-
