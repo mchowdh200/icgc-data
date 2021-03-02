@@ -13,7 +13,10 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        expand(f'{outdir}/smoove-vcf/{{donor}}', donor=donors)
+        normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+                        donor=donors),
+        tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+                        donor=donors)
 
 rule GetSmooveVCFs:
     output:
