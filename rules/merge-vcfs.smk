@@ -18,6 +18,9 @@ rule all:
         tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
                         donor=donors)
 
+### TODO handle if there is a missing vcf
+# right now the grep command is returning a non-zero if there isn't a file
+# present. Do an if statement to check if there is a missing vcf.
 rule RenameSmooveSamples:
     output:
         normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
@@ -32,22 +35,26 @@ rule RenameSmooveSamples:
         aws s3 cp --recursive \
             s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
             {outdir}/smoove-vcf/{{wildcards.donor}}/
-
+        
+        set +e
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i tumour)
-        echo $normal_in
-        echo $tumour_in
-        
-        gatk RenameSampleInVcf \
-            --INPUT $normal_in \
-            --OUTPUT {{output.normal}} \\
-            --NEW_SAMPLE_NAME {{wildcards.donor}}-normal
-        gatk RenameSampleInVcf \
-            --INPUT $tumour_in \
-            --OUTPUT {{output.tumour}} \\
-            --NEW_SAMPLE_NAME {{wildcards.donor}}-tumour
+        set -e
+
+        if [[ -z $normal_in ]]; then
+            gatk RenameSampleInVcf \
+                --INPUT $normal_in \
+                --OUTPUT {{output.normal}} \\
+                --NEW_SAMPLE_NAME {{wildcards.donor}}-normal
+        fi
+        if [[ -z $tumour_in ]]; then
+            gatk RenameSampleInVcf \
+                --INPUT $tumour_in \
+                --OUTPUT {{output.tumour}} \\
+                --NEW_SAMPLE_NAME {{wildcards.donor}}-tumour
+        fi
         """
     
 ### TODO
