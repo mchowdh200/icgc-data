@@ -74,7 +74,7 @@ rule RenameMantaSamples:
             zcat > {{output.normal}}
         bcftools reheader \\
             -s <(echo {{wildcards.donor}}-tumour) \\
-            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz \\
+            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz |
             zcat > {{output.tumour}}
         """
         
