@@ -48,7 +48,7 @@ rule RenameSmooveSamples:
                 > {outdir}/smoove-vcf/{{wildcards.donor}}/normal-sample.txt
             bcftools reheader \
                 -s {outdir}/smoove-vcf/{{wildcards.donor}}/norm-samples.txt \
-                -o {{output.normal}}
+                -o {{output.normal}} \
                 $normal_in
         else
             touch {{output.normal}}
@@ -58,7 +58,7 @@ rule RenameSmooveSamples:
                 > {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt
             bcftools reheader \
                 -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \
-                -o {{output.normal}}
+                -o {{output.normal}} \
                 $tumour_in
         else
             touch {{output.tumour}}
