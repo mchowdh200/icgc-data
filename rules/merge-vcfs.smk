@@ -13,14 +13,14 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-                        donor=donors),
-        tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
-                        donor=donors),
-        normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-                        donor=donors),
-        tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
-                        donor=donors)
+        expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+               donor=donors),
+        expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+               donor=donors),
+        expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+               donor=donors),
+        expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+               donor=donors)
 
 ### TODO handle if there is a missing vcf
 # this rule also checks if there are missing vcfs, and produces a dummy output
@@ -28,8 +28,8 @@ rule all:
 # is run (use the "file" command).
 rule RenameSmooveSamples:
     output:
-        normal = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
-        tumour = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
+        normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
     shell:
         f"""
         aws s3 cp --recursive \\
@@ -66,8 +66,8 @@ rule RenameSmooveSamples:
 ### TODO
 rule RenameMantaSamples:
     output:
-        normal = temp(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
-        tumour = temp(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
+        normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
     shell:
         f"""
         aws s3 cp s3://layerlabcu/icgc/manta/{{wildcards.donor}}/diploidSV.vcf.gz \\
@@ -91,6 +91,19 @@ rule RenameMantaSamples:
 # it uses the same version that we currently have installed
 # then we can remove that from installation
 rule SurvivorMergeVCFs:
+    input:
+        smoove_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        smoove_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+        manta_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        manta_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
+    output:
+        f'{outdir}/survivor-merged.vcf.gz'
+    shell:
+        """
+        echo {input.smoove_normal}
+
+        touch {output} # TODO dummy temp file
+        """
 
 ### TODO
 # see manta snakefile for similar rule
