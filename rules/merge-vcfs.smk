@@ -26,7 +26,7 @@ rule RenameSmooveSamples:
         normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
         tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
     conda:
-        'envs/gatk.yaml'
+        '../envs/gatk.yaml'
     shell:
         # get stored smoove vcf
         # grep for the normal/tumour vcfs
