@@ -105,8 +105,8 @@ rule SurvivorMergeVCFs:
             tr ' ' '\n' | xargs file | grep -v empty | cut -d':' -f1 \\
             > {outdir}/vcf-list.txt
         
-        max_dist_between_breakpoints=0.1 # fraction of SVLEN
-        min_support=1
+        max_dist_between_breakpoints=0.2 # fraction of SVLEN
+        min_support=2
         take_type_into_account=1
         take_strand_into_account=0
         estimate_dist_from_SV_size=1
