@@ -41,18 +41,16 @@ rule RenameSmooveSamples:
                     grep -i tumour | head -1)
 
         if [[ ! -z $normal_in ]]; then
-            echo {{wildcards.donor}}-normal > {outdir}/smoove-vcf/{{wildcards.donor}}/normal-sample.txt
             bcftools reheader \\
-                -s {outdir}/smoove-vcf/{{wildcards.donor}}/normal-samples.txt \\
+                -s {{wildcards.donor}}-normal \\
                 -o {{output.normal}} \\
                 $normal_in
         else
             touch {{output.normal}}
         fi
         if [[ ! -z $tumour_in ]]; then
-            echo {{wildcards.donor}}-tumour > {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt
             bcftools reheader \\
-                -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \\
+                -s '{{wildcards.donor}}-tumour' \\
                 -o {{output.tumour}} \\
                 $tumour_in
         else
