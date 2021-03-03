@@ -26,18 +26,15 @@ rule RenameSmooveSamples:
     output:
         normal = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
         tumour = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
-    conda:
-        '../envs/samtools.yaml'
     shell:
         # get stored smoove vcf
         # grep for the normal/tumour vcfs
         # run gatk to rename samples
         f"""
-        aws s3 cp --recursive \
-            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
+        aws s3 cp --recursive \\
+            s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \\
             {outdir}/smoove-vcf/{{wildcards.donor}}/
         
-        set +euo pipefail
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
@@ -45,18 +42,18 @@ rule RenameSmooveSamples:
 
         if [[ ! -z $normal_in ]]; then
             echo {{wildcards.donor}}-normal > {outdir}/smoove-vcf/{{wildcards.donor}}/normal-sample.txt
-            bcftools reheader \
-                -s {outdir}/smoove-vcf/{{wildcards.donor}}/normal-samples.txt \
-                -o {{output.normal}} \
+            bcftools reheader \\
+                -s {outdir}/smoove-vcf/{{wildcards.donor}}/normal-samples.txt \\
+                -o {{output.normal}} \\
                 $normal_in
         else
             touch {{output.normal}}
         fi
         if [[ ! -z $tumour_in ]]; then
             echo {{wildcards.donor}}-tumour > {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt
-            bcftools reheader \
-                -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \
-                -o {{output.tumour}} \
+            bcftools reheader \\
+                -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \\
+                -o {{output.tumour}} \\
                 $tumour_in
         else
             touch {{output.tumour}}
