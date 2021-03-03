@@ -42,7 +42,6 @@ rule RenameSmooveSamples:
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i tumour)
-        set -e
 
         if [[ ! -z $normal_in ]]; then
             gatk RenameSampleInVcf \
@@ -60,6 +59,7 @@ rule RenameSmooveSamples:
         else
             touch {{output.tumour}}
         fi
+        set -e
         """
     
 ### TODO
