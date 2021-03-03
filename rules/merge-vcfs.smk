@@ -37,7 +37,7 @@ rule RenameSmooveSamples:
             s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \
             {outdir}/smoove-vcf/{{wildcards.donor}}/
         
-        set +e
+        set +euo pipefail
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
@@ -59,7 +59,7 @@ rule RenameSmooveSamples:
         else
             touch {{output.tumour}}
         fi
-        set -e
+        set euo pipefail
         """
     
 ### TODO
