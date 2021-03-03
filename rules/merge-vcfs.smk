@@ -72,9 +72,12 @@ rule RenameMantaSamples:
             -s <(echo {{wildcards.donor}}-normal) \\
             {outdir}/manta-vcf/{{wildcards.donor}}/diploidSV.vcf.gz |
             zcat > {{output.normal}}
-        bcftools reheader \\
-            -s <(echo {{wildcards.donor}}-tumour) \\
-            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz |
+        # somaticSV doesn't genotype, I just want the region.
+        # it contains two samples, but Ill just extract the first
+        somaticSV={outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz
+        bcftools view -s $(bcftools query -l $somaticSV | head -1) $somaticSV |
+            bgzip -c | 
+            bcftools reheader -s <(echo {{wildcards.donor}}-tumour) |
             zcat > {{output.tumour}}
         """
         
