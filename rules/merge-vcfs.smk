@@ -109,7 +109,7 @@ rule SurvivorMergeVCFs:
         estimate_dist_from_SV_size=1
         min_size=50
 
-        SURVIVOR merge {outdir/vcf-list.txt} \\
+        SURVIVOR merge {outdir}/vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
             $take_type_into_account \\
