@@ -13,14 +13,7 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-               donor=donors),
-        expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
-               donor=donors),
-        expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-               donor=donors),
-        expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
-               donor=donors)
+        f'{outdir}/survivor-merged.vcf.gz'
 
 ### TODO handle if there is a missing vcf
 # this rule also checks if there are missing vcfs, and produces a dummy output
