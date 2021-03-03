@@ -44,7 +44,7 @@ rule RenameSmooveSamples:
                     grep -i tumour)
         set -e
 
-        if [[ -z $normal_in ]]; then
+        if [[ ! -z $normal_in ]]; then
             gatk RenameSampleInVcf \
                 --INPUT $normal_in \
                 --OUTPUT {{output.normal}} \\
@@ -52,7 +52,7 @@ rule RenameSmooveSamples:
         else
             touch {{output.normal}}
         fi
-        if [[ -z $tumour_in ]]; then
+        if [[ ! -z $tumour_in ]]; then
             gatk RenameSampleInVcf \
                 --INPUT $tumour_in \
                 --OUTPUT {{output.tumour}} \\
