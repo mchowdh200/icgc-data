@@ -101,8 +101,22 @@ rule SurvivorMergeVCFs:
             <(echo {{input.manta_normal}})  <(echo {{input.manta_tumour}}) |
             tr ' ' '\n' | xargs file | grep gzip | cut -d':' -f1 \\
             > {outdir}/vcf-list.txt
+        
+        max_dist_between_breakpoints=0.1 # fraction of SVLEN
+        min_support=1
+        take_type_into_account=1
+        take_strand_into_account=0
+        estimate_dist_from_SV_size=1
+        min_size=50
 
-        touch {output} # TODO dummy temp file
+        SURVIVOR merge {outdir/vcf-list.txt} \\
+            $max_dist_between_breakpoints \\
+            $min_support \\
+            $take_type_into_account \\
+            $take_strand_into_account \\
+            $estimate_dist_from_SV_size \\
+            $min_size \\
+            {{output}}
         """
 ### TODO
 # see manta snakefile for similar rule
