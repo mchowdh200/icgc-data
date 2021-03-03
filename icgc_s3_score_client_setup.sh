@@ -56,7 +56,7 @@ conda install -y -c conda-forge mamba
 # TODO just use a single env with snakemake and let it manage the conda environmnets
 # TODO also might as well just install in base env at that point.
 mamba create -y -c bioconda -n smoove smoove
-mamba create -y -c conda-forge -c bioconda -n snakemake snakemake nextflow goleft
+mamba create -y -c conda-forge -c bioconda -n snakemake snakemake nextflow goleft samtools bcftools
 conda activate snakemake
 pip install -U covviz
 conda deactivate
