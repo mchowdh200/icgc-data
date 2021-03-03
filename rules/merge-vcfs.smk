@@ -100,8 +100,8 @@ rule SurvivorMergeVCFs:
         f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
-        cat <(echo {{input.smoove_normal}}) <(echo {{input.smoove_tumour}}) \\
-            <(echo {{input.manta_normal}})  <(echo {{input.manta_tumour}}) |
+        cat <(echo {{input.smoove_normal}}) <(echo {{input.manta_normal}}) \\
+            <(echo {{input.smoove_tumour}})  <(echo {{input.manta_tumour}}) |
             tr ' ' '\n' | xargs file | grep -v empty | cut -d':' -f1 \\
             > {outdir}/vcf-list.txt
         
