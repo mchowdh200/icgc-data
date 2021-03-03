@@ -16,6 +16,10 @@ rule all:
         normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
                         donor=donors),
         tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+                        donor=donors),
+        normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+                        donor=donors),
+        tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
                         donor=donors)
 
 ### TODO handle if there is a missing vcf
