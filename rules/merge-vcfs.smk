@@ -19,12 +19,13 @@ rule all:
                         donor=donors)
 
 ### TODO handle if there is a missing vcf
-# right now the grep command is returning a non-zero if there isn't a file
-# present. Do an if statement to check if there is a missing vcf.
+# this rule also checks if there are missing vcfs, and produces a dummy output
+# using touch.  This will have to be handled down the line before SURVIVOR
+# is run.
 rule RenameSmooveSamples:
     output:
-        normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
+        normal = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
+        tumour = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
     conda:
         '../envs/gatk.yaml'
     shell:
@@ -48,12 +49,16 @@ rule RenameSmooveSamples:
                 --INPUT $normal_in \
                 --OUTPUT {{output.normal}} \\
                 --NEW_SAMPLE_NAME {{wildcards.donor}}-normal
+        else
+            touch {{output.normal}}
         fi
         if [[ -z $tumour_in ]]; then
             gatk RenameSampleInVcf \
                 --INPUT $tumour_in \
                 --OUTPUT {{output.tumour}} \\
                 --NEW_SAMPLE_NAME {{wildcards.donor}}-tumour
+        else
+            touch {{output.tumour}}
         fi
         """
     
