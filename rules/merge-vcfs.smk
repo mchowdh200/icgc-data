@@ -27,7 +27,7 @@ rule RenameSmooveSamples:
         normal = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
         tumour = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
     conda:
-        '../envs/gatk.yaml'
+        '../envs/samtools.yaml'
     shell:
         # get stored smoove vcf
         # grep for the normal/tumour vcfs
@@ -44,18 +44,22 @@ rule RenameSmooveSamples:
                     grep -i tumour | head -1)
 
         if [[ ! -z $normal_in ]]; then
-            gatk RenameSampleInVcf \
-                --INPUT $normal_in \
-                --OUTPUT {{output.normal}} \\
-                --NEW_SAMPLE_NAME {{wildcards.donor}}-normal
+            echo {{wildcards.donor}}-normal \
+                > {outdir}/smoove-vcf/{{wildcards.donor}}/normal-sample.txt
+            bcftools reheader \
+                -s {outdir}/smoove-vcf/{{wildcards.donor}}/norm-samples.txt \
+                -o {{output.normal}}
+                $normal_in
         else
             touch {{output.normal}}
         fi
         if [[ ! -z $tumour_in ]]; then
-            gatk RenameSampleInVcf \
-                --INPUT $tumour_in \
-                --OUTPUT {{output.tumour}} \\
-                --NEW_SAMPLE_NAME {{wildcards.donor}}-tumour
+            echo {{wildcards.donor}}-tumour \
+                > {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt
+            bcftools reheader \
+                -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \
+                -o {{output.normal}}
+                $tumour_in
         else
             touch {{output.tumour}}
         fi
