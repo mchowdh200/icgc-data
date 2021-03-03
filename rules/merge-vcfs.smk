@@ -47,7 +47,7 @@ rule RenameSmooveSamples:
             echo {{wildcards.donor}}-normal \
                 > {outdir}/smoove-vcf/{{wildcards.donor}}/normal-sample.txt
             bcftools reheader \
-                -s {outdir}/smoove-vcf/{{wildcards.donor}}/norm-samples.txt \
+                -s {outdir}/smoove-vcf/{{wildcards.donor}}/normal-samples.txt \
                 -o {{output.normal}} \
                 $normal_in
         else
