@@ -13,7 +13,7 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        f'{outdir}/survivor-merged.vcf.gz'
+        f'{outdir}/survivor-merged.vcf'
 
 ### TODO handle if there is a missing vcf
 # this rule also checks if there are missing vcfs, and produces a dummy output
@@ -21,8 +21,8 @@ rule all:
 # is run (use the "file" command).
 rule RenameSmooveSamples:
     output:
-        normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
+        normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
+        tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf'
     shell:
         f"""
         aws s3 cp --recursive \\
@@ -39,8 +39,8 @@ rule RenameSmooveSamples:
         if [[ ! -z $normal_in ]]; then
             bcftools reheader \\
                 -s <(echo {{wildcards.donor}}-normal) \\
-                -o {{output.normal}} \\
-                $normal_in
+                $normal_in |
+                zcat > {{output.normal}}
         else
             # dummy output if search was empty
             touch {{output.normal}} 
@@ -48,8 +48,8 @@ rule RenameSmooveSamples:
         if [[ ! -z $tumour_in ]]; then
             bcftools reheader \\
                 -s <(echo {{wildcards.donor}}-tumour) \\
-                -o {{output.tumour}} \\
-                $tumour_in
+                $tumour_in |
+                zcat > {{output.tumour}}
         else
             touch {{output.tumour}}
         fi
@@ -59,8 +59,8 @@ rule RenameSmooveSamples:
 ### TODO
 rule RenameMantaSamples:
     output:
-        normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
+        normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
+        tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf'
     shell:
         f"""
         aws s3 cp s3://layerlabcu/icgc/manta/{{wildcards.donor}}/diploidSV.vcf.gz \\
@@ -70,12 +70,12 @@ rule RenameMantaSamples:
         
         bcftools reheader \\
             -s <(echo {{wildcards.donor}}-normal) \\
-            -o {{output.normal}} \\
-            {outdir}/manta-vcf/{{wildcards.donor}}/diploidSV.vcf.gz
+            {outdir}/manta-vcf/{{wildcards.donor}}/diploidSV.vcf.gz |
+            zcat > {{output.normal}}
         bcftools reheader \\
             -s <(echo {{wildcards.donor}}-tumour) \\
-            -o {{output.tumour}} \\
-            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz
+            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz \\
+            zcat > {{output.tumour}}
         """
         
 
@@ -85,21 +85,21 @@ rule RenameMantaSamples:
 # then we can remove that from installation
 rule SurvivorMergeVCFs:
     input:
-        smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
                                donor=donors),
-        smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+        smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf',
                                donor=donors),
-        manta_normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        manta_normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
                               donor=donors),
-        manta_tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+        manta_tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf',
                               donor=donors)
     output:
-        f'{outdir}/survivor-merged.vcf.gz'
+        f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
         cat <(echo {{input.smoove_normal}}) <(echo {{input.smoove_tumour}}) \\
             <(echo {{input.manta_normal}})  <(echo {{input.manta_tumour}}) |
-            tr ' ' '\n' | xargs file | grep gzip | cut -d':' -f1 \\
+            tr ' ' '\n' | xargs file | grep -v empty | cut -d':' -f1 \\
             > {outdir}/vcf-list.txt
         
         max_dist_between_breakpoints=0.1 # fraction of SVLEN
