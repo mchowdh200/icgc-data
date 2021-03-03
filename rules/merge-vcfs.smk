@@ -96,15 +96,14 @@ rule SurvivorMergeVCFs:
     output:
         f'{outdir}/survivor-merged.vcf.gz'
     shell:
-        """
-        echo {input.smoove_normal} | tr ' ' '\n'
-        cat <<<"{input.smoove_normal}" <<<"{input.smoove_tumour}" \\
-            <<<"{input.manta_normal}"  <<<"{input.manta_tumour}" |
-            tr ' ' '\n' | wc -l
+        f"""
+        cat <(echo {{input.smoove_normal}}) <(echo {{input.smoove_tumour}}) \\
+            <(echo {{input.manta_normal}})  <(echo {{input.manta_tumour}}) |
+            tr ' ' '\n' | xargs file | grep gzip | cut -d':' -f1 \\
+            > {outdir}/vcf-list.txt
 
         touch {output} # TODO dummy temp file
         """
-
 ### TODO
 # see manta snakefile for similar rule
 # and copy the resource management method
