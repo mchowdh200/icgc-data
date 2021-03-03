@@ -89,15 +89,18 @@ rule SurvivorMergeVCFs:
                                donor=donors),
         smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
                                donor=donors),
-        manta_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+        manta_normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
                               donor=donors),
-        manta_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+        manta_tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
                               donor=donors)
     output:
         f'{outdir}/survivor-merged.vcf.gz'
     shell:
         """
-        echo {input.smoove_normal}
+        echo {input.smoove_normal} | tr ' ' '\n'
+        cat <<<"{input.smoove_normal}" <<<"{input.smoove_tumour}" \\
+            <<<"{input.manta_normal}"  <<<"{input.manta_tumour}" |
+            tr ' ' '\n' | wc -l
 
         touch {output} # TODO dummy temp file
         """
