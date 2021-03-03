@@ -50,7 +50,7 @@ rule RenameSmooveSamples:
         fi
         if [[ ! -z $tumour_in ]]; then
             bcftools reheader \\
-                -s (echo {{wildcards.donor}}-tumour) \\
+                -s <(echo {{wildcards.donor}}-tumour) \\
                 -o {{output.tumour}} \\
                 $tumour_in
         else
