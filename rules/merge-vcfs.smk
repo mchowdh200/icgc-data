@@ -58,7 +58,7 @@ rule RenameSmooveSamples:
                 > {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt
             bcftools reheader \
                 -s {outdir}/smoove-vcf/{{wildcards.donor}}/tumour-sample.txt \
-                -o {{output.normal}} \
+                -o {{output.tumour}} \
                 $tumour_in
         else
             touch {{output.tumour}}
