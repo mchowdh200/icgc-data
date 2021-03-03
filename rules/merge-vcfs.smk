@@ -21,24 +21,23 @@ rule all:
 ### TODO handle if there is a missing vcf
 # this rule also checks if there are missing vcfs, and produces a dummy output
 # using touch.  This will have to be handled down the line before SURVIVOR
-# is run.
+# is run (use the "file" command).
 rule RenameSmooveSamples:
     output:
         normal = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
         tumour = temp(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
     shell:
-        # get stored smoove vcf
-        # grep for the normal/tumour vcfs
-        # run gatk to rename samples
         f"""
         aws s3 cp --recursive \\
             s3://layerlabcu/icgc/smoove/{{wildcards.donor}}/ \\
             {outdir}/smoove-vcf/{{wildcards.donor}}/
         
+        set +e # grep returns non zero if search is empty
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i tumour | head -1)
+        set e
 
         if [[ ! -z $normal_in ]]; then
             bcftools reheader \\
@@ -46,7 +45,8 @@ rule RenameSmooveSamples:
                 -o {{output.normal}} \\
                 $normal_in
         else
-            touch {{output.normal}}
+            # dummy output if search was empty
+            touch {{output.normal}} 
         fi
         if [[ ! -z $tumour_in ]]; then
             bcftools reheader \\
@@ -58,14 +58,29 @@ rule RenameSmooveSamples:
         fi
         """
     
-### TODO
-# not for this workflow of course, but looks like there is a bioconda
-# version of manta.  Look into using that for the manta workflow
-# instead of installing with the setup script.
-rule GetMantaVCFs:
 
 ### TODO
-rule RenameMantaVCFs:
+rule RenameMantaSamples:
+    output:
+        normal = temp(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf.gz'),
+        tumour = temp(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf.gz')
+    shell:
+        f"""
+        aws s3 cp s3://layerlabcu/icgc/manta/{{wildcards.donor}}/diploidSV.vcf.gz \\
+            {outdir}/manta-vcf/{{wildcards.donor}}/diploidSV.vcf.gz
+        aws s3 cp s3://layerlabcu/icgc/manta/{{wildcards.donor}}/somaticSV.vcf.gz \\
+            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz
+        
+        bcftools reheader \\
+            -s <(echo {{wildcards.donor}}-normal) \\
+            -o {{output.normal}} \\
+            {outdir}/manta-vcf/{{wildcards.donor}}/diploidSV.vcf.gz
+        bcftools reheader \\
+            -s <(echo {{wildcards.donor}}-tumour) \\
+            -o {{output.tumour}} \\
+            {outdir}/manta-vcf/{{wildcards.donor}}/somaticSV.vcf.gz
+        """
+        
 
 ### TODO
 # try using the bioconda version of survivor.
