@@ -85,10 +85,14 @@ rule RenameMantaSamples:
 # then we can remove that from installation
 rule SurvivorMergeVCFs:
     input:
-        smoove_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        smoove_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
-        manta_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
-        manta_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz'
+        smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+                               donor=donors),
+        smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+                               donor=donors),
+        manta_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf.gz',
+                              donor=donors),
+        manta_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf.gz',
+                              donor=donors)
     output:
         f'{outdir}/survivor-merged.vcf.gz'
     shell:
