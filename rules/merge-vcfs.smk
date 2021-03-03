@@ -41,7 +41,7 @@ rule RenameSmooveSamples:
         normal_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
                     grep -i normal)
         tumour_in=$(find {outdir}/smoove-vcf/{{wildcards.donor}} -name '*.vcf.gz' |
-                    grep -i tumour)
+                    grep -i tumour | head -1)
 
         if [[ ! -z $normal_in ]]; then
             gatk RenameSampleInVcf \
@@ -59,7 +59,6 @@ rule RenameSmooveSamples:
         else
             touch {{output.tumour}}
         fi
-        set euo pipefail
         """
     
 ### TODO
