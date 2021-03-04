@@ -15,10 +15,7 @@ rule all:
     input:
         f'{outdir}/survivor-merged.vcf'
 
-### TODO handle if there is a missing vcf
-# this rule also checks if there are missing vcfs, and produces a dummy output
-# using touch.  This will have to be handled down the line before SURVIVOR
-# is run (use the "file" command).
+
 rule RenameSmooveSamples:
     output:
         normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
@@ -54,9 +51,7 @@ rule RenameSmooveSamples:
             touch {{output.tumour}}
         fi
         """
-    
 
-### TODO
 rule RenameMantaSamples:
     output:
         normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
@@ -80,39 +75,90 @@ rule RenameMantaSamples:
             bcftools reheader -s <(echo {{wildcards.donor}}-tumour) |
             zcat > {{output.tumour}}
         """
-        
 
-### TODO
-# try using the bioconda version of survivor.
-# it uses the same version that we currently have installed
-# then we can remove that from installation
-rule SurvivorMergeVCFs:
+rule SurvivorMergeByDonor:
+    ## Get merged regions by caller tumour-noral,
+    ## then merge into a single donor vcf.
     input:
-        smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
-                               donor=donors),
-        smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf',
-                               donor=donors),
-        manta_normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
-                              donor=donors),
-        manta_tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf',
-                              donor=donors)
+        smoove_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
+        smoove_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf',
+        manta_normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
+        manta_tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf'
+    output:
+        f'{outdir}/{{donor}}/{{donor}}-merged.vcf'
+    shell:
+        f"""
+        ## SURVIVOR Params
+        max_dist_between_breakpoints=0.3 # fraction of SVLEN
+        min_support=1
+        take_type_into_account=1
+        take_strand_into_account=0
+        estimate_dist_from_SV_size=1
+        min_size=50
+        
+        ## Merge the smoove tumour/normal vcfs
+        # ugh. we need to handle potential empty vcfs
+        printf "{{smoove_normal}}\n{{smoove_tumour}}\n" |
+            xargs file | grep -v empty | cut -d':' -f1 \\
+            > {outdir}/{{donor}}/smoove-vcf-list.txt
+        if [[ $(wc -l {outdir}/{{donor}}/smoove-vcf-list.txt) -eq 2 ]]; then
+            SURVIVOR merge {outdir}/{{donor}}/smoove-vcf-list.txt \\
+                $max_dist_between_breakpoints \\
+                $min_support \\
+                $take_type_into_account \\
+                $take_strand_into_account \\
+                $estimate_dist_from_SV_size \\
+                $min_size \\
+                {outdir}/{{donor}}/smoove-merged.vcf
+        else
+            cp $(head -1 {outdir}/{{outdir}}/{{donor}}/smoove-vcf-list.txt) \\
+               {outdir}/{{donor}}/smoove-merged.vcf
+        fi
+        
+        ## Merge manta tumour/normal vcfs
+        printf "{{manta_normal}}\n{{manta_tumour}}\n" \\
+            > {outdir}/{{donor}}/manta-vcf-list.txt
+        SURVIVOR merge {outdir}/{{donor}}/manta-vcf-list.txt \\
+            $max_dist_between_breakpoints \\
+            $min_support \\
+            $take_type_into_account \\
+            $take_strand_into_account \\
+            $estimate_dist_from_SV_size \\
+            $min_size \\
+            {outdir}/{{donor}}/manta-merged.vcf
+        
+        ## Merge caller-merged vcfs
+        printf "{outdir}/{{donor}}/smoove-merged.vcf\n{outdir}/{{donor}}/manta-merged.vcf\n" \\
+            > {outdir}/{{donor}}/caller-merged-vcf-list.txt
+        SURVIVOR merge {outdir}/{{donor}}/caller-merged-vcf-list.txt \\
+            $max_dist_between_breakpoints \\
+            $min_support \\
+            $take_type_into_account \\
+            $take_strand_into_account \\
+            $estimate_dist_from_SV_size \\
+            $min_size \\
+            {outdir}/{{donor}}/{{donor}}-merged.vcf
+        """
+
+rule SurvivorMergeDonors:
+    ## merge all donor vcfs
+    input:
+        expand(f'{outdir}/{{donor}}/{{donor}}-merged.vcf')
     output:
         f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
-        cat <(echo {{input.smoove_normal}}) <(echo {{input.manta_normal}}) \\
-            <(echo {{input.smoove_tumour}})  <(echo {{input.manta_tumour}}) |
-            tr ' ' '\n' | xargs file | grep -v empty | cut -d':' -f1 \\
-            > {outdir}/vcf-list.txt
-        
-        max_dist_between_breakpoints=0.2 # fraction of SVLEN
-        min_support=2
+        ## SURVIVOR params
+        max_dist_between_breakpoints=0.3 # fraction of SVLEN
+        min_support=4
         take_type_into_account=1
         take_strand_into_account=0
         estimate_dist_from_SV_size=1
         min_size=50
 
-        SURVIVOR merge {outdir}/vcf-list.txt \\
+        ## Merge all donor-vcfs
+        cat {{input}} > {outdir}/donor-vcf-list.txt
+        SURVIVOR merge {outdir}/donor-vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
             $take_type_into_account \\
