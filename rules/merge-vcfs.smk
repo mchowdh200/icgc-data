@@ -143,7 +143,7 @@ rule SurvivorMergeByDonor:
 rule SurvivorMergeDonors:
     ## merge all donor vcfs
     input:
-        expand(f'{outdir}/{{donor}}/{{donor}}-merged.vcf')
+        expand(f'{outdir}/{{donor}}/{{donor}}-merged.vcf', donor=donors)
     output:
         f'{outdir}/survivor-merged.vcf'
     shell:
