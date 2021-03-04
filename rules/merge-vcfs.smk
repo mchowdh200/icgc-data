@@ -100,37 +100,37 @@ rule SurvivorMergeByDonor:
         # ugh. we need to handle potential empty vcfs
         printf "{{input.smoove_normal}}\n{{input.smoove_tumour}}\n" |
             xargs file | grep -v empty | cut -d':' -f1 \\
-            > {outdir}/{{donor}}/smoove-vcf-list.txt
-        if [[ $(wc -l {outdir}/{{donor}}/smoove-vcf-list.txt) -eq 2 ]]; then
-            SURVIVOR merge {outdir}/{{donor}}/smoove-vcf-list.txt \\
+            > {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt
+        if [[ $(wc -l {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt) -eq 2 ]]; then
+            SURVIVOR merge {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt \\
                 $max_dist_between_breakpoints \\
                 $min_support \\
                 $take_type_into_account \\
                 $take_strand_into_account \\
                 $estimate_dist_from_SV_size \\
                 $min_size \\
-                {outdir}/{{donor}}/smoove-merged.vcf
+                {outdir}/{{wildcards.donor}}/smoove-merged.vcf
         else
-            cp $(head -1 {outdir}/{{outdir}}/{{donor}}/smoove-vcf-list.txt) \\
-               {outdir}/{{donor}}/smoove-merged.vcf
+            cp $(head -1 {outdir}/{{outdir}}/{{wildcards.donor}}/smoove-vcf-list.txt) \\
+               {outdir}/{{wildcards.donor}}/smoove-merged.vcf
         fi
         
         ## Merge manta tumour/normal vcfs
         printf "{{input.manta_normal}}\n{{input.manta_tumour}}\n" \\
-            > {outdir}/{{donor}}/manta-vcf-list.txt
-        SURVIVOR merge {outdir}/{{donor}}/manta-vcf-list.txt \\
+            > {outdir}/{{wildcards.donor}}/manta-vcf-list.txt
+        SURVIVOR merge {outdir}/{{wildcards.donor}}/manta-vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
             $take_type_into_account \\
             $take_strand_into_account \\
             $estimate_dist_from_SV_size \\
             $min_size \\
-            {outdir}/{{donor}}/manta-merged.vcf
+            {outdir}/{{wildcards.donor}}/manta-merged.vcf
         
         ## Merge caller-merged vcfs
-        printf "{outdir}/{{donor}}/smoove-merged.vcf\n{outdir}/{{donor}}/manta-merged.vcf\n" \\
-            > {outdir}/{{donor}}/caller-merged-vcf-list.txt
-        SURVIVOR merge {outdir}/{{donor}}/caller-merged-vcf-list.txt \\
+        printf "{outdir}/{{wildcards.donor}}/smoove-merged.vcf\n{outdir}/{{wildcards.donor}}/manta-merged.vcf\n" \\
+            > {outdir}/{{wildcards.donor}}/caller-merged-vcf-list.txt
+        SURVIVOR merge {outdir}/{{wildcards.donor}}/caller-merged-vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
             $take_type_into_account \\
