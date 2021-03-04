@@ -98,7 +98,7 @@ rule SurvivorMergeByDonor:
         
         ## Merge the smoove tumour/normal vcfs
         # ugh. we need to handle potential empty vcfs
-        printf "{{smoove_normal}}\n{{smoove_tumour}}\n" |
+        printf "{{input.smoove_normal}}\n{{input.smoove_tumour}}\n" |
             xargs file | grep -v empty | cut -d':' -f1 \\
             > {outdir}/{{donor}}/smoove-vcf-list.txt
         if [[ $(wc -l {outdir}/{{donor}}/smoove-vcf-list.txt) -eq 2 ]]; then
@@ -116,7 +116,7 @@ rule SurvivorMergeByDonor:
         fi
         
         ## Merge manta tumour/normal vcfs
-        printf "{{manta_normal}}\n{{manta_tumour}}\n" \\
+        printf "{{input.manta_normal}}\n{{input.manta_tumour}}\n" \\
             > {outdir}/{{donor}}/manta-vcf-list.txt
         SURVIVOR merge {outdir}/{{donor}}/manta-vcf-list.txt \\
             $max_dist_between_breakpoints \\
@@ -137,7 +137,7 @@ rule SurvivorMergeByDonor:
             $take_strand_into_account \\
             $estimate_dist_from_SV_size \\
             $min_size \\
-            {outdir}/{{donor}}/{{donor}}-merged.vcf
+            {{output}}
         """
 
 rule SurvivorMergeDonors:
