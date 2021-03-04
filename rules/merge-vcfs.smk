@@ -111,7 +111,7 @@ rule SurvivorMergeByDonor:
                 $min_size \\
                 {outdir}/{{wildcards.donor}}/smoove-merged.vcf
         else
-            cp $(head -1 {outdir}/{{outdir}}/{{wildcards.donor}}/smoove-vcf-list.txt) \\
+            cp $(head -1 {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt) \\
                {outdir}/{{wildcards.donor}}/smoove-merged.vcf
         fi
         
