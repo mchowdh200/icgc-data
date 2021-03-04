@@ -76,89 +76,33 @@ rule RenameMantaSamples:
             zcat > {{output.tumour}}
         """
 
-rule SurvivorMergeByDonor:
-    ## Get merged regions by caller tumour-noral,
-    ## then merge into a single donor vcf.
+rule SurvivorMergeVCFs:
     input:
-        smoove_normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
-        smoove_tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf',
-        manta_normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
-        manta_tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf'
-    output:
-        f'{outdir}/{{donor}}/{{donor}}-merged.vcf'
-    shell:
-        f"""
-        ## SURVIVOR Params
-        max_dist_between_breakpoints=0.3 # fraction of SVLEN
-        min_support=0
-        take_type_into_account=1
-        take_strand_into_account=0
-        estimate_dist_from_SV_size=1
-        min_size=50
-        
-        ## Merge the smoove tumour/normal vcfs
-        # ugh. we need to handle potential empty vcfs
-        printf "{{input.smoove_normal}}\n{{input.smoove_tumour}}\n" |
-            xargs file | grep -v empty | cut -d':' -f1 \\
-            > {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt
-        if [[ $(cat {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt | wc -l) -eq 2 ]]; then
-            SURVIVOR merge {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt \\
-                $max_dist_between_breakpoints \\
-                $min_support \\
-                $take_type_into_account \\
-                $take_strand_into_account \\
-                $estimate_dist_from_SV_size \\
-                $min_size \\
-                {outdir}/{{wildcards.donor}}/smoove-merged.vcf
-        else
-            cp $(head -1 {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt) \\
-               {outdir}/{{wildcards.donor}}/smoove-merged.vcf
-        fi
-        
-        ## Merge manta tumour/normal vcfs
-        printf "{{input.manta_normal}}\n{{input.manta_tumour}}\n" \\
-            > {outdir}/{{wildcards.donor}}/manta-vcf-list.txt
-        SURVIVOR merge {outdir}/{{wildcards.donor}}/manta-vcf-list.txt \\
-            $max_dist_between_breakpoints \\
-            $min_support \\
-            $take_type_into_account \\
-            $take_strand_into_account \\
-            $estimate_dist_from_SV_size \\
-            $min_size \\
-            {outdir}/{{wildcards.donor}}/manta-merged.vcf
-        
-        ## Merge caller-merged vcfs
-        printf "{outdir}/{{wildcards.donor}}/smoove-merged.vcf\n{outdir}/{{wildcards.donor}}/manta-merged.vcf\n" \\
-            > {outdir}/{{wildcards.donor}}/caller-merged-vcf-list.txt
-        SURVIVOR merge {outdir}/{{wildcards.donor}}/caller-merged-vcf-list.txt \\
-            $max_dist_between_breakpoints \\
-            $min_support \\
-            $take_type_into_account \\
-            $take_strand_into_account \\
-            $estimate_dist_from_SV_size \\
-            $min_size \\
-            {{output}}
-        """
-
-rule SurvivorMergeDonors:
-    ## merge all donor vcfs
-    input:
-        expand(f'{outdir}/{{donor}}/{{donor}}-merged.vcf', donor=donors)
+        smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
+                               donor=donors),
+        smoove_tumour = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf',
+                               donor=donors),
+        manta_normal = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
+                              donor=donors),
+        manta_tumour = expand(f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf',
+                              donor=donors)
     output:
         f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
-        ## SURVIVOR params
+        cat <(echo {{input.smoove_normal}}) <(echo {{input.manta_normal}}) \\
+            <(echo {{input.smoove_tumour}})  <(echo {{input.manta_tumour}}) |
+            tr ' ' '\n' | xargs file | grep -v empty | cut -d':' -f1 \\
+            > {outdir}/vcf-list.txt
+        
         max_dist_between_breakpoints=0.3 # fraction of SVLEN
-        min_support=2
+        min_support=4
         take_type_into_account=1
         take_strand_into_account=0
         estimate_dist_from_SV_size=1
         min_size=50
 
-        ## Merge all donor-vcfs
-        echo {{input}} | tr ' ' '\n' > {outdir}/donor-vcf-list.txt
-        SURVIVOR merge {outdir}/donor-vcf-list.txt \\
+        SURVIVOR merge {outdir}/vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
             $take_type_into_account \\
@@ -167,6 +111,7 @@ rule SurvivorMergeDonors:
             $min_size \\
             {{output}}
         """
+
 ### TODO
 # see manta snakefile for similar rule
 # and copy the resource management method
