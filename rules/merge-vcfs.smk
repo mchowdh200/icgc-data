@@ -157,7 +157,7 @@ rule SurvivorMergeDonors:
         min_size=50
 
         ## Merge all donor-vcfs
-        echo {{input}} > {outdir}/donor-vcf-list.txt
+        echo {{input}} | tr ' ' '\n' > {outdir}/donor-vcf-list.txt
         SURVIVOR merge {outdir}/donor-vcf-list.txt \\
             $max_dist_between_breakpoints \\
             $min_support \\
