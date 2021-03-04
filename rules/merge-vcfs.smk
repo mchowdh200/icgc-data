@@ -101,7 +101,7 @@ rule SurvivorMergeByDonor:
         printf "{{input.smoove_normal}}\n{{input.smoove_tumour}}\n" |
             xargs file | grep -v empty | cut -d':' -f1 \\
             > {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt
-        if [[ $(wc -l {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt) -eq 2 ]]; then
+        if [[ $(cat {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt | wc -l) -eq 2 ]]; then
             SURVIVOR merge {outdir}/{{wildcards.donor}}/smoove-vcf-list.txt \\
                 $max_dist_between_breakpoints \\
                 $min_support \\
