@@ -150,7 +150,7 @@ rule SurvivorMergeDonors:
         f"""
         ## SURVIVOR params
         max_dist_between_breakpoints=0.3 # fraction of SVLEN
-        min_support=4
+        min_support=2
         take_type_into_account=1
         take_strand_into_account=0
         estimate_dist_from_SV_size=1
