@@ -186,7 +186,7 @@ rule ReplaceReadGroups:
                               -r "SM:$sample_name" \\
                               -r "LB:$sample_name" \\
                               -@ {{threads}} \\
-                              --reference {{input.fasta}}
+                              --reference {{input.fasta}} \\
                               -O CRAM -o {{output.cram}} \\
                               {{input.bam}}
         samtools index -b -@ {{threads}} {{output.cram}}
