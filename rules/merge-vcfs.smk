@@ -5,7 +5,7 @@ max_bams = config['max_bams']
 ref_s3_path = config['ref_s3_path']
 with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
-## TODO testing purposes
+### TODO testing purposes
 donors=donors[:1]
 rule all:
     ## TODO this should be the final SVTyper sites vcf.
@@ -133,10 +133,8 @@ rule GetBam:
     input:
         manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv'
     output:
-        # bam file from score client has RG tags that don't match
-        # with samples so this is a 'pre' bam.
-        bam = temp(f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam'),
-        bai = temp(f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam.bai')
+        bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam'),
+        bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
     shell:
         f"""
         if [[ ! -d {outdir}/{{wildcards.donor}} ]]; then
@@ -144,7 +142,7 @@ rule GetBam:
         fi
 
         # wait for resources to be available
-        while [[ $(find {outdir} -name '*.bam' | wc -l) -ge {max_bams} ]]; do
+        while [[ $(find {outdir} -name '*.bam' -or -name '*.cram' | wc -l) -ge {max_bams} ]]; do
             sleep 5
         done
         
@@ -169,15 +167,18 @@ rule GetBam:
         """
 
 # we need to do this in order for the samples to match when running SVTyper :(
+# also, I'm making the output crams to save space.
 rule ReplaceReadGroups:
     threads:
-        workflow.cores # or whatever is available
+        workflow.cores
     input:
-        bam = f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam',
-        bai = f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam.bai'
+        fasta = f'{outdir}/ref/hs37d5.fa',
+        fai = f'{outdir}/ref/hs37d5.fa.fai',
+        bam = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam',
+        bai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai'
     output:
-        bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam'),
-        bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
+        cram = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram'),
+        crai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram.crai')
     shell:
         f"""
         sample_name="{{wildcards.donor}}-{{wildcards.specimen_type}}"
@@ -185,9 +186,9 @@ rule ReplaceReadGroups:
                               -r "SM:$sample_name" \\
                               -r "LB:$sample_name" \\
                               -@ {{threads}} \\
-                              -o {{output.bam}} \\
+                              -O CRAM -o {{output.cram}} \\
                               {{input.bam}}
-        samtools index -b -@ {{threads}} {{output.bam}}
+        samtools index -b -@ {{threads}} {{output.cram}}
         """
 
 ### TODO
