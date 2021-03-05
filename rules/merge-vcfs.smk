@@ -200,14 +200,18 @@ rule SmooveGenotype:
     conda:
         'envs/smoove.yaml'
     input:
-        bam = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam',
-        bai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai',
+        fasta = f'{outdir}/ref/hs37d5.fa',
+        fai = f'{outdir}/ref/hs37d5.fa.fai',
+        cram = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram',
+        crai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram.crai',
         vcf = f'{outdir}/survivor-merged.vcf'
     output:
         f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
     shell:
         f"""
-        smoove genotype -x -d -p {{threads}} -n {{wildcards.donor}}-{{wildcards.specimen_type}}
+        smoove genotype -x -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf }}\\
+            -n {{wildcards.donor}}-{{wildcards.specimen_type}} \\
+            -o {outdir}/svtyper/{{wildcards.donor}}
         """
 
 rule SmoovePasteVCFs:
