@@ -134,8 +134,8 @@ rule GetBam:
     output:
         # bam file from score client has RG tags that don't match
         # with samples so this is a 'pre' bam.
-        bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam'),
-        bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam.bai')
+        bam = temp(f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam'),
+        bai = temp(f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam.bai')
     shell:
         f"""
         if [[ ! -d {outdir}/{{donor}} ]]; then
@@ -171,8 +171,8 @@ rule ReplaceReadGroups:
     threads:
         workflow.cores # or whatever is available
     input:
-        bam = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam',
-        bai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam.bai'
+        bam = f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam',
+        bai = f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam.bai'
     output:
         bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam'),
         bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
