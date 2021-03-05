@@ -199,7 +199,7 @@ rule ReplaceReadGroups:
 ### TODO
 rule SmooveGenotype:
     threads:
-        workflow.cores - 2
+        workflow.cores - 4
     resources:
         SVTyper_instances=1
     conda:
