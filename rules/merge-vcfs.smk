@@ -150,17 +150,17 @@ rule GetBam:
         # get manifest containing just specimen type we are after
         # after the header, normal is the first entry and tumour is the second
         # the bam filename is on the fifth column of the manifest.
-        if [[ {{specimen_type}} -eq "normal" ]]; then
-           sed '3d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
+        if [[ {{wildcards.specimen_type}} -eq "normal" ]]; then
+           sed '3d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
         else
-           sed '2d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
+           sed '2d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
         fi
-        bam_fname={outdir}/{{wildcards.donor}}/$(tail -1 {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv | cut -f5)
+        bam_fname={outdir}/{{wildcards.donor}}/$(tail -1 {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv | cut -f5)
         
         score-client download \\
             --validate false \\
             --output-dir {outdir}/{{wildcards.donor}} \\
-            --manifest {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
+            --manifest {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
         
         mv $bam_fname {{output.bam}}
         mv $bam_fname.bai {{output.bai}}
@@ -178,7 +178,7 @@ rule ReplaceReadGroups:
         bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
     shell:
         f"""
-        sample_name="{{wildcards.donor}}-{{specimen_type}}"
+        sample_name="{{wildcards.donor}}-{{wildcards.specimen_type}}"
         RG_string=$(printf "@RG\tID:$sample_name\tPU:$sample_name\tSM:$sample_name\tPL:$sample_name\tLB:$sample_name")
         samtools addreplacerg -r $RG_string \\
                               -@ {{threads}} \\
