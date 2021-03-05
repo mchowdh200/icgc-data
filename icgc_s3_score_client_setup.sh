@@ -96,12 +96,12 @@ echo 'PATH=$PATH:~/icgc-data/score-client/bin' >> ~/.profile
 
 ### install manta
 ################################################################################
-wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.centos6_x86_64.tar.bz2
-tar -xjvf manta-1.6.0.centos6_x86_64.tar.bz2 -C /mnt/local && 
-    mv /mnt/manta-1.6.0.centos6_x86_64 /mnt/local/manta/
+wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.centos6_x86_64.tar.bz2 -O /mnt/local/manta.tar.bz2
+tar -xjvf /mnt/local/manta.tar.bz2  && 
+    mv manta-1.6.0.centos6_x86_64 /mnt/local/manta/
 
 ### install SURVIVOR
-git clone https://github.com/fritzsedlazeck/SURVIVOR.git /mnt/local
+git clone https://github.com/fritzsedlazeck/SURVIVOR.git /mnt/local/SURVIVOR
 cd /mnt/local/SURVIVOR/Debug
 make
-cp /mnt/local/SURVIVOR-1.0.7/Debug/SURVIVOR /mnt/local/bin
+cp /mnt/local/SURVIVOR/Debug/SURVIVOR /mnt/local/bin
