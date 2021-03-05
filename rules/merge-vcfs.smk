@@ -82,7 +82,6 @@ rule RenameMantaSamples:
         """
 
 rule SurvivorMergeVCFs:
-    priority:1
     threads:
         1
     input:
@@ -132,7 +131,7 @@ rule GetReference:
 
 rule GetBam:
     threads:
-        4
+        2
     resources:
         num_downloads = 1
     input:
