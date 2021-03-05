@@ -6,7 +6,7 @@ ref_s3_path = config['ref_s3_path']
 with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
 ### TODO testing purposes
-donors=donors[:1]
+donors=donors[:2]
 rule all:
     ## TODO this should be the final SVTyper sites vcf.
     # input:
@@ -207,12 +207,23 @@ rule SmooveGenotype:
         crai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram.crai',
         vcf = f'{outdir}/survivor-merged.vcf'
     output:
-        f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
+        f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
     shell:
         f"""
         smoove genotype -x -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf }}\\
             -n {{wildcards.donor}}-{{wildcards.specimen_type}} \\
-            -o {outdir}/svtyper/{{wildcards.donor}}
+            -o {outdir}/svtyper-vcf/
         """
 
 rule SmoovePasteVCFs:
+    conda:
+        'envs/smoove.yaml'
+    input:
+        expand(f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz',
+               donor=donors, specimen_type=['normal', 'tumour'])
+    output:
+        f'{outdir}/sites.smoove.square.vcf.gz'
+    shell:
+        f"""
+        smoove paste --name sites {outdir}/svtyper-vcf/*.vcf.gz
+        """
