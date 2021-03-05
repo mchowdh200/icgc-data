@@ -1,6 +1,8 @@
 
 outdir = config['outdir']
 manifest_dir = config['manifest_dir']
+max_bams = config['max_bams']
+ref_s3_path = config['ref_s3_path']
 with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
 
@@ -112,16 +114,95 @@ rule SurvivorMergeVCFs:
             {{output}}
         """
 
-### TODO
-# see manta snakefile for similar rule
-# and copy the resource management method
-rule GetBams:
+rule GetReference:
+    output:
+        fasta = temp(f'{outdir}/ref/hs37d5.fa'),
+        fai = temp(f'{outdir}/ref/hs37d5.fa.fai'),
+    shell:
+        f"""
+        aws s3 cp {ref_s3_path} {{output.fasta}}
+        aws s3 cp {ref_s3_path}.fai {{output.fai}}
+        """
+
+rule GetBam:
+    resources:
+        num_downloads = 1
+    input:
+        manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv'
+    output:
+        # bam file from score client has RG tags that don't match
+        # with samples so this is a 'pre' bam.
+        bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam'),
+        bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam.bai')
+    shell:
+        f"""
+        if [[ ! -d {outdir}/{{donor}} ]]; then
+            mkdir {outdir}/{{donor}}
+        fi
+
+        # wait for resources to be available
+        while [[ $(find {outdir} -name '*.bam' | wc -l) -ge {max_bams} ]]; do
+            sleep 5
+        done
+        
+        # get manifest containing just specimen type we are after
+        # after the header, normal is the first entry and tumour is the second
+        # the bam filename is on the fifth column of the manifest.
+        if [[ {{specimen_type}} -eq "normal" ]]; then
+           sed '3d' {{input.manifest}} > {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+        else
+           sed '2d' {{input.manifest}} > {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+        fi
+        bam_fname={outdir}/{{donor}}/$(tail -1 {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv | cut -f5)
+        
+        score-client download \\
+            --validate false \\
+            --output-dir {outdir}/{{donor}} \\
+            --manifest {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+        
+        mv $bam_fname {{output.bam}}
+        mv $bam_fname.bai {{output.bai}}
+        """
+
+# we need to do this in order for the samples to match when running SVTyper :(
+rule ReplaceReadGroups:
+    threads:
+        workflow.cores # or whatever is available
+    input:
+        bam = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam',
+        bai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}-pre.bam.bai'
+    output:
+        bam = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam'),
+        bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
+    shell:
+        f"""
+        sample_name="{{donor}}-{{specimen_type}}"
+        RG_string=$(printf "@RG\tID:$sample_name\tPU:$sample_name\tSM:$sample_name\tPL:$sample_name\tLB:$sample_name")
+        samtools addreplacerg -r $RG_string \\
+                              -@ {{threads}} \\
+                              --write-index \\
+                              -o {{output.bam}}##idx##{{output.bai}} \\
+                              {{input.bam}}
+        """
 
 ### TODO
-# can use as many cores as we need.
 rule SmooveGenotype:
+    threads:
+        workflow.cores
+    resources:
+        SVTyper_instances=1
+    conda:
+        'envs/smoove.yaml'
+    input:
+        bam = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam',
+        bai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai',
+        vcf = f'{outdir}/survivor-merged.vcf'
+    output:
+        f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
+    shell:
+        f"""
+        smoove genotype -x -d -p {{threads}} -n {{donor}}-{{specimen_type}}
+        """
 
 ### TODO
 rule SmoovePasteVCFs:
-
-
