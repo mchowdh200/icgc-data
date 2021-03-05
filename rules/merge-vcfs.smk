@@ -150,7 +150,8 @@ rule GetBam:
         # get manifest containing just specimen type we are after
         # after the header, normal is the first entry and tumour is the second
         # the bam filename is on the fifth column of the manifest.
-        if [[ {{wildcards.specimen_type}} -eq "normal" ]]; then
+        specimen_type="{{wildcards.specimen_type}}""
+        if [[ $specimen_type -eq "normal" ]]; then
            sed '3d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
         else
            sed '2d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
