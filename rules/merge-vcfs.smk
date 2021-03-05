@@ -9,16 +9,12 @@ with open(config['donor_list']) as f:
 donors=donors[:2]
 rule all:
     ## TODO this should be the final SVTyper sites vcf.
-    # input:
-    #     f'{outdir}/sites-SVTyper.vcf.gz'
+    input:
+        f'{outdir}/sites.smoove.square.vcf.gz'
     # shell:
     #     """
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
-    input:
-        # f'{outdir}/survivor-merged.vcf'
-        expand(f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz',
-               donor=donors, specimen_type=['normal', 'tumour'])
 
 
 rule RenameSmooveSamples:
