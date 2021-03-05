@@ -216,7 +216,8 @@ rule SmooveGenotype:
         f"""
         smoove genotype -x -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf}}\\
             -n {{wildcards.donor}}-{{wildcards.specimen_type}} \\
-            -o {outdir}/svtyper-vcf/
+            -o {outdir}/svtyper-vcf/ \\
+            {{input.cram}}
         """
 
 rule SmoovePasteVCFs:
