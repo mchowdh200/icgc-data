@@ -5,7 +5,8 @@ max_bams = config['max_bams']
 ref_s3_path = config['ref_s3_path']
 with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
-
+## TODO testing purposes
+donors=donors[:1]
 rule all:
     ## TODO this should be the final SVTyper sites vcf.
     # input:
@@ -151,7 +152,7 @@ rule GetBam:
         # after the header, normal is the first entry and tumour is the second
         # the bam filename is on the fifth column of the manifest.
         specimen_type="{{wildcards.specimen_type}}"
-        if [[ $specimen_type -eq "normal" ]]; then
+        if [[ $specimen_type == "normal" ]]; then
            sed '3d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
         else
            sed '2d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{wildcards.specimen_type}}.tsv
@@ -183,9 +184,9 @@ rule ReplaceReadGroups:
         RG_string=$(printf "@RG\tID:$sample_name\tPU:$sample_name\tSM:$sample_name\tPL:$sample_name\tLB:$sample_name")
         samtools addreplacerg -r $RG_string \\
                               -@ {{threads}} \\
-                              --write-index \\
-                              -o {{output.bam}}##idx##{{output.bai}} \\
+                              -o {{output.bam}} \\
                               {{input.bam}}
+        samtools index -b -@ {{threads}} {{output.bam}}
         """
 
 ### TODO
