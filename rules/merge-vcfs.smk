@@ -174,7 +174,7 @@ rule GetBam:
 # also, I'm making the output crams to save space.
 rule ReplaceReadGroups:
     threads:
-        workflow.cores
+        workflow.cores - 2
     input:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
@@ -199,7 +199,7 @@ rule ReplaceReadGroups:
 ### TODO
 rule SmooveGenotype:
     threads:
-        workflow.cores
+        workflow.cores - 2
     resources:
         SVTyper_instances=1
     conda:
