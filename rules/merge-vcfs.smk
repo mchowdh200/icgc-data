@@ -138,8 +138,8 @@ rule GetBam:
         bai = temp(f'{outdir}/{{donor}}/pre-{{donor}}-{{specimen_type}}.bam.bai')
     shell:
         f"""
-        if [[ ! -d {outdir}/{{donor}} ]]; then
-            mkdir {outdir}/{{donor}}
+        if [[ ! -d {outdir}/{{wildcards.donor}} ]]; then
+            mkdir {outdir}/{{wildcards.donor}}
         fi
 
         # wait for resources to be available
@@ -151,16 +151,16 @@ rule GetBam:
         # after the header, normal is the first entry and tumour is the second
         # the bam filename is on the fifth column of the manifest.
         if [[ {{specimen_type}} -eq "normal" ]]; then
-           sed '3d' {{input.manifest}} > {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+           sed '3d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
         else
-           sed '2d' {{input.manifest}} > {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+           sed '2d' {{input.manifest}} > {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
         fi
-        bam_fname={outdir}/{{donor}}/$(tail -1 {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv | cut -f5)
+        bam_fname={outdir}/{{wildcards.donor}}/$(tail -1 {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv | cut -f5)
         
         score-client download \\
             --validate false \\
-            --output-dir {outdir}/{{donor}} \\
-            --manifest {outdir}/{{donor}}/{{donor}}-{{specimen_type}}.tsv
+            --output-dir {outdir}/{{wildcards.donor}} \\
+            --manifest {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-{{specimen_type}}.tsv
         
         mv $bam_fname {{output.bam}}
         mv $bam_fname.bai {{output.bai}}
@@ -178,7 +178,7 @@ rule ReplaceReadGroups:
         bai = temp(f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.bam.bai')
     shell:
         f"""
-        sample_name="{{donor}}-{{specimen_type}}"
+        sample_name="{{wildcards.donor}}-{{specimen_type}}"
         RG_string=$(printf "@RG\tID:$sample_name\tPU:$sample_name\tSM:$sample_name\tPL:$sample_name\tLB:$sample_name")
         samtools addreplacerg -r $RG_string \\
                               -@ {{threads}} \\
@@ -203,8 +203,7 @@ rule SmooveGenotype:
         f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
     shell:
         f"""
-        smoove genotype -x -d -p {{threads}} -n {{donor}}-{{specimen_type}}
+        smoove genotype -x -d -p {{threads}} -n {{wildcards.donor}}-{{wildcards.specimen_type}}
         """
 
-### TODO
 rule SmoovePasteVCFs:
