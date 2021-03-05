@@ -181,8 +181,9 @@ rule ReplaceReadGroups:
     shell:
         f"""
         sample_name="{{wildcards.donor}}-{{wildcards.specimen_type}}"
-        RG_string=$(printf "@RG\tID:$sample_name\tPU:$sample_name\tSM:$sample_name\tPL:$sample_name\tLB:$sample_name")
-        samtools addreplacerg -r $RG_string \\
+        samtools addreplacerg -r "ID:$sample_name" \\
+                              -r "SM:$sample_name" \\
+                              -r "LB:$sample_name" \\
                               -@ {{threads}} \\
                               -o {{output.bam}} \\
                               {{input.bam}}
