@@ -18,6 +18,8 @@ rule all:
 
 
 rule RenameSmooveSamples:
+    threads:
+        1
     output:
         normal = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
         tumour = f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.tumour.vcf'
@@ -54,6 +56,8 @@ rule RenameSmooveSamples:
         """
 
 rule RenameMantaSamples:
+    threads:
+        1
     output:
         normal = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.normal.vcf',
         tumour = f'{outdir}/manta-vcf/{{donor}}/{{donor}}.tumour.vcf'
@@ -78,6 +82,8 @@ rule RenameMantaSamples:
         """
 
 rule SurvivorMergeVCFs:
+    threads:
+        1
     input:
         smoove_normal = expand(f'{outdir}/smoove-vcf/{{donor}}/{{donor}}.normal.vcf',
                                donor=donors),
@@ -124,6 +130,8 @@ rule GetReference:
         """
 
 rule GetBam:
+    threads:
+        4
     resources:
         num_downloads = 1
     input:
