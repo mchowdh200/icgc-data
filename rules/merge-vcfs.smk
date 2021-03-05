@@ -15,7 +15,9 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        f'{outdir}/survivor-merged.vcf'
+        # f'{outdir}/survivor-merged.vcf'
+        expand(f'{outdir}/svtyper-vcf/{{donor}}/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz',
+               donor=donors, specimen_type=['normal', 'tumour'])
 
 
 rule RenameSmooveSamples:
