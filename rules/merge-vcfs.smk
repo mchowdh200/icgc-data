@@ -174,7 +174,7 @@ rule GetBam:
 # also, I'm making the output crams to save space.
 rule ReplaceReadGroups:
     threads:
-        workflow.cores - 2
+        10 # from testing, it seems to max out at around 10
     input:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
@@ -214,7 +214,7 @@ rule SmooveGenotype:
         f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
     shell:
         f"""
-        smoove genotype -x -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf }}\\
+        smoove genotype -x -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf}}\\
             -n {{wildcards.donor}}-{{wildcards.specimen_type}} \\
             -o {outdir}/svtyper-vcf/
         """
