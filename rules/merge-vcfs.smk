@@ -82,6 +82,7 @@ rule RenameMantaSamples:
         """
 
 rule SurvivorMergeVCFs:
+    priority:1
     threads:
         1
     input:
