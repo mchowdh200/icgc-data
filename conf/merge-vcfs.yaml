@@ -2,4 +2,4 @@ outdir: "/mnt/local/data"
 manifest_dir: "/home/ubuntu/icgc-data/tumour-normal-manifests"
 donor_list: "/home/ubuntu/icgc-data/data_listings/donor_list.txt"
 ref_s3_path: "s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa"
-max_bams: 4
+max_bams: 6
