@@ -224,7 +224,7 @@ rule SmoovePasteVCFs:
     conda:
         'envs/smoove.yaml'
     input:
-        expand(f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz',
+        expand(f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove.genotyped.vcf.gz',
                donor=donors, specimen_type=['normal', 'tumour'])
     output:
         f'{outdir}/sites.smoove.square.vcf.gz'
