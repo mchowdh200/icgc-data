@@ -214,7 +214,7 @@ rule SmooveGenotype:
         f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove.genotyped.vcf.gz'
     shell:
         f"""
-        smoove genotype -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf}}\\
+        smoove genotype -p {{threads}} -f {{input.fasta}} -v {{input.vcf}}\\
             -n {{wildcards.donor}}-{{wildcards.specimen_type}} \\
             -o {outdir}/svtyper-vcf/ \\
             {{input.cram}}
