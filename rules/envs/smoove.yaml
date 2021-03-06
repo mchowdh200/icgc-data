@@ -2,5 +2,6 @@ channels:
   - bioconda
 dependencies:
   - smoove
+  - pip
   - pip:
       - "git+https://github.com/https://github.com/mchowdh200/svtyper.git"
