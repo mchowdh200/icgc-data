@@ -211,7 +211,7 @@ rule SmooveGenotype:
         crai = f'{outdir}/{{donor}}/{{donor}}-{{specimen_type}}.cram.crai',
         vcf = f'{outdir}/survivor-merged.vcf'
     output:
-        f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove-genotyped.vcf.gz'
+        f'{outdir}/svtyper-vcf/{{donor}}-{{specimen_type}}-smoove.genotyped.vcf.gz'
     shell:
         f"""
         smoove genotype -d -p {{threads}} -f {{input.fasta}} -v {{input.vcf}}\\
