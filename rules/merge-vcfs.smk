@@ -230,5 +230,5 @@ rule SmoovePasteVCFs:
         f'{outdir}/sites.smoove.square.vcf.gz'
     shell:
         f"""
-        smoove paste --name sites {outdir}/svtyper-vcf/*.vcf.gz
+        smoove paste -o {outdir} --name sites {outdir}/svtyper-vcf/*.vcf.gz
         """
