@@ -8,6 +8,7 @@ with open(config['donor_list']) as f:
     donors_all = [x.rstrip() for x in f.readlines()]
 
 ### TODO Donor list part for SVTyper
+part = config['donor_list_part'][-1]
 with open(config['donor_list_part']) as f:
     donors_part = [x.rstrip() for x in f.readlines()]
 
@@ -21,9 +22,14 @@ rule all:
     #     aws s3 cp {input} s3://layerlabcu/icgc/
     #     """
     input:
-        expand(f'{outdir}/svtyper-vcf/{{donor_part}}-{{specimen_type}}-smoove.genotyped.vcf.gz',
-               donor_part=donors_part, specimen_type=['normal', 'tumour']),
-        f'{outdir}/survivor-merged.vcf'
+        svtyper = expand(f'{outdir}/svtyper-vcf/{{donor_part}}-{{specimen_type}}-smoove.genotyped.vcf.gz',
+                        donor_part=donors_part, specimen_type=['normal', 'tumour']),
+        survivor = f'{outdir}/survivor-merged.vcf'
+    shell:
+        f"""
+        aws s3 cp --recursive {outdir}/svtyper-vcf/  s3://layerlabcu/icgc/svtyper/part{part}/
+        aws s3 cp {outdir}/survivor-merged.vcf s3://layerlabcu/icgc/SURVIVOR/
+        """
     
 
 rule RenameSmooveSamples:
@@ -140,7 +146,7 @@ rule GetReference:
 
 rule GetBam:
     threads:
-        max(workflow.cores//12, 1)
+        max(workflow.cores//6, 1)
     resources:
         num_downloads = 1
     input:
@@ -183,7 +189,7 @@ rule GetBam:
 # also, I'm making the output crams to save space.
 rule ReplaceReadGroups:
     threads:
-        max(workflow.cores//6, 1)
+        max(workflow.cores//4, 1)
     input:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
