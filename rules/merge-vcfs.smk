@@ -25,12 +25,7 @@ rule all:
         svtyper = expand(f'{outdir}/svtyper-vcf/{{donor_part}}-{{specimen_type}}-smoove.genotyped.vcf.gz',
                         donor_part=donors_part, specimen_type=['normal', 'tumour']),
         survivor = f'{outdir}/survivor-merged.vcf'
-    shell:
-        f"""
-        aws s3 cp --recursive {outdir}/svtyper-vcf/  s3://layerlabcu/icgc/svtyper/part{part}/
-        aws s3 cp {outdir}/survivor-merged.vcf s3://layerlabcu/icgc/SURVIVOR/
-        """
-    
+   
 
 rule RenameSmooveSamples:
     threads:
@@ -132,6 +127,7 @@ rule SurvivorMergeVCFs:
             $estimate_dist_from_SV_size \\
             $min_size \\
             {{output}}
+        aws s3 cp {{output}} s3://layerlabcu/icgc/SURVIVOR/
         """
 
 rule GetReference:
@@ -233,6 +229,7 @@ rule SmooveGenotype:
             -n {{wildcards.donor_part}}-{{wildcards.specimen_type}} \\
             -o {outdir}/svtyper-vcf/ \\
             {{input.cram}}
+        aws s3 cp {{output}} s3://layerlabcu/icgc/svtyper/$(basename {{output}})
         """
 
 ### This is so fast I'll just do it manually later.
