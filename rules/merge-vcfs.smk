@@ -4,8 +4,8 @@ max_bams = config['max_bams']
 ref_s3_path = config['ref_s3_path']
 with open(config['donor_list']) as f:
     donors = [x.rstrip() for x in f.readlines()]
-### TODO testing purposes
-donors=donors[:2]
+
+
 rule all:
     ## TODO this should be the final SVTyper sites vcf.
     input:
