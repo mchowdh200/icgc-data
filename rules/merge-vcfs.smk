@@ -1,4 +1,3 @@
-
 outdir = config['outdir']
 manifest_dir = config['manifest_dir']
 max_bams = config['max_bams']
@@ -131,7 +130,7 @@ rule GetReference:
 
 rule GetBam:
     threads:
-        2
+        max(workflow.cores//12, 1)
     resources:
         num_downloads = 1
     input:
@@ -174,7 +173,7 @@ rule GetBam:
 # also, I'm making the output crams to save space.
 rule ReplaceReadGroups:
     threads:
-        10 # from testing, it seems to max out at around 10
+        max(workflow.cores//6, 1)
     input:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
@@ -199,7 +198,7 @@ rule ReplaceReadGroups:
 ### TODO
 rule SmooveGenotype:
     threads:
-        10
+        max(workflow.cores//3, 1)
     resources:
         SVTyper_instances=1
     conda:
