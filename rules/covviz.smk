@@ -64,8 +64,8 @@ rule GetReference:
 if get_from_s3:
     rule S3GetBamIndex:
         output:
-            normal = f'{outdir}/indices/{donor}-normal.bam.bai',
-            tumour = f'{outdir}/indices/{donor}-tumour.bam.bai'
+            normal = f'{outdir}/indices/{{donor}}-normal.bam.bai',
+            tumour = f'{outdir}/indices/{{donor}}-tumour.bam.bai'
         shell:
             """
             aws s3 cp s3://layerlabcu/icgc/bam_indices/$(basename {output.normal}) \
