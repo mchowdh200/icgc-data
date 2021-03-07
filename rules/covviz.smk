@@ -12,7 +12,7 @@ rule all:
 
 rule RunCovviz:
     input:
-        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bam.bai',
+        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
                      specimen_type=['normal', 'tumour'], donor=donors),
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai'
@@ -31,7 +31,7 @@ rule RunCovviz:
 
 rule RunCovvizPairwise:
     input:
-        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bam.bai',
+        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
                      specimen_type=['normal', 'tumour'], donor='{donor}'),
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai'
@@ -41,7 +41,7 @@ rule RunCovvizPairwise:
         f"""
         nextflow run brwnj/covviz -latest \\
             -w /mnt/local \\
-            --indexes '{outdir}/indices/{{wildcards.donor}}-*.bam.bai' \\
+            --indexes '{outdir}/indices/{{wildcards.donor}}-*.bai' \\
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
