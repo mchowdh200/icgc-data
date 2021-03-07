@@ -86,7 +86,7 @@ else:
         input:
             expand(f'{manifest_dir}/{{donor}}-tumour-normal.tsv', donor=donors)
         output:
-            combined_manifest = temp(f'{outdir}/combined-manifest.tsv')
+            combined_manifest = f'{outdir}/combined-manifest.tsv'
         run:
             # get top line of a manifest
             with open(input[0]) as manifest:
