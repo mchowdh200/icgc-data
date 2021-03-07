@@ -44,7 +44,7 @@ rule RunCovvizPairwise:
     shell:
         f"""
         nextflow run brwnj/covviz -latest \\
-            --indexes {outdir}/indices/{{wildcards.donor}}-*.bam.bai \\
+            --indexes '{outdir}/indices/{{wildcards.donor}}-*.bam.bai' \\
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
