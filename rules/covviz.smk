@@ -47,7 +47,7 @@ rule RunCovvizPairwise:
             --indexes {{input.bai}} \\
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
-        aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}
+        aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
         """
         
 
