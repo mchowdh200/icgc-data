@@ -138,7 +138,9 @@ else:
             tumour_bam=$(sed '3q;d' {{input.manifest}} | cut -f5)
             normal_bai=$(find {outdir}/temp -name '*.bai' | grep $normal_bam)
             tumour_bai=$(find {outdir}/temp -name '*.bai' | grep $tumour_bam)
+            sleep 1s
             cp --no-preserve=mode $normal_bai {{output.normal}}
+            sleep 1s
             cp --no-preserve=mode $tumour_bai {{output.tumour}}
 
             aws s3 cp {{output.normal}} s3://layerlabcu/icgc/bam_indices/
