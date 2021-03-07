@@ -36,7 +36,7 @@ rule RunCovviz:
 rule RunCovvizPairwise:
     input:
         bai = expand(f'{outdir}/{{specimen_type}}/{{donor}}-{{specimen_type}}.bam.bai',
-                     specimen_type=['normal', 'tumour']),
+                     specimen_type=['normal', 'tumour'], donor='{{donor}}'),
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai'
     output:
