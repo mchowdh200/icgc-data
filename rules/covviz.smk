@@ -123,6 +123,8 @@ else:
 
             
     rule ScoreClientGetBamIndex:
+        threads:
+            workflow.cores # i don't want to overwhelm the FUSE filesystem.
         input:
             manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
             receipt = f'{outdir}/mounted-successfully.out',
