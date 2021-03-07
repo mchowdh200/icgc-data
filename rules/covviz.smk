@@ -113,7 +113,6 @@ else:
             fi
 
             score-client mount --daemonize \\
-            
                 --mount-point {outdir}/temp \\
                 --manifest {{input}} 
             sleep 30s # give time for the directory to be mounted
