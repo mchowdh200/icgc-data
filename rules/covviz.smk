@@ -119,23 +119,17 @@ else:
             touch {{output}}
             """
 
-    rule CreateOutdirs:
-        output:
-            normal = directory(f'{outdir}/indices'),
-        shell:
-            """
-            [[ ! -d {output} ]] && mkdir {output}
-            """
             
     rule ScoreClientGetBamIndex:
         input:
             manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
             receipt = f'{outdir}/mounted-successfully.out',
         output:
-            normal = f'{outdir}/{{donor}}-normal.bai',
-            tumour = f'{outdir}/{{donor}}-tumour.bai'
+            normal = f'{outdir}/indices/{{donor}}-normal.bai',
+            tumour = f'{outdir}/indices/{{donor}}-tumour.bai'
         shell:
             f"""
+            [[ ! -d {outdir}/indices ]] && mkdir {outdir}/indices
             normal_bam=$(sed '2q;d' {{input.manifest}} | cut -f5)
             tumour_bam=$(sed '3q;d' {{input.manifest}} | cut -f5)
             normal_bai=$(find {outdir}/temp -name '*.bai' | grep $normal_bam)
