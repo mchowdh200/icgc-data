@@ -112,8 +112,9 @@ else:
                 exit 0
             fi
 
-            score-client mount --daemonize \
-                --mount-point {outdir}/temp \
+            score-client mount --daemonize \\
+            
+                --mount-point {outdir}/temp \\
                 --manifest {{input}} 
             sleep 30s # give time for the directory to be mounted
             touch {{output}}
@@ -129,7 +130,9 @@ else:
             tumour = f'{outdir}/indices/{{donor}}-tumour.bai'
         shell:
             f"""
-            [[ ! -d {outdir}/indices ]] && mkdir {outdir}/indices
+            if [[ ! -d {outdir}/indices ]]; then
+                mkdir {outdir}/indices
+            fi
             normal_bam=$(sed '2q;d' {{input.manifest}} | cut -f5)
             tumour_bam=$(sed '3q;d' {{input.manifest}} | cut -f5)
             normal_bai=$(find {outdir}/temp -name '*.bai' | grep $normal_bam)
