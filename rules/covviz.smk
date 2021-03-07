@@ -82,9 +82,9 @@ else:
     ## TODO update directory structure if I need to redownload
     rule CombineManifests:
         input:
-            expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors)
+            expand(f'{manifest_dir}/{{donor}}-tumour-normal.tsv', donor=donors)
         output:
-            combined_manifest = temp(outdir+'/combined-manifest.tsv')
+            combined_manifest = temp(f'{outdir}/combined-manifest.tsv')
         run:
             # get top line of a manifest
             with open(input[0]) as manifest:
@@ -136,8 +136,8 @@ else:
             normal_dir = f'{outdir}/normal',
             tumour_dir = f'{outdir}/tumour'
         output:
-            normal = f'{outdir}/normal/{{donor}}-normal.bai',
-            tumour = f'{outdir}/tumour/{{donor}}-tumour.bai'
+            normal = f'{outdir}/{{donor}}-normal.bai',
+            tumour = f'{outdir}/{{donor}}-tumour.bai'
         shell:
             f"""
             normal_bam=$(sed '2q;d' {{input.manifest}} | cut -f5)
