@@ -133,8 +133,8 @@ else:
         input:
             manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
             receipt = f'{outdir}/mounted-successfully.out',
-            normal_dir = directory(f'{outdir}/normal'),
-            tumour_dir = directory(f'{outdir}/tumour')
+            normal_dir = f'{outdir}/normal',
+            tumour_dir = f'{outdir}/tumour'
         output:
             normal = f'{outdir}/normal/{{donor}}-normal.bai',
             tumour = f'{outdir}/tumour/{{donor}}-tumour.bai'
