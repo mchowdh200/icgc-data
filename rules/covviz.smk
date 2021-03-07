@@ -121,20 +121,16 @@ else:
 
     rule CreateOutdirs:
         output:
-            normal = directory(f'{outdir}/normal'),
-            tumour = directory(f'{outdir}/tumour')
+            normal = directory(f'{outdir}/indices'),
         shell:
             """
-            [[ ! -d {output.normal} ]] && mkdir {output.normal}
-            [[ ! -d {output.tumour} ]] && mkdir {output.tumour}
+            [[ ! -d {output} ]] && mkdir {output}
             """
             
     rule ScoreClientGetBamIndex:
         input:
             manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
             receipt = f'{outdir}/mounted-successfully.out',
-            normal_dir = f'{outdir}/normal',
-            tumour_dir = f'{outdir}/tumour'
         output:
             normal = f'{outdir}/{{donor}}-normal.bai',
             tumour = f'{outdir}/{{donor}}-tumour.bai'
