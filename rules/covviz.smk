@@ -11,27 +11,22 @@ rule all:
         expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
 
 rule RunCovviz:
-    ## TODO just combine into one report
-    threads:
-        workflow.cores
     input:
-        bai = expand(outdir+'/indices/{donor}-{specimen_type}.bam.bai',
+        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bam.bai',
                      specimen_type=['normal', 'tumour'], donor=donors),
-        fasta = outdir+'/ref/hs37d5.fa',
-        fai = outdir+'/ref/hs37d5.fa.fai'
-    params:
-        outdir = outdir,
-        baidir = outdir+'/*/*.bai',
+        fasta = f'{outdir}/ref/hs37d5.fa',
+        fai = f'{outdir}/ref/hs37d5.fa.fai'
     output:
-        outdir+'/covviz_report.html'
+        f'{outdir}/covviz_report.html'
     shell:
-        """
+        f"""
         nextflow run brwnj/covviz -latest \
             -w /mnt/local \\
-            --indexes '{params.baidir}' \
-            --fai {input.fai} \
-            --outdir {params.outdir}
-        aws s3 cp {output} s3://layerlabcu/icgc/covviz/
+            --indexes '{outdir}/indices/*.bai' \
+            --fai {{input.fai}} \
+            --outdir {outdir}
+        aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/
+        aws s3 cp {{output}} s3://icgc-vis/
         """
 
 rule RunCovvizPairwise:
@@ -50,9 +45,20 @@ rule RunCovvizPairwise:
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
+        aws s3 cp {{output}} s3://icgc-vis/{{wildcards.donor}}
         """
 
-
+rule GetAnnotationRegions:
+    output:
+        svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
+        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
+        LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
+        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
+    shell:
+        f"""
+        aws s3 cp --recursive s3://layerlabcu/icgc/misc_annotations/ {outdir}/annotations/
+        """
+    
 rule GetReference:
     output:
         fasta = outdir+'/ref/hs37d5.fa',
@@ -66,14 +72,11 @@ rule GetReference:
 if get_from_s3:
     rule S3GetBamIndex:
         output:
-            normal = f'{outdir}/indices/{{donor}}-normal.bam.bai',
-            tumour = f'{outdir}/indices/{{donor}}-tumour.bam.bai'
+            expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
+                   donor=donors, specimen_type=['normal', 'tumour']),
         shell:
-            """
-            aws s3 cp s3://layerlabcu/icgc/bam_indices/$(basename {output.normal}) \
-                {output.normal}
-            aws s3 cp s3://layerlabcu/icgc/bam_indices/$(basename {output.tumour}) \
-                {output.tumour}
+            f"""
+            aws s3 cp --recursive s3://layerlabcu/icgc/bam_indices/ {outdir}/indices/
             """
 else:
     ## TODO update directory structure if I need to redownload
@@ -98,30 +101,28 @@ else:
 
     rule MountDirectory:
         input:
-            outdir+'/combined-manifest.tsv'
+            f'{outdir}/combined-manifest.tsv'
         output:
-            temp(outdir+'/mounted-successfully.out')
-        params:
-            mountdir = outdir+'/temp'
+            temp(f'{outdir}/mounted-successfully.out')
         shell:
-            """
-            [[ ! -d {params.mountdir} ]] && mkdir {params.mountdir}
-            if mount | grep -q {params.mountdir} ; then
-                touch {output}
+            f"""
+            [[ ! -d {outdir}/temp ]] && mkdir {outdir}/temp
+            if mount | grep -q {outdir}/temp ; then
+                touch {{output}}
                 exit 0
             fi
 
             score-client mount --daemonize \
-                --mount-point {params.mountdir} \
-                --manifest {input} 
+                --mount-point {outdir}/temp \
+                --manifest {{input}} 
             sleep 30s # give time for the directory to be mounted
-            touch {output}
+            touch {{output}}
             """
 
     rule CreateOutdirs:
         output:
-            normal = directory(outdir+'/normal'),
-            tumour = directory(outdir+'/tumour')
+            normal = directory(f'{outdir}/normal'),
+            tumour = directory(f'{outdir}/tumour')
         shell:
             """
             [[ ! -d {output.normal} ]] && mkdir {output.normal}
@@ -130,31 +131,22 @@ else:
             
     rule ScoreClientGetBamIndex:
         input:
-            manifest = manifest_dir+'/{donor}-tumour-normal.tsv',
-            receipt = outdir+'/mounted-successfully.out',
-            normal_dir = directory(outdir+'/normal'),
-            tumour_dir = directory(outdir+'/tumour')
+            manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
+            receipt = f'{outdir}/mounted-successfully.out',
+            normal_dir = directory(f'{outdir}/normal'),
+            tumour_dir = directory(f'{outdir}/tumour')
         output:
-            normal = outdir+'/normal/{donor}-normal.bam.bai',
-            tumour = outdir+'/tumour/{donor}-tumour.bam.bai'
-        params:
-            mountdir = outdir+'/temp'
+            normal = f'{outdir}/normal/{{donor}}-normal.bai',
+            tumour = f'{outdir}/tumour/{{donor}}-tumour.bai'
         shell:
-            """
-            normal_bam=$(sed '2q;d' {input.manifest} | cut -f5)
-            tumour_bam=$(sed '3q;d' {input.manifest} | cut -f5)
-            normal_bai=$(find {params.mountdir} -name '*.bai' | grep $normal_bam)
-            tumour_bai=$(find {params.mountdir} -name '*.bai' | grep $tumour_bam)
-            cp --no-preserve=mode $normal_bai {output.normal}
-            cp --no-preserve=mode $tumour_bai {output.tumour}
+            f"""
+            normal_bam=$(sed '2q;d' {{input.manifest}} | cut -f5)
+            tumour_bam=$(sed '3q;d' {{input.manifest}} | cut -f5)
+            normal_bai=$(find {outdir}/temp -name '*.bai' | grep $normal_bam)
+            tumour_bai=$(find {outdir}/temp -name '*.bai' | grep $tumour_bam)
+            cp --no-preserve=mode $normal_bai {{output.normal}}
+            cp --no-preserve=mode $tumour_bai {{output.tumour}}
 
-            if ! aws s3 ls s3://layerlabcu/icgc/bam_indices | 
-                grep -q $(basename {output.normal}); then
-                aws s3 cp {output.normal} s3://layerlabcu/icgc/bam_indices/
-            fi
-
-            if ! aws s3 ls s3://layerlabcu/icgc/bam_indices | 
-                grep -q $(basename {output.tumour}); then
-                aws s3 cp {output.tumour} s3://layerlabcu/icgc/bam_indices/
-            fi
+            aws s3 cp {{output.normal}} s3://layerlabcu/icgc/bam_indices/
+            aws s3 cp {{output.tumour}} s3://layerlabcu/icgc/bam_indices/
             """
