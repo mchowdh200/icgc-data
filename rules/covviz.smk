@@ -6,13 +6,9 @@ with open(config['donor_list']) as f:
 get_from_s3 = config['get_from_s3']
 
 rule all:
-    ## TODO just combine into one report
     input:
-        outdir+'/covviz_report.html'
-    shell:
-        """
-        aws s3 cp {input} s3://layerlabcu/icgc/covviz/
-        """
+        f'{outdir}/covviz_report.html',
+        expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
 
 rule RunCovviz:
     ## TODO just combine into one report
@@ -34,7 +30,27 @@ rule RunCovviz:
             --indexes '{params.baidir}' \
             --fai {input.fai} \
             --outdir {params.outdir}
+        aws s3 cp {output} s3://layerlabcu/icgc/covviz/
         """
+
+rule RunCovvizPairwise:
+    input:
+        bai = expand(f'{outdir}/{{specimen_type}}/{{donor}}-{{specimen_type}}.bam.bai',
+                     specimen_type=['normal', 'tumour']),
+        fasta = f'{outdir}/ref/hs37d5.fa',
+        fai = f'{outdir}/ref/hs37d5.fa.fai'
+    output:
+        f'{outdir}/{{donor}}/covviz_report.html'
+    shell:
+        f"""
+        nextflow run brwnj/covviz -latest \\
+            --indexes {{input.bai}} \\
+            --fai {{input.fai}} \\
+            --outdir $(dirname {{output}})
+        aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{donor}}
+        """
+        
+
 
 rule GetReference:
     output:
