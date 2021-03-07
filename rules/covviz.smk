@@ -27,7 +27,7 @@ rule RunCovviz:
     shell:
         """
         nextflow run brwnj/covviz -latest \
-            -w /mnt/local
+            -w /mnt/local \\
             --indexes '{params.baidir}' \
             --fai {input.fai} \
             --outdir {params.outdir}
@@ -45,7 +45,7 @@ rule RunCovvizPairwise:
     shell:
         f"""
         nextflow run brwnj/covviz -latest \\
-            -w /mnt/local
+            -w /mnt/local \\
             --indexes '{outdir}/indices/{{wildcards.donor}}-*.bam.bai' \\
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
