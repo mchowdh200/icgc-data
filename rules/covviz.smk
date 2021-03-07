@@ -15,7 +15,7 @@ rule RunCovviz:
     threads:
         workflow.cores
     input:
-        bai = expand(outdir+'/{specimen_type}/{donor}-{specimen_type}.bam.bai',
+        bai = expand(outdir+'/indices/{donor}-{specimen_type}.bam.bai',
                      specimen_type=['normal', 'tumour'], donor=donors),
         fasta = outdir+'/ref/hs37d5.fa',
         fai = outdir+'/ref/hs37d5.fa.fai'
@@ -35,7 +35,7 @@ rule RunCovviz:
 
 rule RunCovvizPairwise:
     input:
-        bai = expand(f'{outdir}/{{specimen_type}}/{{donor}}-{{specimen_type}}.bam.bai',
+        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bam.bai',
                      specimen_type=['normal', 'tumour'], donor='{donor}'),
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai'
@@ -44,12 +44,11 @@ rule RunCovvizPairwise:
     shell:
         f"""
         nextflow run brwnj/covviz -latest \\
-            --indexes {outdir}/*/{{wildcards.donor}}-*.bam.bai \\
+            --indexes {outdir}/indices/{{wildcards.donor}}-*.bam.bai \\
             --fai {{input.fai}} \\
             --outdir $(dirname {{output}})
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
         """
-        
 
 
 rule GetReference:
@@ -62,13 +61,11 @@ rule GetReference:
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fai}
         """
 
-
-
 if get_from_s3:
     rule S3GetBamIndex:
         output:
-            normal = outdir+'/normal/{donor}-normal.bam.bai',
-            tumour = outdir+'/tumour/{donor}-tumour.bam.bai'
+            normal = f'{outdir}/indices/{donor}-normal.bam.bai',
+            tumour = f'{outdir}/indices/{donor}-tumour.bam.bai'
         shell:
             """
             aws s3 cp s3://layerlabcu/icgc/bam_indices/$(basename {output.normal}) \
@@ -77,6 +74,7 @@ if get_from_s3:
                 {output.tumour}
             """
 else:
+    ## TODO update directory structure if I need to redownload
     rule CombineManifests:
         input:
             expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors)
