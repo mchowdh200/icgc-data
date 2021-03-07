@@ -11,6 +11,8 @@ rule all:
         expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
 
 rule RunCovviz:
+    threads:
+        workflow.cores
     input:
         bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
                      specimen_type=['normal', 'tumour'], donor=donors),
