@@ -36,16 +36,27 @@ rule RunCovvizPairwise:
         bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
                      specimen_type=['normal', 'tumour'], donor='{donor}'),
         fasta = f'{outdir}/ref/hs37d5.fa',
-        fai = f'{outdir}/ref/hs37d5.fa.fai'
+        fai = f'{outdir}/ref/hs37d5.fa.fai',
+        svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
+        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
+        LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
+        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
     output:
         f'{outdir}/{{donor}}/covviz_report.html'
     shell:
         f"""
+        bcftools view -s {{wildcards.donor}}-tumour,{{wildcards.donor}}-normal \\
+            {{input.svtyper_variants}} > {outdir}/{{wildcards.donor}}/donor-variants.vcf
+
         nextflow run brwnj/covviz -latest \\
             -w /mnt/local \\
             --indexes '{outdir}/indices/{{wildcards.donor}}-*.bai' \\
             --fai {{input.fai}} \\
-            --outdir $(dirname {{output}})
+            --outdir $(dirname {{output}}) \\
+            --vcf {outdir}/{{wildcards.donor}}/donor-variants.vcf \\
+            --vcf {{input.LNCaP_variants}} \\
+            --vcf {{input.MCF10A_variants}} \\
+            --bed {{input.known_genes}}
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
         aws s3 cp {{output}} s3://icgc-vis/{{wildcards.donor}}
         """
