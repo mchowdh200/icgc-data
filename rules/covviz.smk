@@ -65,7 +65,7 @@ rule RunCovvizPairwise:
                --ped {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.ped \\
                {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
-        aws s3 cp {{output}} s3://icgc-vis/{{wildcards.donor}}
+        aws s3 cp {{output}} s3://icgc-vis/{{wildcards.donor}}/
         """
 
 rule GetAnnotationRegions:
