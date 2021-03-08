@@ -70,6 +70,7 @@ rule GetAnnotationRegions:
     shell:
         f"""
         aws s3 cp --recursive s3://layerlabcu/icgc/misc_annotations/ {outdir}/annotations/
+        aws s3 cp s3://layerlabcu/icgc/svtyper/squared.sites.vcf.gz {outdir}/annotations/
         """
     
 rule GetReference:
