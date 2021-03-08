@@ -25,12 +25,15 @@ rule RunCovviz:
         f'{outdir}/covviz_report.html'
     shell:
         f"""
+        bcftools annotate -x '^INFO/SVTYPE,INFO/SVLEN,INFO/SUPP' \\
+            {{input.svtyper_variants}} > {outdir}/annotations/svtyper_filtered_info.vcf
+
         goleft indexcov \\
             --directory {outdir}/covviz-all \\
             --fai {{input.fai}} \\
             {outdir}/indices/*.bai
         covviz --output {outdir}/covviz_report.html \\
-               --vcf {{input.svtyper_variants}} \\
+               --vcf {outdir}/annotations/svtyper_filtered_info.vcf \\
                --vcf {{input.LNCaP_variants}} \\
                --vcf {{input.MCF10A_variants}} \\
                --ped {outdir}/covviz-all/covviz-all-indexcov.ped \\
@@ -53,7 +56,8 @@ rule RunCovvizPairwise:
     shell:
         f"""
         bcftools view -s {{wildcards.donor}}-tumour,{{wildcards.donor}}-normal \\
-            {{input.svtyper_variants}} > {outdir}/{{wildcards.donor}}/donor-variants.vcf
+            {{input.svtyper_variants}} |
+        bcftools annotate -x '^INFO/SVTYPE,INFO/SVLEN,INFO/SUPP' > {outdir}/{{wildcards.donor}}/donor-variants.vcf
         goleft indexcov \\
             --directory {outdir}/{{wildcards.donor}} \\
             --fai {{input.fai}} \\
