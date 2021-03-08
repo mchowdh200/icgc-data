@@ -20,7 +20,7 @@ rule RunCovviz:
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        genes_hg19=f'{output}/annotations/genes_hg19.bed'
+        genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
     output:
         f'{outdir}/covviz_report.html'
     shell:
@@ -50,7 +50,7 @@ rule RunCovvizPairwise:
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        genes_hg19=f'{output}/annotations/genes_hg19.bed'
+        genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
     output:
         f'{outdir}/{{donor}}/covviz_report.html'
     shell:
@@ -76,7 +76,7 @@ rule GetAnnotationRegions:
     output:
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        genes_hg19=f'{output}/annotations/genes_hg19.bed'
+        genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
     shell:
         f"""
         aws s3 cp --recursive s3://layerlabcu/icgc/misc_annotations/ {outdir}/annotations/
