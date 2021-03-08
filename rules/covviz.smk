@@ -19,7 +19,6 @@ rule RunCovviz:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
-        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
         MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
     output:
@@ -34,7 +33,6 @@ rule RunCovviz:
                --vcf {{input.svtyper_variants}} \\
                --vcf {{input.LNCaP_variants}} \\
                --vcf {{input.MCF10A_variants}} \\
-               --bed {{input.known_genes}} \\
                --ped {outdir}/covviz-all/covviz-all-indexcov.ped \\
                {outdir}/covviz-all/covviz-all-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/
@@ -48,7 +46,6 @@ rule RunCovvizPairwise:
         fasta = f'{outdir}/ref/hs37d5.fa',
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
-        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
         MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
     output:
@@ -65,7 +62,6 @@ rule RunCovvizPairwise:
                --vcf {outdir}/{{wildcards.donor}}/donor-variants.vcf \\
                --vcf {{input.LNCaP_variants}} \\
                --vcf {{input.MCF10A_variants}} \\
-               --bed {{input.known_genes}} \\
                --ped {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.ped \\
                {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
@@ -75,7 +71,6 @@ rule RunCovvizPairwise:
 rule GetAnnotationRegions:
     output:
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
-        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
         MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
     shell:
