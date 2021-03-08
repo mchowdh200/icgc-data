@@ -17,16 +17,26 @@ rule RunCovviz:
         bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
                      specimen_type=['normal', 'tumour'], donor=donors),
         fasta = f'{outdir}/ref/hs37d5.fa',
-        fai = f'{outdir}/ref/hs37d5.fa.fai'
+        fai = f'{outdir}/ref/hs37d5.fa.fai',
+        svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
+        known_genes=f'{outdir}/annotations/known_genes_hg37.bed',
+        LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
+        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
     output:
         f'{outdir}/covviz_report.html'
     shell:
         f"""
-        nextflow run brwnj/covviz -latest \
-            -w /mnt/local \\
-            --indexes '{outdir}/indices/*.bai' \
-            --fai {{input.fai}} \
-            --outdir {outdir}
+        goleft indexcov \\
+            --directory {outdir}/covviz-all \\
+            --fai {{input.fai}} \\
+            {outdir}/indices/*.bai
+        covviz --output {outdir}/covviz_report.html \\
+               --vcf {{input.svtyper_variants}} \\
+               --vcf {{input.LNCaP_variants}} \\
+               --vcf {{input.MCF10A_variants}} \\
+               --bed {{input.known_genes}} \\
+               --ped {outdir}/covviz-all/covviz-all-indexcov.ped \\
+               {outdir}/covviz-all/covviz-all-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/
         aws s3 cp {{output}} s3://icgc-vis/
         """
@@ -47,16 +57,17 @@ rule RunCovvizPairwise:
         f"""
         bcftools view -s {{wildcards.donor}}-tumour,{{wildcards.donor}}-normal \\
             {{input.svtyper_variants}} > {outdir}/{{wildcards.donor}}/donor-variants.vcf
-
-        nextflow run brwnj/covviz -latest \\
-            -w /mnt/local \\
-            --indexes '{outdir}/indices/{{wildcards.donor}}-*.bai' \\
+        goleft indexcov \\
+            --directory {outdir}/{{wildcards.donor}} \\
             --fai {{input.fai}} \\
-            --outdir $(dirname {{output}}) \\
-            --vcf {outdir}/{{wildcards.donor}}/donor-variants.vcf \\
-            --vcf {{input.LNCaP_variants}} \\
-            --vcf {{input.MCF10A_variants}} \\
-            --bed {{input.known_genes}}
+            {outdir}/indices/{{wildcards.donor}}-*.bai
+        covviz --output {outdir}/{{wildcards.donor}}/covviz_report.html \\
+               --vcf {outdir}/{{wildcards.donor}}/donor-variants.vcf \\
+               --vcf {{input.LNCaP_variants}} \\
+               --vcf {{input.MCF10A_variants}} \\
+               --bed {{input.known_genes}} \\
+               --ped {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.ped \\
+               {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
         aws s3 cp {{output}} s3://icgc-vis/{{wildcards.donor}}
         """
@@ -93,7 +104,6 @@ if get_from_s3:
             aws s3 cp --recursive s3://layerlabcu/icgc/bam_indices/ {outdir}/indices/
             """
 else:
-    ## TODO update directory structure if I need to redownload
     rule CombineManifests:
         input:
             expand(f'{manifest_dir}/{{donor}}-tumour-normal.tsv', donor=donors)
