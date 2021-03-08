@@ -20,7 +20,7 @@ rule RunCovviz:
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
+        genes_hg19=f'{output}/annotations/genes_hg19.bed'
     output:
         f'{outdir}/covviz_report.html'
     shell:
@@ -35,7 +35,7 @@ rule RunCovviz:
         covviz --output {outdir}/covviz_report.html \\
                --vcf {outdir}/annotations/svtyper_filtered_info.vcf \\
                --vcf {{input.LNCaP_variants}} \\
-               --vcf {{input.MCF10A_variants}} \\
+               --bed {{input.genes_hg19}} \\
                --ped {outdir}/covviz-all/covviz-all-indexcov.ped \\
                {outdir}/covviz-all/covviz-all-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/
@@ -50,7 +50,7 @@ rule RunCovvizPairwise:
         fai = f'{outdir}/ref/hs37d5.fa.fai',
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
+        genes_hg19=f'{output}/annotations/genes_hg19.bed'
     output:
         f'{outdir}/{{donor}}/covviz_report.html'
     shell:
@@ -65,7 +65,7 @@ rule RunCovvizPairwise:
         covviz --output {outdir}/{{wildcards.donor}}/covviz_report.html \\
                --vcf {outdir}/{{wildcards.donor}}/donor-variants.vcf \\
                --vcf {{input.LNCaP_variants}} \\
-               --vcf {{input.MCF10A_variants}} \\
+               --bed {{input.genes_hg19}} \\
                --ped {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.ped \\
                {outdir}/{{wildcards.donor}}/{{wildcards.donor}}-indexcov.bed.gz
         aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/{{wildcards.donor}}/
@@ -76,7 +76,7 @@ rule GetAnnotationRegions:
     output:
         svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        MCF10A_variants=f'{outdir}/annotations/MCF10AEXP_REFINEFINAL1.vcf',
+        genes_hg19=f'{output}/annotations/genes_hg19.bed'
     shell:
         f"""
         aws s3 cp --recursive s3://layerlabcu/icgc/misc_annotations/ {outdir}/annotations/
