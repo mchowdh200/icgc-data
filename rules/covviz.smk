@@ -13,7 +13,8 @@ get_from_s3 = config['get_from_s3']
 ### helper functions
 ######################################################################
 def bam_disk_mb(wildcards):
-    return manifest_table[manifest_table.file_id == wildcards.file_id].file_size * 1e-6
+    return int(manifest_table[
+        manifest_table.file_id == wildcards.file_id].file_size * 1e-6)
 
 ### Rules
 ######################################################################
