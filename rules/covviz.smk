@@ -54,7 +54,7 @@ rule GetBam:
         --manifest {input.manifest}""")
 
         # remove bam and rename index with file_id
-        bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name}'
+        bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
         bai = f'{bam}.bai'
         Path(bam).unlink()
         Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
