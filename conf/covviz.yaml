@@ -1,4 +1,6 @@
-outdir: "/mnt/local/data"
-manifest_dir: "/home/ubuntu/icgc-data/tumour-normal-manifests"
-donor_list: "/home/ubuntu/icgc-data/data_listings/donor_list.txt"
+#outdir: "/mnt/local/data"
+outdir: "/home/murad/Repositories/icgc-data/temp"
+# manifest: "/home/murad/icgc-data/data_listings/donor_manifest.tsv"
+manifest: "/home/murad/Repositories/icgc-data/data_listings/donor_manifest.tsv"
+donor_table: "/home/murad/Repositories/icgc-data/data_listings/donor_table.tsv"
 get_from_s3: True

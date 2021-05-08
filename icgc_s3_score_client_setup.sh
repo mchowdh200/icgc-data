@@ -37,7 +37,8 @@ else
     sudo mount /dev/nvme0n1 /mnt/local
 fi
 
-sudo chown ubuntu /mnt/local
+user=$(whoami)
+sudo chown $user /mnt/local
 mkdir /mnt/local/data
 mkdir /mnt/local/temp
 echo "export TMPDIR=/mnt/local/temp" >> ~/.profile
