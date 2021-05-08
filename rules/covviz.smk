@@ -19,9 +19,11 @@ def bam_disk_mb(wildcards):
 ######################################################################
 rule all:
     input:
-        expand(f'{outdir}/manifests/{{file_id}}-manifest.tsv', file_id=file_ids)
+        # TODO expand(f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name}')
+        # expand(f'{outdir}/manifests/{{file_id}}-manifest.tsv', file_id=file_ids)
         # f'{outdir}/covviz_report.html'
         # expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
+
 
 rule GetManifest:
     # TODO actually probably better to do one file per manifest
@@ -35,25 +37,26 @@ rule GetManifest:
         Path(f'{outdir}/manifests').mkdir(exist_ok=True)
         manifest.to_csv(output[0], index=False, sep='\t')
 
-### TODO get the bam/bai files for each file_id
-# 1. load the manifest as a dataframe
-#    - this will allow us to match filename with other data
-#      so we can name the file better
-# 2. download the files with the score client
-#    -
+
 rule GetBam:
     input:
-        manifest = f'{outdir}/manifests/{{file-id}}-manifest.tsv'
+        manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
     output:
-        bam = temp(f"{outdir}/indices/{manifest_table['file_name']}"),
-        bai = f"{outdir}/indices/{manifest_table['file_name']}.bai"
+        bai = f"{outdir}/indices/{{file_id}}.bai"
     resources:
         disk_mb = bam_disk_mb
     run:
-        # load manifest as a dataframe
-        # already done -> manifest_table
-        # use manifest to 
-        pass
+        Path(f'{outdir}/indices').mkdir(exist_ok=True)
+        shell(f"""score-client download \\
+        --validate false \\
+        --output-dir {outdir}/indices \\
+        --manifest {input.manifest}""")
+
+        # remove bam and rename index with file_id
+        bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name}'
+        bai = f'{bam}.bai'
+        Path(bam).unlink()
+        Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
 
 
 rule RunCovviz:
