@@ -19,7 +19,7 @@ def bam_disk_mb(wildcards):
 ######################################################################
 rule all:
     input:
-        # TODO expand(f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name}')
+        expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids)
         # expand(f'{outdir}/manifests/{{file_id}}-manifest.tsv', file_id=file_ids)
         # f'{outdir}/covviz_report.html'
         # expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
