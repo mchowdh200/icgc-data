@@ -77,7 +77,7 @@ rule RenameIndex:
     input:
         f'{outdir}/indices/{{file_id}}.bai'
     params:
-        donor = donor_table[donor_table['File ID'] == wildcards.file_id] \
+        donor = donor_table[donor_table['File ID'] == '{{wildcards.file_id}}'] \
             ['ICGC Donor'].values[0],
 
         # replace hyphen/whitespace from the specimen type string with '.'
