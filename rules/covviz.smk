@@ -16,6 +16,14 @@ get_from_s3 = config['get_from_s3']
 def bam_disk_mb(wildcards):
     return int(manifest_table[
         manifest_table.file_id == wildcards.file_id].file_size * 1e-6)
+def get_donor(wildcards):
+    return donor_table[
+        donor_table['File ID'] == wildcards.file_id]['ICGC Donor'].values[0]
+def get_specimen_type(wildcards):
+    # replace hyphen/whitespace from the specimen type string with '.'
+    return re.compile('(\s|-)+').sub('.', donor_table[
+        donor_table['File ID'] == wildcards.file_id]['Specimen Type'].values[0])
+    
 
 ### Rules
 ######################################################################
@@ -77,13 +85,8 @@ rule RenameIndex:
     input:
         f'{outdir}/indices/{{file_id}}.bai'
     params:
-        donor = donor_table[donor_table['File ID'] == '{{wildcards.file_id}}'] \
-            ['ICGC Donor'].values[0],
-
-        # replace hyphen/whitespace from the specimen type string with '.'
-        specimen_type = re.compile('(\s|-)+').sub('.', donor_table[
-            donor_table['File ID'] == wildcards.file_id] \
-            ['Specimen Type'].values[0])
+        donor = get_donor,
+        specimen_type = get_specimen_type
     output:
         f'{outdir}/indices/{{params.donor}}_{{file_id}}_{{params.specimen_type}}.bai'
     shell:
