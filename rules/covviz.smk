@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 import pandas as pd
 
@@ -67,6 +68,27 @@ else:
             bai = f'{bam}.bai'
             Path(bam).unlink()
             Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
+
+rule RenameIndex:
+    """
+    rename bam index using metadata from donor_table
+    - filename should be {donor}_{file_id}_{specimen_type}
+    """
+    input:
+        f'{outdir}/indices/{{file_id}}.bai'
+    params:
+        donor = donor_table[donor_table['File ID'] == wildcards.file_id] \
+            ['ICGC Donor'].values[0],
+
+        # replace hyphen/whitespace from the specimen type string with '.'
+        specimen_type = re.compile('(\s|-)+').sub('.', donor_table[
+            donor_table['File ID'] == wildcards.file_id] \
+            ['Specimen Type'].values[0])
+    output:
+        f'{outdir}/indices/{{params.donor}}_{{file_id}}_{{params.specimen_type}}.bai'
+    shell:
+        'mv {input} {output}'
+        
 
 
 rule RunCovviz:
