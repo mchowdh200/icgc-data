@@ -20,7 +20,7 @@ for _, row in donor_table.iterrows():
     donor = row['ICGC Donor']
     fileid = row['File ID']
     specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen Type'])
-    indices[fileid] = '_'.join([donor, fileid, specimen_type])
+    index_filenames[fileid] = '_'.join([donor, fileid, specimen_type])
 
 
 ### helper functions
