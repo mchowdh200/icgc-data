@@ -90,9 +90,9 @@ rule RenameIndex:
     input:
         f'{outdir}/indices/{{file_id}}.bai'
     params:
-        filename = lambda w: f'{outdir}/renamed_indices/{index_filenames[w.file_id]}'
+        filename = lambda w: index_filenames[w.file_id]
     output:
-        '{params.filename}'
+        f'{outdir}/renamed_indices/{{params.filename}}'
     shell:
         f"""
         mkdir -p {outdir}/renamed_indices
