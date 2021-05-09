@@ -34,7 +34,7 @@ def bam_disk_mb(wildcards):
 rule all:
     input:
         expand(f'{outdir}/indices/{{file_name}}.bai',
-               file_name=list(index_filenames.values()))
+               file_name=list(index_filenames.values())),
         expand(f'{outdir}/indices/{{file_id}}.bai',
                file_id=file_ids)
         # f'{outdir}/covviz_report.html'
