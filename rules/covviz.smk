@@ -4,6 +4,8 @@ import pandas as pd
 
 ### Setup
 ######################################################################
+
+# get variables from config file
 outdir = config['outdir']
 manifest_table = pd.read_csv(config['manifest'], sep='\t')
 file_ids = manifest_table['file_id'].tolist()
@@ -11,28 +13,29 @@ donor_table = pd.read_csv(config['donor_table'], sep='\t')
 donors = donor_table['ICGC Donor'].tolist()
 get_from_s3 = config['get_from_s3']
 
+# get dict of to-be-renamed bai files indexed by file id
+index_filenames = dict()
+for _, row in donor_table.iterrows():
+    # donor, fileid, specimen_type
+    donor = row['ICGC Donor'].values[0]
+    fileid = row['File ID'].values[0]
+    specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen type'].values[0])
+    indices[fileid] = '_'.join([donor, fileid, specimen_type])
+
+
 ### helper functions
 ######################################################################
 def bam_disk_mb(wildcards):
     return int(manifest_table[
         manifest_table.file_id == wildcards.file_id].file_size * 1e-6)
-def get_donor(wildcards):
-    return donor_table[
-        donor_table['File ID'] == wildcards.file_id]['ICGC Donor'].values[0]
-def get_specimen_type(wildcards):
-    # replace hyphen/whitespace from the specimen type string with '.'
-    return re.compile('(\s|-)+').sub('.', donor_table[
-        donor_table['File ID'] == wildcards.file_id]['Specimen Type'].values[0])
-    
 
 ### Rules
 ######################################################################
 rule all:
     input:
-        expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids)
-        # expand(f'{outdir}/manifests/{{file_id}}-manifest.tsv', file_id=file_ids)
+        expand(f'{outdir}/indices/{{file_name}}.bai',
+               file_name=list(index_filenames.values()))
         # f'{outdir}/covviz_report.html'
-        # expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
 
 if get_from_s3:
     rule S3GetIndex:
@@ -84,11 +87,8 @@ rule RenameIndex:
     """
     input:
         f'{outdir}/indices/{{file_id}}.bai'
-    params:
-        donor = get_donor,
-        specimen_type = get_specimen_type
     output:
-        f'{outdir}/indices/{{params.donor}}_{{file_id}}_{{params.specimen_type}}.bai'
+        lambda w: f'{outdir}/indices/{index_filenames[w.file_id]}'
     shell:
         'mv {input} {output}'
         
