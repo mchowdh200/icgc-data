@@ -96,7 +96,7 @@ rule RenameIndex:
     shell:
         f"""
         mkdir -p {outdir}/renamed_indices
-        cp {input} {output}
+        cp {{input}} {{output}}
         """
         
 
