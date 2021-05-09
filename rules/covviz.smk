@@ -32,7 +32,7 @@ if get_from_s3:
         shell:
             f"""
             mkdir -p {outdir}/indices
-            aws s3 cp s3://layerlabcu/icgc/indices.05.09.21/{{file_id}}.bai {{output}}
+            aws s3 cp s3://layerlabcu/icgc/indices.05.09.21/{wildcards.file_id}.bai {{output}}
             """
 else:
     rule GetManifest:
