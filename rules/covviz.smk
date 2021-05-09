@@ -33,7 +33,7 @@ def bam_disk_mb(wildcards):
 ######################################################################
 rule all:
     input:
-        expand(f'{outdir}/renamed_indices/{{file_name}}.bai',
+        expand(f'{outdir}/renamed_indices/{{file_name}}',
                file_name=list(index_filenames.values())),
         expand(f'{outdir}/indices/{{file_id}}.bai',
                file_id=file_ids)
