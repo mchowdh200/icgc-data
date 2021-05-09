@@ -25,39 +25,48 @@ rule all:
         # f'{outdir}/covviz_report.html'
         # expand(f'{outdir}/{{donor}}/covviz_report.html', donor=donors)
 
+if get_from_s3:
+    rule S3GetIndex:
+        output:
+            f'{outdir}/indices/{{file_id}}.bai'
+        shell:
+            f"""
+            mkdir -p {outdir}/indices
+            aws s3 cp s3://layerlabcu/icgc/indices.05.09.21/{{file_id}}.bai {{output}}
+            """
+else:
+    rule GetManifest:
+        # TODO actually probably better to do one file per manifest
+        # so we should actually do this by file ID
+        """For each donor, create manifest to download files"""
+        output:
+            f'{outdir}/manifests/{{file_id}}-manifest.tsv'
+        run:
+            manifest = pd.read_csv(config['manifest'], sep='\t')
+            manifest = manifest[manifest['file_id'] == wildcards.file_id]
+            Path(f'{outdir}/manifests').mkdir(exist_ok=True)
+            manifest.to_csv(output[0], index=False, sep='\t')
 
-rule GetManifest:
-    # TODO actually probably better to do one file per manifest
-    # so we should actually do this by file ID
-    """For each donor, create manifest to download files"""
-    output:
-        f'{outdir}/manifests/{{file_id}}-manifest.tsv'
-    run:
-        manifest = pd.read_csv(config['manifest'], sep='\t')
-        manifest = manifest[manifest['file_id'] == wildcards.file_id]
-        Path(f'{outdir}/manifests').mkdir(exist_ok=True)
-        manifest.to_csv(output[0], index=False, sep='\t')
 
+    rule ScoreClientGetIndex:
+        input:
+            manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
+        output:
+            bai = f"{outdir}/indices/{{file_id}}.bai"
+        resources:
+            disk_mb = bam_disk_mb
+        run:
+            Path(f'{outdir}/indices').mkdir(exist_ok=True)
+            shell(f"""score-client download \\
+            --validate false \\
+            --output-dir {outdir}/indices \\
+            --manifest {input.manifest}""")
 
-rule GetBam:
-    input:
-        manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
-    output:
-        bai = f"{outdir}/indices/{{file_id}}.bai"
-    resources:
-        disk_mb = bam_disk_mb
-    run:
-        Path(f'{outdir}/indices').mkdir(exist_ok=True)
-        shell(f"""score-client download \\
-        --validate false \\
-        --output-dir {outdir}/indices \\
-        --manifest {input.manifest}""")
-
-        # remove bam and rename index with file_id
-        bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
-        bai = f'{bam}.bai'
-        Path(bam).unlink()
-        Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
+            # remove bam and rename index with file_id
+            bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
+            bai = f'{bam}.bai'
+            Path(bam).unlink()
+            Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
 
 
 rule RunCovviz:
@@ -113,80 +122,3 @@ rule GetReference:
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {output.fasta}
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fai}
         """
-
-# if get_from_s3:
-#     rule S3GetBamIndex:
-#         output:
-#             expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
-#                    donor=donors, specimen_type=['normal', 'tumour']),
-#         shell:
-#             f"""
-#             aws s3 cp --recursive s3://layerlabcu/icgc/bam_indices/ {outdir}/indices/
-#             """
-# else:
-#     rule CombineManifests:
-#         input:
-#             expand(f'{manifest_dir}/{{donor}}-tumour-normal.tsv', donor=donors)
-#         output:
-#             combined_manifest = f'{outdir}/combined-manifest.tsv'
-#         run:
-#             # get top line of a manifest
-#             with open(input[0]) as manifest:
-#                 header = manifest.readline()
-
-#             # write the rest 
-#             with open(output.combined_manifest, 'w') as combined_manifest:
-#                 combined_manifest.write(header)
-#                 for fname in input:
-#                     with open(fname, 'r') as f:
-#                         lines = f.readlines()
-#                         for line in lines[1:]: #skip header
-#                             combined_manifest.write(line)
-
-#     rule MountDirectory:
-#         input:
-#             f'{outdir}/combined-manifest.tsv'
-#         output:
-#             temp(f'{outdir}/mounted-successfully.out')
-#         shell:
-#             f"""
-#             [[ ! -d {outdir}/temp ]] && mkdir {outdir}/temp
-#             if mount | grep -q {outdir}/temp ; then
-#                 touch {{output}}
-#                 exit 0
-#             fi
-
-#             score-client mount --daemonize \\
-#                 --mount-point {outdir}/temp \\
-#                 --manifest {{input}} 
-#             sleep 30s # give time for the directory to be mounted
-#             touch {{output}}
-#             """
-
-            
-#     rule ScoreClientGetBamIndex:
-#         threads:
-#             workflow.cores # i don't want to overwhelm the FUSE filesystem.
-#         input:
-#             manifest = f'{manifest_dir}/{{donor}}-tumour-normal.tsv',
-#             receipt = f'{outdir}/mounted-successfully.out',
-#         output:
-#             normal = f'{outdir}/indices/{{donor}}-normal.bai',
-#             tumour = f'{outdir}/indices/{{donor}}-tumour.bai'
-#         shell:
-#             f"""
-#             if [[ ! -d {outdir}/indices ]]; then
-#                 mkdir {outdir}/indices
-#             fi
-#             normal_bam=$(sed '2q;d' {{input.manifest}} | cut -f5)
-#             tumour_bam=$(sed '3q;d' {{input.manifest}} | cut -f5)
-#             normal_bai=$(find {outdir}/temp -name '*.bai' | grep $normal_bam)
-#             tumour_bai=$(find {outdir}/temp -name '*.bai' | grep $tumour_bam)
-#             sleep 1s
-#             cp --no-preserve=mode $normal_bai {{output.normal}}
-#             sleep 1s
-#             cp --no-preserve=mode $tumour_bai {{output.tumour}}
-
-#             aws s3 cp {{output.normal}} s3://layerlabcu/icgc/bam_indices/
-#             aws s3 cp {{output.tumour}} s3://layerlabcu/icgc/bam_indices/
-#             """
