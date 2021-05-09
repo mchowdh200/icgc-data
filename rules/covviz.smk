@@ -35,6 +35,8 @@ rule all:
     input:
         expand(f'{outdir}/indices/{{file_name}}.bai',
                file_name=list(index_filenames.values()))
+        expand(f'{outdir}/indices/{{file_id}}.bai',
+               file_id=file_ids)
         # f'{outdir}/covviz_report.html'
 
 if get_from_s3:
@@ -92,7 +94,7 @@ rule RenameIndex:
     output:
         '{params.filename}'
     shell:
-        'mv {input} {output}'
+        'cp {input} {output}'
         
 
 
