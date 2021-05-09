@@ -33,7 +33,7 @@ def bam_disk_mb(wildcards):
 ######################################################################
 rule all:
     input:
-        expand(f'{outdir}/indices/{{file_name}}.bai',
+        expand(f'{outdir}/renamed_indices/{{file_name}}.bai',
                file_name=list(index_filenames.values())),
         expand(f'{outdir}/indices/{{file_id}}.bai',
                file_id=file_ids)
@@ -90,11 +90,14 @@ rule RenameIndex:
     input:
         f'{outdir}/indices/{{file_id}}.bai'
     params:
-        filename = lambda w: f'{outdir}/indices/{index_filenames[w.file_id]}'
+        filename = lambda w: f'{outdir}/renamed_indices/{index_filenames[w.file_id]}'
     output:
         '{params.filename}'
     shell:
-        'cp {input} {output}'
+        f"""
+        mkdir -p {outdir}/renamed_indices
+        cp {input} {output}
+        """
         
 
 
