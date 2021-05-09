@@ -20,7 +20,7 @@ for _, row in donor_table.iterrows():
     donor = row['ICGC Donor']
     fileid = row['File ID']
     specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen Type'])
-    index_filenames[fileid] = '_'.join([donor, fileid, specimen_type])
+    index_filenames[fileid] = '_'.join([donor, fileid, specimen_type]) + '.bai'
 
 
 ### helper functions
@@ -87,8 +87,10 @@ rule RenameIndex:
     """
     input:
         f'{outdir}/indices/{{file_id}}.bai'
+    params:
+        filename = lambda w: f'{outdir}/indices/{index_filenames[w.file_id]}'
     output:
-        lambda w: f'{outdir}/indices/{index_filenames[w.file_id]}'
+        params.filename
     shell:
         'mv {input} {output}'
         
