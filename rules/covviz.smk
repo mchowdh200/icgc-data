@@ -90,7 +90,7 @@ rule RenameIndex:
     params:
         filename = lambda w: f'{outdir}/indices/{index_filenames[w.file_id]}'
     output:
-        params.filename
+        '{params.filename}'
     shell:
         'mv {input} {output}'
         
