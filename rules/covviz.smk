@@ -17,9 +17,9 @@ get_from_s3 = config['get_from_s3']
 index_filenames = dict()
 for _, row in donor_table.iterrows():
     # donor, fileid, specimen_type
-    donor = row['ICGC Donor'].values[0]
-    fileid = row['File ID'].values[0]
-    specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen type'].values[0])
+    donor = row['ICGC Donor']
+    fileid = row['File ID']
+    specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen type'])
     indices[fileid] = '_'.join([donor, fileid, specimen_type])
 
 
