@@ -86,7 +86,7 @@ rule GoleftIndexcov:
         indices = expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids),
         fai = f'{outdir}/ref/hs37d5.fa.fai'
     output:
-        f'{outdir}/goleft/goleft-indexcov.bed.gz'
+        temp(f'{outdir}/goleft/goleft-indexcov.bed.gz')
     run:
         # get dict of to-be-renamed bai files indexed by file id
         new_filenames = dict()
