@@ -25,10 +25,7 @@ def bam_disk_mb(wildcards):
 ######################################################################
 rule all:
     input:
-        expand(f'{outdir}/renamed_indices/{{file_name}}',
-               file_name=list(index_filenames.values())),
-        expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids)
-        # f'{outdir}/covviz_report.html'
+        f'{outdir}/covviz_report.html'
 
 if get_from_s3:
     rule S3GetIndex:
