@@ -97,7 +97,7 @@ rule GoleftIndexcov:
             new_filenames[fileid] = '_'.join([donor, fileid, specimen_type]) + '.bai'
 
         Path(f'{outdir}/renamed_indices').mkdir(exist_ok=True)
-        for index in indices:
+        for index in input.indices:
             # rename using the dict
             fileid = Path(index).stem
             shutil.copy(
