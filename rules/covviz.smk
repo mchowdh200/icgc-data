@@ -86,7 +86,8 @@ rule GoleftIndexcov:
         indices = expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids),
         fai = f'{outdir}/ref/hs37d5.fa.fai'
     output:
-        temp(f'{outdir}/goleft/goleft-indexcov.bed.gz')
+        temp(f'{outdir}/goleft/goleft-indexcov.bed.gz'),
+        temp(f'{outdir}/goleft/goleft-indexcov.ped')
     run:
         # get dict of to-be-renamed bai files indexed by file id
         new_filenames = dict()
@@ -108,7 +109,8 @@ rule GoleftIndexcov:
 
 rule Covviz:
     input:
-        f'{outdir}/goleft/goleft-indexcov.bed.gz'
+        bed = f'{outdir}/goleft/goleft-indexcov.bed.gz',
+        ped = f'{outdir}/goleft/goleft-indexcov.ped'
         # svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
         # LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
         # genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
@@ -116,7 +118,7 @@ rule Covviz:
         f'{outdir}/covviz_report.html'
     shell:
         f"""
-        covviz --output {{output}} {{input}}
+        covviz --output {{output}} --ped {{input.ped}} {{input.bed}}
         aws s3 cp {{output}} s3://icgc-vis/
         """
 
