@@ -1,4 +1,5 @@
 import re
+import shutil
 from pathlib import Path
 import pandas as pd
 
@@ -13,15 +14,6 @@ donor_table = pd.read_csv(config['donor_table'], sep='\t')
 donors = donor_table['ICGC Donor'].tolist()
 get_from_s3 = config['get_from_s3']
 
-# get dict of to-be-renamed bai files indexed by file id
-index_filenames = dict()
-for _, row in donor_table.iterrows():
-    # donor, fileid, specimen_type
-    donor = row['ICGC Donor']
-    fileid = row['File ID']
-    specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen Type'])
-    index_filenames[fileid] = '_'.join([donor, fileid, specimen_type]) + '.bai'
-
 
 ### helper functions
 ######################################################################
@@ -35,8 +27,7 @@ rule all:
     input:
         expand(f'{outdir}/renamed_indices/{{file_name}}',
                file_name=list(index_filenames.values())),
-        expand(f'{outdir}/indices/{{file_id}}.bai',
-               file_id=file_ids)
+        expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids)
         # f'{outdir}/covviz_report.html'
 
 if get_from_s3:
@@ -82,57 +73,55 @@ else:
             Path(bam).unlink()
             Path(bai).rename(f'{outdir}/indices/{wildcards.file_id}.bai')
 
-rule RenameIndex:
-    """
-    rename bam index using metadata from donor_table
-    - filename should be {donor}_{file_id}_{specimen_type}
-    """
-    input:
-        f'{outdir}/indices/{{file_id}}.bai'
-    params:
-        filename = lambda w: index_filenames[w.file_id]
+rule GetRefIndex:
     output:
-        f'{outdir}/renamed_indices/{{params.filename}}'
+        f'{outdir}/ref/hs37d5.fa.fai'
     shell:
-        f"""
-        mkdir -p {outdir}/renamed_indices
-        cp {{input}} {{output}}
         """
-        
+        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output}
+        """
 
-
-rule RunCovviz:
-    threads:
-        workflow.cores
+rule GoleftIndexcov:
+    """
+    Get coverage data from indices.  First rename indices to have metadata in them.
+    """
     input:
-        bai = expand(f'{outdir}/indices/{{donor}}-{{specimen_type}}.bai',
-                     specimen_type=['normal', 'tumour'], donor=donors),
-        fasta = f'{outdir}/ref/hs37d5.fa',
-        fai = f'{outdir}/ref/hs37d5.fa.fai',
-        svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
-        LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
-        genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
+        indices = expand(f'{outdir}/indices/{{file_id}}.bai', file_id=file_ids),
+        fai = f'{outdir}/ref/hs37d5.fa.fai'
+    output:
+        f'{outdir}/goleft/goleft-indexcov.bed.gz'
+    run:
+        # get dict of to-be-renamed bai files indexed by file id
+        new_filenames = dict()
+        for _, row in donor_table.iterrows():
+            donor = row['ICGC Donor']
+            fileid = row['File ID']
+            specimen_type = re.compile('(\s|-)+').sub('.', row['Specimen Type'])
+            new_filenames[fileid] = '_'.join([donor, fileid, specimen_type]) + '.bai'
+
+        Path(f'{outdir}/renamed_indices').mkdir(exist_ok=True)
+        for index in indices:
+            # rename using the dict
+            fileid = Path(index).stem
+            shutil.copy(
+                index, f'{outdir}/renamed_indices/{new_filenames[fileid]}')
+
+        shell(f"""goleft indexcov --directory {outdir}/goleft \\
+        --fai {{input.fai}} {{input.indices}}""")
+
+rule Covviz:
+    input:
+        f'{outdir}/goleft/goleft-indexcov.bed.gz'
+        # svtyper_variants=f'{outdir}/annotations/squared.sites.vcf.gz',
+        # LNCaP_variants=f'{outdir}/annotations/LNCAPEXP_REFINEFINAL1.vcf',
+        # genes_hg19=f'{outdir}/annotations/genes_hg19.bed'
     output:
         f'{outdir}/covviz_report.html'
     shell:
         f"""
-        bcftools annotate -x '^INFO/SVTYPE,INFO/SVLEN,INFO/SUPP' \\
-            {{input.svtyper_variants}} > {outdir}/annotations/svtyper_filtered_info.vcf
-
-        goleft indexcov \\
-            --directory {outdir}/covviz-all \\
-            --fai {{input.fai}} \\
-            {outdir}/indices/*.bai
-        covviz --output {outdir}/covviz_report.html \\
-               --vcf {outdir}/annotations/svtyper_filtered_info.vcf \\
-               --vcf {{input.LNCaP_variants}} \\
-               --bed {{input.genes_hg19}} \\
-               --ped {outdir}/covviz-all/covviz-all-indexcov.ped \\
-               {outdir}/covviz-all/covviz-all-indexcov.bed.gz
-        aws s3 cp {{output}} s3://layerlabcu/icgc/covviz/
+        covviz --output {{output}} {{input}}
         aws s3 cp {{output}} s3://icgc-vis/
         """
-
 
 # rule GetAnnotationRegions:
 #     output:
@@ -145,12 +134,3 @@ rule RunCovviz:
 #         aws s3 cp s3://layerlabcu/icgc/svtyper/squared.sites.vcf.gz {outdir}/annotations/
 #         """
     
-rule GetReference:
-    output:
-        fasta = outdir+'/ref/hs37d5.fa',
-        fai = outdir+'/ref/hs37d5.fa.fai'
-    shell:
-        """
-        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {output.fasta}
-        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fai}
-        """
