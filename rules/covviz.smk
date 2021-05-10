@@ -104,7 +104,7 @@ rule GoleftIndexcov:
                 index, f'{outdir}/renamed_indices/{new_filenames[fileid]}')
 
         shell(f"""goleft indexcov --directory {outdir}/goleft \\
-        --fai {{input.fai}} {{input.indices}}""")
+        --fai {{input.fai}} {outdir}/renamed_indices/*.bai""")
 
 rule Covviz:
     input:
