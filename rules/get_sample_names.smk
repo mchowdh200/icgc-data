@@ -24,5 +24,5 @@ rule GetBamHeader:
         Path(f'{outdir}/bam_headers').mkdir(exist_ok=True)
         object_id = manifest_table[
             manifest_table.file_id == wildcards.file_id].object_id
-        shell(f'score-client view --object_id {object_id} --header-only > {output[0]}')
+        shell(f'score-client view --object-id {object_id} --header-only > {output[0]}')
 
