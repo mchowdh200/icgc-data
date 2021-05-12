@@ -28,9 +28,9 @@ rule GetBamHeader:
 rule GetSampleName:
     # parse bam header and get the sample name from the RG info
     input:
-        temp(f'{outdir}/bam_headers/{{file_id}}_bam_header.txt')
+        f'{outdir}/bam_headers/{{file_id}}_bam_header.txt'
     output:
-        f'{outdir}/{{file_id}}_sample_name.txt'
+        temp(f'{outdir}/{{file_id}}_sample_name.txt')
     shell:
         'bash scripts/get_sample_name.sh {input} > {output}'
 
