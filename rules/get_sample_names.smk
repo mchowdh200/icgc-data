@@ -13,7 +13,7 @@ file_ids = manifest_table.file_id.tolist()
 ################################################################################
 rule All:
     input:
-        'f{outdir}/sample_names.txt'
+        f'{outdir}/sample_names.txt'
 
 rule GetBamHeader:
     # for each file id, use score-client view command
@@ -41,7 +41,7 @@ rule Combine:
     input:
         expand(f'{outdir}/{{file_id}}_sample_name.txt', file_id=file_ids)
     output:
-        'f{outdir}/sample_names.txt'
+        f'{outdir}/sample_names.txt'
     run:
         with open(output[0], 'w') as out:
             for file in input:
