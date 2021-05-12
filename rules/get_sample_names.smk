@@ -13,8 +13,7 @@ file_ids = manifest_table.file_id.tolist()
 ################################################################################
 rule All:
     input:
-        expand(f'{outdir}/bam_headers/{{file_id}}_bam_header.txt',
-               file_id=file_ids)
+        'f{outdir}/sample_names.txt'
 
 rule GetBamHeader:
     # for each file id, use score-client view command
