@@ -45,7 +45,7 @@ rule Combine:
     run:
         with open(output[0], 'w') as out:
             for file in input:
-                file_id = file.split('_')[0]
+                file_id = Path(file).stem.split('_')[0]
                 with open(file, 'r') as f:
                     sample_name = f.readline().rstrip()
                     out.write(f'{file_id}\t{sample_name}\n')
