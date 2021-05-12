@@ -32,7 +32,7 @@ rule GetSampleName:
     output:
         f'{outdir}/{{file_id}}_sample_name.txt'
     shell:
-        f"grep RG {{input}} | head -1 | tr '\t' '\n' | grep SM | cut -d':' -f2"
+        f"grep RG {{input}} | head -1 | tr '\t' '\n' | grep SM | cut -d':' -f2 > {output}"
 
 rule Combine:
     """
