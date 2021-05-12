@@ -78,10 +78,11 @@ pip install jedi neovim
 echo "alias vim=nvim" >> ~/.profile
 echo "export EDITOR=nvim" >> ~/.profile
 
-### setup path
+### setup path/other environment variables
 ################################################################################
 mkdir /mnt/local/bin
 echo 'PATH=$PATH:/mnt/local/bin' >> ~/.profile
+echo "PS1='\[\e[01;32m\]\u@\h\[\e[0m\] \[\e[34m\]\w\[\e[0m\] \n$ '" >> ~/.profile
 
 ### install gargs
 ################################################################################
