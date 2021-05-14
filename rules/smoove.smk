@@ -65,19 +65,19 @@ rule GetBam:
     input:
         manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
     output:
-        bam = temp(f"{outdir}/indices/{{file_id}}.bam"),
-        bai = temp(f"{outdir}/indices/{{file_id}}.bai")
+        bam = temp(f"{outdir}/bam/{{file_id}}.bam"),
+        bai = temp(f"{outdir}/bam/{{file_id}}.bai")
     resources:
         disk_mb = bam_disk_mb
     run:
-        Path(f'{outdir}/indices').mkdir(exist_ok=True)
+        Path(f'{outdir}/bam').mkdir(exist_ok=True)
         shell(f"""score-client download \\
         --validate false \\
-        --output-dir {outdir}/indices \\
+        --output-dir {outdir}/bam \\
         --manifest {input.manifest}""")
 
         # remove bam and rename index with file_id
-        bam = f'{outdir}/indices/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
+        bam = f'{outdir}/bam/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
         bai = f'{bam}.bai'
         Path(bam).rename(output.bam)
         Path(bai).rename(output.bai)
