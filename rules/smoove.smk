@@ -103,7 +103,7 @@ rule SmooveCall:
     shell:
         f"""
         mkdir -p {outdir}/{{wildcards.file_id}}
-        smoove call \\
+        smoove call -p 1 \\
             --name {{wildcards.file_id}} \\
             --fasta {{input.fasta}} \\
             --exclude {{input.exclude}} \\
