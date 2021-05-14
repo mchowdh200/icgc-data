@@ -65,8 +65,8 @@ rule GetBam:
     input:
         manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
     output:
-        temp(bam = f"{outdir}/indices/{{file_id}}.bam"),
-        temp(bai = f"{outdir}/indices/{{file_id}}.bai")
+        bam = temp(f"{outdir}/indices/{{file_id}}.bam"),
+        bai = temp(f"{outdir}/indices/{{file_id}}.bai")
     resources:
         disk_mb = bam_disk_mb
     run:
