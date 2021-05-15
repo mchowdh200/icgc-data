@@ -38,8 +38,6 @@ if get_from_s3:
             """
 else:
     rule GetManifest:
-        # TODO actually probably better to do one file per manifest
-        # so we should actually do this by file ID
         """For each donor, create manifest to download files"""
         output:
             f'{outdir}/manifests/{{file_id}}-manifest.tsv'

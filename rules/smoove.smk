@@ -61,7 +61,7 @@ rule GetManifest:
 
 
 # TODO put in separate snakefile and import it
-rule GetBam:
+checkpoint GetBam:
     input:
         manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
     output:
