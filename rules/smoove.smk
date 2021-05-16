@@ -7,7 +7,6 @@ import pandas as pd
 
 ### Setup
 ###################################################
-# TODO write config
 # TODO put in a separate python file as a function and import?
 outdir = config['outdir']
 manifest_table = pd.read_csv(config['manifest'], sep='\t')
@@ -25,7 +24,6 @@ def bam_disk_mb(wildcards):
 ### Rules
 ###################################################
 
-### TODO
 rule All:
     input:
         expand(f'{outdir}/{{file_id}}/{{file_id}}-smoove.genotyped.vcf.gz',
@@ -82,33 +80,37 @@ checkpoint GetBam:
         Path(bam).rename(output.bam)
         Path(bai).rename(output.bai)
 
-### TODO
-# First, try disk_mb method and run snakemake with greedy scheduler
 rule SmooveCall:
     input:
+        manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv',
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,
-        exclude = rules.GetExcludeRegions.output,
-        bam = rules.GetBam.output.bam,
-        bai = rules.GetBam.output.bai,
-        # TODO compute a --name with donor_id.file_id?
-        # no... just do file_id, we can do all that stuff after the fact.
+        exclude = rules.GetExcludeRegions.output
+        # bam = rules.GetBam.output.bam,
+        # bai = rules.GetBam.output.bai,
     output:
         f'{outdir}/{{file_id}}/{{file_id}}-smoove.genotyped.vcf.gz'
+    params:
+        bam = manifest_table[
+            manifest_table.file_id == wildcards.file_id].file_name.values[0]
     resources:
         disk_mb = bam_disk_mb
     conda:
-        # TODO create this if I haven't already
         'envs/smoove.yaml'
     shell:
         f"""
         mkdir -p {outdir}/{{wildcards.file_id}}
+ 
+        score-client download \\
+            --validate false \\
+            --output-dir {outdir}/{{wildcards.file_id}} \\
+            --manifest {{input.manifest}}
         smoove call -p 1 \\
             --name {{wildcards.file_id}} \\
             --fasta {{input.fasta}} \\
             --exclude {{input.exclude}} \\
             --outdir {outdir}/{{wildcards.file_id}} \\
             --genotype --duphold \\
-            {{input.bam}}
+            {{params.bam}}
         find {outdir}/{{wildcards.file_id}}/ -type f -not -name '*.vcf.gz*' -delete
         """
