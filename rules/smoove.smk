@@ -111,6 +111,6 @@ rule SmooveCall:
             --exclude {{input.exclude}} \\
             --outdir {outdir}/{{wildcards.file_id}} \\
             --genotype --duphold \\
-            {{params.bam}}
+            {outdir}/{{params.bam}}
         find {outdir}/{{wildcards.file_id}}/ -type f -not -name '*.vcf.gz*' -delete
         """
