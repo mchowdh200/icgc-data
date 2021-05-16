@@ -59,26 +59,26 @@ rule GetManifest:
 
 
 # TODO put in separate snakefile and import it
-checkpoint GetBam:
-    input:
-        manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
-    output:
-        bam = temp(f"{outdir}/bam/{{file_id}}.bam"),
-        bai = temp(f"{outdir}/bam/{{file_id}}.bai")
-    resources:
-        disk_mb = bam_disk_mb
-    run:
-        Path(f'{outdir}/bam').mkdir(exist_ok=True)
-        shell(f"""score-client download \\
-        --validate false \\
-        --output-dir {outdir}/bam \\
-        --manifest {input.manifest}""")
+# checkpoint GetBam:
+#     input:
+#         manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
+#     output:
+#         bam = temp(f"{outdir}/bam/{{file_id}}.bam"),
+#         bai = temp(f"{outdir}/bam/{{file_id}}.bai")
+#     resources:
+#         disk_mb = bam_disk_mb
+#     run:
+#         Path(f'{outdir}/bam').mkdir(exist_ok=True)
+#         shell(f"""score-client download \\
+#         --validate false \\
+#         --output-dir {outdir}/bam \\
+#         --manifest {input.manifest}""")
 
-        # remove bam and rename index with file_id
-        bam = f'{outdir}/bam/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
-        bai = f'{bam}.bai'
-        Path(bam).rename(output.bam)
-        Path(bai).rename(output.bai)
+#         # remove bam and rename index with file_id
+#         bam = f'{outdir}/bam/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
+#         bai = f'{bam}.bai'
+#         Path(bam).rename(output.bam)
+#         Path(bai).rename(output.bai)
 
 rule SmooveCall:
     input:
@@ -91,8 +91,8 @@ rule SmooveCall:
     output:
         f'{outdir}/{{file_id}}/{{file_id}}-smoove.genotyped.vcf.gz'
     params:
-        bam = manifest_table[
-            manifest_table.file_id == wildcards.file_id].file_name.values[0]
+        bam = lambda w: manifest_table[
+            manifest_table.file_id == w.file_id].file_name.values[0]
     resources:
         disk_mb = bam_disk_mb
     conda:
