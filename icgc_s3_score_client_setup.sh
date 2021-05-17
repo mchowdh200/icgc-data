@@ -21,10 +21,10 @@ sudo mkdir /mnt/local
 # the nvme drive naming convention is not consistent enough
 # so I have just resorted to filtering out nvme disks with
 # the expected size (ex smallest c5d has a 50GB so > 40 is my threshold)
-num_drives=$(lsblk -o NAME,SIZE | grep 'nvme'| awk '$2 ~ /G$/ && $2+0 > 40' | wc -l)
+num_drives=$(lsblk -b -o NAME,SIZE | grep 'nvme'| awk '$2 > 4e10' | wc -l)
 if [[ $num_drives > 1 ]]; then
-    drive_list=$(lsblk -o NAME,SIZE | grep 'nvme' |
-                 awk '$2 ~ /G$/ && $2+0 > 40' |
+    drive_list=$(lsblk -b -o NAME,SIZE | grep 'nvme' |
+                 awk '$2 > 4e10' |
                  awk 'BEGIN{ORS=" "}{print "/dev/"$1 }')
     sudo mdadm --create --verbose \
          /dev/md0 \
