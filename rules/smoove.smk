@@ -83,7 +83,7 @@ rule SmooveCall:
     input:
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,
-        exclude = rules.GetExcludeRegions.output
+        exclude = rules.GetExcludeRegions.output,
         bam = rules.GetBam.output.bam,
         bai = rules.GetBam.output.bai
     output:
