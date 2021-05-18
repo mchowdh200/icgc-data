@@ -1,6 +1,9 @@
 #!/bin/env bash
 
-snakemake -s rules/manta-tumour-normal.smk \
+cores=$(grep -c ^processor /proc/cpuinfo)
+num_downloads=$(python3 -c "print(int(0.75*$cores))")
+
+snakemake -s rules/manta.smk \
           --configfile conf/manta-tumour-normal.yaml \
-          --resources num_downloads=2 manta_running=1 \
-          -j $(grep -c ^processor /proc/cpuinfo)
+          --resources num_downloads=$num_downloads \
+          -j $cores
