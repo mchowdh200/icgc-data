@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 cores=$(grep -c ^processor /proc/cpuinfo)
-num_downloads=$(python3 -c "print(int(0.75*$cores))")
+num_downloads=$(python3 -c "print(int(0.5*$cores))")
 
 snakemake -s rules/manta.smk \
           --configfile rules/conf/config.yaml \

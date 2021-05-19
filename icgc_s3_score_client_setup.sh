@@ -22,6 +22,9 @@ sudo mkdir /mnt/local
 # so I have just resorted to filtering out nvme disks with
 # the expected size (ex smallest c5d has a 50GB so > 40 is my threshold)
 num_drives=$(lsblk -b -o NAME,SIZE | grep 'nvme'| awk '$2 > 4e10' | wc -l)
+drive_list=$(lsblk -b -o NAME,SIZE | grep 'nvme' |
+                awk '$2 > 4e10' |
+                awk 'BEGIN{ORS=" "}{print "/dev/"$1 }')
 if [[ $num_drives > 1 ]]; then
     drive_list=$(lsblk -b -o NAME,SIZE | grep 'nvme' |
                  awk '$2 > 4e10' |
@@ -30,11 +33,11 @@ if [[ $num_drives > 1 ]]; then
          /dev/md0 \
          --level=0 \
          --raid-devices=$num_drives $drive_list
-    sudo mkfs -t ext4 /dev/md0
+    sudo mkfs -t xfs /dev/md0
     sudo mount /dev/md0 /mnt/local
 else
-    sudo mkfs -t ext4 /dev/nvme0n1 
-    sudo mount /dev/nvme0n1 /mnt/local
+    sudo mkfs -t xfs $drive_list
+    sudo mount $drive_list /mnt/local
 fi
 
 user=$(whoami)
