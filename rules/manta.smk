@@ -88,7 +88,7 @@ rule RunManta:
             --bam {{input.bam}} \\
             --referenceFasta {{input.fasta}} \\
             --runDir {outdir}/{{wildcards.file_id}}
-        {outdir}/{{wildcards.file_id}}/runWorkflow.py -j {{threads}}
+        {outdir}/{{wildcards.file_id}}/runWorkflow.py -j {{threads}} -m local
 
         cp {outdir}/{{wildcards.file_id}}/results/variants/diploidSV.vcf.gz {{output}}
         find {outdir}/{{wildcards.file_id}}/ -type f -not -name '{{wildcards.file_id}}-manta.vcf.gz' -delete
