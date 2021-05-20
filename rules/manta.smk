@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -7,6 +8,11 @@ import pandas as pd
 outdir = config['outdir']
 manifest_table = pd.read_csv(config['manifest'], sep='\t')
 file_ids = manifest_table['file_id'].tolist()
+random.seed(42)
+random.shuffle(file_ids)
+i = config['partition'] # partition of data to process (1-4)
+n = len(file_ids)
+file_ids = file_ids[(i-1)*n//4 : i*n//4]
 
 ### Helper Functions
 ###################################################
@@ -64,7 +70,7 @@ rule GetBam:
 
 rule RunManta:
     threads:
-        np.ceil(workflow.cores/2)
+        workflow.cores-2
     input:
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,

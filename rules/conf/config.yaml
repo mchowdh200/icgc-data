@@ -1,3 +1,4 @@
 outdir: '/mnt/local/data'
 manifest: '/home/ubuntu/icgc-data/data_listings/donor_manifest.tsv'
 donor_table: '/home/ubuntu/icgc-data/data_listings/donor_table.tsv'
+partition: 1
