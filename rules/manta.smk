@@ -27,6 +27,9 @@ rule All:
     input:
         expand(f'{outdir}/{{file_id}}/{{file_id}}-manta.vcf.gz',
                file_id=file_ids)
+    run:
+        for f in input:
+            shell(f"""aws s3 cp {f} s3://layerlabcu/icgc/manta.2/""")
 
 rule GetReference:
     output:
