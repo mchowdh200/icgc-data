@@ -60,7 +60,7 @@ rule GetBam:
         num_downloads = 1
     run:
         Path(f'{outdir}/bam').mkdir(exist_ok=True)
-        shell(f"""score-client --quiet true download \\
+        shell(f"""score-client --quiet download \\
         --validate false \\
         --output-dir {outdir}/bam \\
         --manifest {input.manifest}""")
