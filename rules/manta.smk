@@ -61,6 +61,7 @@ rule GetBam:
     run:
         Path(f'{outdir}/bam').mkdir(exist_ok=True)
         shell(f"""score-client download \\
+        --quiet true \\
         --validate false \\
         --output-dir {outdir}/bam \\
         --manifest {input.manifest}""")
