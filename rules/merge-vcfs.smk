@@ -46,8 +46,8 @@ rule SurvivorMergeVCFs:
     threads:
         1
     input:
-        smoove = expand(f'{outdir}/vcf/{{file-id}}-smoove.genotyped.vcf', file_id=file_ids),
-        manta = expand(f'{outdir}/vcf/{{file-id}}-manta.vcf', file_id=file_ids),
+        smoove = expand(f'{outdir}/vcf/{{file_id}}-smoove.genotyped.vcf', file_id=file_ids),
+        manta = expand(f'{outdir}/vcf/{{file_id}}-manta.vcf', file_id=file_ids),
     output:
         vcf = f'{outdir}/survivor-merged.vcf'
     shell:
