@@ -37,8 +37,8 @@ rule GetVcf:
         aws s3 cp s3://layerlabcu/icgc/manta.2/{{params.manta_fname}} {outdir}/vcf/
         
         # SURVIVOR does not work right with vcf.gz input
-        bcftools view {outdir}/{{smoove_fname}} > {output.smoove}
-        bcftools view {outdir}/{{manta_fname}} > {output.manta}
+        bcftools view {outdir}/{{params.smoove_fname}} > {{output.smoove}}
+        bcftools view {outdir}/{{params.manta_fname}} > {{output.manta}}
         """
 
 
