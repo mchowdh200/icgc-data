@@ -143,5 +143,5 @@ rule SmoovePasteVCFs:
         f'{outdir}/sites.smoove.square.vcf.gz'
     shell:
         f"""
-        smoove paste -o {outdir} --name sites {input.vcfs}
+        smoove paste -o {outdir} --name sites {{input.vcfs}}
         """
