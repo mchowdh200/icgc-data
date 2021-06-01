@@ -52,7 +52,7 @@ rule SurvivorMergeVCFs:
         vcf = f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
-        cat <(echo {{input.smoove_normal}}) <(echo {{input.manta_normal}}) |
+        cat <(echo {{input.smoove}}) <(echo {{input.manta}}) |
             tr ' ' '\n' > {outdir}/vcf-list.txt
         
         max_dist_between_breakpoints=0.2 # fraction of SVLEN
