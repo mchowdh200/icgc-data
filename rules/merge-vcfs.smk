@@ -58,7 +58,7 @@ rule SurvivorMergeVCFs:
         max_dist_between_breakpoints=0.2 # fraction of SVLEN
         min_support=1
         take_type_into_account=1
-        take_strand_into_account=0
+        take_strand_into_account=1
         estimate_dist_from_SV_size=1
         min_size=50
 
