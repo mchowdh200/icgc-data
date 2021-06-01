@@ -137,7 +137,7 @@ rule SmoovePasteVCFs:
     conda:
         'envs/smoove.yaml'
     input:
-        vcfs = expand('{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz',
+        vcfs = expand(f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz',
                       file_id=file_ids)
     output:
         f'{outdir}/sites.smoove.square.vcf.gz'
