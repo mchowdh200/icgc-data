@@ -119,7 +119,7 @@ rule SmooveGenotype:
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,
         bam = rules.GetBam.output.bam,
-        bam = rules.GetBam.output.bai,
+        bai = rules.GetBam.output.bai,
         vcf = rules.SurvivorMergeVCFs.output.vcf
     output:
         f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz'
