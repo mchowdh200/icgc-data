@@ -78,8 +78,8 @@ rule GetReference:
         fai = temp(f'{outdir}/ref/hs37d5.fa.fai'),
     shell:
         f"""
-        aws s3 cp {ref_s3_path} {{output.fasta}}
-        aws s3 cp {ref_s3_path}.fai {{output.fai}}
+        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {{output.fasta}}
+        aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {{output.fai}}
         """
 
 rule GetManifest:
