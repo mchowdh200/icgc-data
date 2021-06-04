@@ -12,5 +12,5 @@ print(vcf.header, end='')
 
 for variant in vcf:
     if variant.info['SVTYPE'] == 'TRA':
-        variant.info['SVTYPE'] == 'BND'
+        variant.info['SVTYPE'] = 'BND'
         print(variant, end='')
