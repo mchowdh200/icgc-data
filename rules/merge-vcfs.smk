@@ -49,7 +49,7 @@ rule SurvivorMergeVCFs:
         smoove = expand(f'{outdir}/vcf/{{file_id}}-smoove.genotyped.vcf', file_id=file_ids),
         manta = expand(f'{outdir}/vcf/{{file_id}}-manta.vcf', file_id=file_ids),
     output:
-        vcf = f'{outdir}/survivor-merged.vcf'
+        vcf = temp(f'{outdir}/survivor-merged.temp.vcf')
     shell:
         f"""
         cat <(echo {{input.smoove}}) <(echo {{input.manta}}) |
@@ -71,6 +71,21 @@ rule SurvivorMergeVCFs:
             $min_size \\
             {{output.vcf}}
         """
+
+rule Tra2Bnd:
+    """
+    SURVIVOR infers svtype of TRA from some BND regions.
+    SVTyper doesn't recognize TRA, so this script changes them back to BND.
+    """
+    input:
+        rules.SurvivorMergeVCFs.output.vcf
+    output:
+        vcf = f'{outdir}/survivor-merged.vcf'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        f'python3 scripts/tra2bnd.py {{input}} {outdir}'
+
 
 rule GetReference:
     output:
@@ -113,16 +128,15 @@ rule GetBam:
         Path(bai).rename(output.bai)
 
 
-### TODO
 rule SmooveGenotype:
     input:
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,
         bam = rules.GetBam.output.bam,
         bai = rules.GetBam.output.bai,
-        vcf = rules.SurvivorMergeVCFs.output.vcf
+        vcf = rules.Tra2Bnd.output.vcf
     output:
-        f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz'
+        vcf = temp(f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz')
     conda:
         'envs/smoove.yaml'
     shell:
@@ -133,15 +147,28 @@ rule SmooveGenotype:
             {{input.bam}}
         """
 
+rule ChangeRef:
+    """
+    After merging sv callsets from multiple sv callers,
+    Some samples have ref mismatches, this is a hacky way of
+    getting around that before squaring off the vcfs
+    """
+    input:
+        vcf = rules.SmooveGenotype.output.vcf
+    output:
+        vcf = f'{outdir}/svtyper-vcf/{{file_id}}-fixed_ref.vcf.gz'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        f'python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir}'
+
 rule SmoovePasteVCFs:
     conda:
         'envs/smoove.yaml'
     input:
-        vcfs = expand(f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz',
+        vcfs = expand(f'{outdir}/svtyper-vcf/{{file_id}}-fixed_ref.vcf.gz',
                       file_id=file_ids)
     output:
         f'{outdir}/sites.smoove.square.vcf.gz'
     shell:
-        f"""
-        smoove paste -o {outdir} --name sites {{input.vcfs}}
-        """
+        f'smoove paste -o {outdir} --name sites {{input.vcfs}}'
