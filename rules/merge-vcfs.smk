@@ -160,8 +160,10 @@ rule ChangeRef:
     conda:
         'envs/pysam.yaml'
     shell:
-        f'python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir} |
-        bgzip -c > {{output.vcf}}'
+        f"""
+        python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir} |
+            bgzip -c > {{output.vcf}}
+        """
 
 rule SmoovePasteVCFs:
     conda:
