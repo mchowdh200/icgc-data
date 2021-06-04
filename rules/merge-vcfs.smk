@@ -84,7 +84,7 @@ rule Tra2Bnd:
     conda:
         'envs/pysam.yaml'
     shell:
-        f'python3 scripts/tra2bnd.py {{input}} {outdir}'
+        f'python3 scripts/tra2bnd.py {{input}} {outdir} > {{output.vcf}}'
 
 
 rule GetReference:
@@ -160,7 +160,7 @@ rule ChangeRef:
     conda:
         'envs/pysam.yaml'
     shell:
-        f'python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir}'
+        f'python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir} > {{output.vcf}}'
 
 rule SmoovePasteVCFs:
     conda:
