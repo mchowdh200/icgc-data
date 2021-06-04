@@ -49,7 +49,7 @@ rule SurvivorMergeVCFs:
         smoove = expand(f'{outdir}/vcf/{{file_id}}-smoove.genotyped.vcf', file_id=file_ids),
         manta = expand(f'{outdir}/vcf/{{file_id}}-manta.vcf', file_id=file_ids),
     output:
-        vcf = temp(f'{outdir}/survivor-merged.temp.vcf')
+        vcf = f'{outdir}/survivor-merged.vcf'
     shell:
         f"""
         cat <(echo {{input.smoove}}) <(echo {{input.manta}}) |
@@ -72,19 +72,19 @@ rule SurvivorMergeVCFs:
             {{output.vcf}}
         """
 
-rule Tra2Bnd:
-    """
-    SURVIVOR infers svtype of TRA from some BND regions.
-    SVTyper doesn't recognize TRA, so this script changes them back to BND.
-    """
-    input:
-        rules.SurvivorMergeVCFs.output.vcf
-    output:
-        vcf = f'{outdir}/survivor-merged.vcf'
-    conda:
-        'envs/pysam.yaml'
-    shell:
-        f'python3 scripts/tra2bnd.py {{input}} {outdir} > {{output.vcf}}'
+# rule Tra2Bnd:
+#     """
+#     SURVIVOR infers svtype of TRA from some BND regions.
+#     SVTyper doesn't recognize TRA, so this script changes them back to BND.
+#     """
+#     input:
+#         rules.SurvivorMergeVCFs.output.vcf
+#     output:
+#         vcf = f'{outdir}/survivor-merged.vcf'
+#     conda:
+#         'envs/pysam.yaml'
+#     shell:
+#         f'python3 scripts/tra2bnd.py {{input}} {outdir} > {{output.vcf}}'
 
 
 rule GetReference:
