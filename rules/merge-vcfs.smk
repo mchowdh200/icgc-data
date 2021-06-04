@@ -134,7 +134,7 @@ rule SmooveGenotype:
         fai = rules.GetReference.output.fai,
         bam = rules.GetBam.output.bam,
         bai = rules.GetBam.output.bai,
-        vcf = rules.Tra2Bnd.output.vcf
+        vcf = rules.SurvivorMergeVCFs.output.vcf
     output:
         vcf = temp(f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz')
     conda:
