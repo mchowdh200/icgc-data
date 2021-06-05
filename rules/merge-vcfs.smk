@@ -163,6 +163,7 @@ rule ChangeRef:
         f"""
         python3 scripts/change_vcf_ref.py {{input.vcf}} {outdir} |
             bgzip -c > {{output.vcf}}
+        tabix {{output.vcf}}
         """
 
 rule SmoovePasteVCFs:

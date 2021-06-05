@@ -1,5 +1,5 @@
 channels:
   - bioconda
 dependencies:
-  - htslib
+  - htslib=1.9
   - pysam
