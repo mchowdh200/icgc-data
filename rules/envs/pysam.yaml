@@ -3,3 +3,4 @@ channels:
 dependencies:
   - htslib=1.9
   - pysam
+  - bedtools

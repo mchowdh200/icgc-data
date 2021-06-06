@@ -72,20 +72,25 @@ rule SurvivorMergeVCFs:
             {{output.vcf}}
         """
 
-# rule Tra2Bnd:
-#     """
-#     SURVIVOR infers svtype of TRA from some BND regions.
-#     SVTyper doesn't recognize TRA, so this script changes them back to BND.
-#     """
-#     input:
-#         rules.SurvivorMergeVCFs.output.vcf
-#     output:
-#         vcf = f'{outdir}/survivor-merged.vcf'
-#     conda:
-#         'envs/pysam.yaml'
-#     shell:
-#         f'python3 scripts/tra2bnd.py {{input}} {outdir} > {{output.vcf}}'
+rule GetExcludeRegions:
+    output:
+        bed = f'{outdir}/bed/exclude.bed'
+    shell:
+        'aws s3 cp s3://layerlabcu/BED/ceph18.b37.lumpy.exclude.2014-01-15.bed {output.bed}'
 
+rule RemoveExcludeRegions:
+    """remove regions intersecting with exclude bed"""
+    input:
+        bed = rules.GetExcludeRegions.output.bed,
+        vcf = rules.SurvivorMergeVCFs.output.vcf
+    output:
+        vcf = merged.no_exclude.vcf.gz
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        f"""
+        bedtools subtract -header -A -a {{input.vcf}} -b {{input.bed}} > {{output.vcf}}
+        """
 
 rule GetReference:
     output:
@@ -134,7 +139,7 @@ rule SmooveGenotype:
         fai = rules.GetReference.output.fai,
         bam = rules.GetBam.output.bam,
         bai = rules.GetBam.output.bai,
-        vcf = rules.SurvivorMergeVCFs.output.vcf
+        vcf = rules.RemoveExcludeRegions.output.vcf
     output:
         vcf = temp(f'{outdir}/svtyper-vcf/{{file_id}}-smoove.genotyped.vcf.gz')
     conda:
