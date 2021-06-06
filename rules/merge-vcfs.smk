@@ -84,7 +84,7 @@ rule RemoveExcludeRegions:
         bed = rules.GetExcludeRegions.output.bed,
         vcf = rules.SurvivorMergeVCFs.output.vcf
     output:
-        vcf = merged.no_exclude.vcf.gz
+        vcf = f'{outdir}/merged.no_exclude.vcf'
     conda:
         'envs/pysam.yaml'
     shell:
