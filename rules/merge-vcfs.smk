@@ -56,7 +56,7 @@ rule SurvivorMergeVCFs:
             tr ' ' '\n' > {outdir}/vcf-list.txt
         
         max_dist_between_breakpoints=0.2 # fraction of SVLEN
-        min_support=4
+        min_support=10
         take_type_into_account=1
         take_strand_into_account=1
         estimate_dist_from_SV_size=1
