@@ -49,9 +49,6 @@ rule GetBam:
     output:
         bam = temp(f"{outdir}/bam/{{file_id}}.bam"),
         bai = temp(f"{outdir}/bam/{{file_id}}.bai")
-    resources:
-        disk_mb = bam_disk_mb,
-        num_downloads = 1
     run:
         Path(f'{outdir}/bam').mkdir(exist_ok=True)
         shell(f"""score-client --quiet download \\
