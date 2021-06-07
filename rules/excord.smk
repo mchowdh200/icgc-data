@@ -80,8 +80,6 @@ rule RunExcord:
         excord = rules.GetExcord.output.excord,
     output:
         f'{outdir}/bed/{{file_id}}.excord.bed.gz'
-    conda:
-        'envs/samtools.yaml'
     shell:
         'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output}'
         
