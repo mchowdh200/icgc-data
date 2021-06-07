@@ -83,14 +83,6 @@ rule RunExcord:
     conda:
         'envs/samtools.yaml'
     shell:
-        f"""
-        # get insert-sizes of first 100k reads, to compute discordant distance
-        samtools view -f66 {{input.bam}} | head -100000 |
-            awk '{{print sqrt($9^2) - length($10)}}' > {{input.bam}}.insert-sizes.txt
-        disc_dist=$(python3 scripts/get_disc_distance.py {{input.bam}}.insert-sizes.txt)
+        'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output}'
         
-        samtools view -b {{input.bam}} |
-            excord --discordantdistance $disc_dist --fasta {{input.fasta}} /dev/stdin |
-            bgzip -c > {{output}}
-        """
 
