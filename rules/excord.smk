@@ -80,7 +80,9 @@ rule RunExcord:
         excord = rules.GetExcord.output.excord,
     output:
         f'{outdir}/bed/{{file_id}}.excord.bed.gz'
+    log:
+        'logs/{file_id}-excord.log'
     shell:
-        'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output} {input.excord}'
+        'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output} {input.excord} &> {log}'
         
 
