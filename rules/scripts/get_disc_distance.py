@@ -2,8 +2,7 @@ import sys
 import numpy as np
 
 insert_sizes = [float(i.rstrip()) for i in open(sys.argv[1], 'r').readlines()]
-mean = np.mean(insert_sizes)
-std = np.std(insert_sizes)
-
-discordant_distance = int(mean + 4*std)
+median = np.median(insert_sizes)
+median_absolute_deviation = np.median(np.abs(insert_sizes - median))
+discordant_distance = int(median + 4*median_absolute_deviation)
 print(discordant_distance, end='')
