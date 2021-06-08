@@ -81,6 +81,6 @@ rule RunExcord:
     output:
         f'{outdir}/bed/{{file_id}}.excord.bed.gz'
     shell:
-        'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output}'
+        'bash scripts/excord_cmd.sh {input.bam} {input.fasta} {output} {input.excord}'
         
 
