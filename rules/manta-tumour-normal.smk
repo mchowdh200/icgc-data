@@ -54,6 +54,7 @@ def get_tumour_normal_pairs(manifest_table, donor_table):
 ###################################################
 outdir = config['outdir']
 manifest_table = pd.read_csv(config['manifest'], sep='\t')
+donor_table = pd.read_csv(config['donor_table'], sep='\t')
 file_ids = manifest_table['file_id'].tolist()
 tumour_normal_pairs = get_tumour_normal_pairs(manifest_table, donor_table)
 ### TODO pick a single tumour/normal pair to test with 
