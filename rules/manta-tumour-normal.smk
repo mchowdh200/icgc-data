@@ -2,134 +2,158 @@
 Tumour normal SV calling pipeline using manta
 """
 
+import random
 from pathlib import Path
+import numpy as np
+import pandas as pd
 
-################################################################################
-## Prelim setup
-################################################################################
-with open(config['donor_list']) as f:
-    donors = [x.rstrip() for x in f.readlines()]
-manifest_dir = config['manifest_dir']
+### Helper functions
+def get_normal_file_id(tumour_file_id, donor_table):
+    """
+    Given the file id of a tumour bam, get the corresponding normal bam ID
+    """
+    donor = donor_table[donor_table['File ID'] == tumour_file_id]['ICGC Donor'].values[0]
+    donor_df = donor_table[(donor_table['ICGC Donor'] == donor)]
+    normal_file_id = donor_df[
+        donor_df['Specimen Type'] \
+        .str.contains('normal', case=False)]['File ID'].values[0]
+    return normal_file_id
+
+def get_tumour_normal_pairs(manifest_table, donor_table):
+    """
+    returns a dictionary of tumour/normal bam file ids.
+    """
+    # exclude donors in the donor_table that arent in the manifest
+    donors = set(manifest_table['donor_id/donor_count'])
+    donor_table = donor_table[donor_table['ICGC Donor'].isin(donors)]
+
+    # get all files with tumour specimen type
+    is_tumour = donor_table.apply(
+        lambda x: 'tumour' in x['Specimen Type'].lower(), axis=1)
+    tumour_file_ids = donor_table[is_tumour]['File ID']
+
+    # for each tumour sample, pair it with the corresponding normal sample
+    tumour_normal_pairs = {
+        tumour_file_id: get_normal_file_id(tumour_file_id, donor_table)
+        for tumour_file_id in tumour_file_ids
+    }
+
+    # do some quick testing
+    for tid, nid in tumour_normal_pairs.items():
+        assert(len(donor_table[donor_table['File ID'] == tid]) == 1)
+        assert(len(donor_table[donor_table['File ID'] == nid]) == 1)
+        assert('tumour' in donor_table[
+            donor_table['File ID'] == tid]['Specimen Type'].values[0].lower())
+        assert('normal' in donor_table[
+            donor_table['File ID'] == nid]['Specimen Type'].values[0].lower())
+
+    return tumour_normal_pairs
+
+
+### Setup
+###################################################
 outdir = config['outdir']
+manifest_table = pd.read_csv(config['manifest'], sep='\t')
+file_ids = manifest_table['file_id'].tolist()
+tumour_normal_pairs = get_tumour_normal_pairs(manifest_table, donor_table)
+### TODO pick a single tumour/normal pair to test with 
+file_ids = ['FI10014', 'FI10013']
+tumour_normal_pairs = {'FI10014', tumour_normal_pairs['FI10014']}
 
-
-
+### Rules
 ################################################################################
-## Rules
-################################################################################
-
+## TODO
 rule all:
     input:
-        expand(manifest_dir+'/{donor}-tumour-normal.tsv', donor=donors),
-        expand(outdir+"/{donor}/results/variants/diploidSV.vcf.gz", donor=donors),
-        expand(outdir+"/{donor}/results/variants/somaticSV.vcf.gz", donor=donors),
-        expand(outdir+"/{donor}/results/variants/candidateSV.vcf.gz", donor=donors),
-        expand(outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz", donor=donors),
-        expand(outdir+"/{donor}/job-finished.txt", donor=donors)
+        expand(f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.diploidSV.vcf.gz',
+               tumour_file_id=list(tumour_normal_pairs.keys())),
+        expand(f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.somaticSV.vcf.gz',
+               tumour_file_id=list(tumour_normal_pairs.keys())),
+        expand(f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.candidateSV.vcf.gz',
+               tumour_file_id=list(tumour_normal_pairs.keys())),
+        expand(f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.candidateSmallIndels.vcf.gz',
+               tumour_file_id=list(tumour_normal_pairs.keys())),
 
 rule GetReference:
     output:
-        fasta = temp(outdir+"/ref/hs37d5.fa"),
-        fai = temp(outdir+"/ref/hs37d5.fa.fai"),
+        fasta = temp(f'{outdir}/ref/hs37d5.fa'),
+        fai = temp(f'{outdir}/ref/hs37d5.fa.fai')
     shell:
         """
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa {output.fasta}
         aws s3 cp s3://layerlabcu/ref/genomes/hs37d5/hs37d5.fa.fai {output.fai}
         """
 
-rule GetBams:
-    """
-    Download tumour normal pair.  Rename the files for better
-    rule interoperability.
-    """
-    resources:
-        num_downloads = 1
-    params: 
-        odir = outdir
-    threads: 1
-    input:
-        manifest = manifest_dir+'/{donor}-tumour-normal.tsv'
+rule GetManifest:
     output:
-        tumour_bam = temp(outdir+"/{donor}/bam/{donor}-tumour.bam"),
-        tumour_bai = temp(outdir+"/{donor}/bam/{donor}-tumour.bam.bai"),
-        normal_bam = temp(outdir+"/{donor}/bam/{donor}-normal.bam"),
-        normal_bai = temp(outdir+"/{donor}/bam/{donor}-normal.bam.bai")
-    shell:
-        # Download bams
-        # Rename bams with specimen type and donor id
-        # Normal bam is the first entry, tumour is second
-        """
-        while [[ $(find {params.odir} -name '*.bam' | wc -l) -ge {config[max_bams]} ]]; do
-            sleep 5
-        done
-
-        outdir=$(dirname {output.tumour_bam})
-        score-client download \
-            --validate false \
-            --output-dir $outdir \
-            --manifest {input.manifest}
-
-        normal=$(sed '2q;d' {input.manifest} | cut -f5)
-        tumour=$(sed '3q;d' {input.manifest} | cut -f5)
-
-        mv $outdir/$normal {output.normal_bam}
-        mv $outdir/$normal.bai {output.normal_bai}
-        mv $outdir/$tumour {output.tumour_bam}
-        mv $outdir/$tumour.bai {output.tumour_bai}
-        """
+        f'{outdir}/manifests/{{file_id}}-manifest.tsv'
+    run:
+        Path(f'{outdir}/manifests').mkdir(exist_ok=True)
+        m = manifest_table[manifest_table['file_id'] == wildcards.file_id]
+        m.to_csv(output[0], index=False, sep='\t')
 
 
-rule RunManta:
-    """
-    For a given donor, run the config and SV calling steps of manta
-    in Tumour/Normal mode.
-    """
+rule GetBam:
     input:
-        manta_install_path = config['manta_install_path'],
-        normal_bam = outdir+"/{donor}/bam/{donor}-normal.bam",
-        normal_bai = outdir+"/{donor}/bam/{donor}-normal.bam.bai",
-        tumour_bam = outdir+"/{donor}/bam/{donor}-tumour.bam",
-        tumour_bai = outdir+"/{donor}/bam/{donor}-tumour.bam.bai",
+        manifest = f'{outdir}/manifests/{{file_id}}-manifest.tsv'
+    output:
+        bam = temp(f"{outdir}/bam/{{file_id}}.bam"),
+        bai = temp(f"{outdir}/bam/{{file_id}}.bai")
+    run:
+        Path(f'{outdir}/bam').mkdir(exist_ok=True)
+        shell(f"""score-client --quiet download \\
+        --validate false \\
+        --output-dir {outdir}/bam \\
+        --manifest {input.manifest}""")
+
+        # remove bam and rename index with file_id
+        bam = f'{outdir}/bam/{manifest_table[manifest_table.file_id == wildcards.file_id].file_name.values[0]}'
+        bai = f'{bam}.bai'
+        Path(bam).rename(output.bam)
+        Path(bai).rename(output.bai)
+
+
+rule DownloadsComplete:
+    input:
+        bams = expand(f'{outdir}/bam/{{file_id}}.bam'),
+        bais = expand(f'{outdir}/bam/{{file_id}}.bai')
+    output:
+        f'{outdir}/downloads_complete.txt'
+    shell:
+        'touch {output}'
+
+
+# change inputs/outputs
+rule RunManta:
+    input:
+        downloads_complete = rules.DownloadsComplete.output,
+        tumour_bam = f'{outdir}/bam/{{tumour_file_id}}.bam',
+        tumour_bai = f'{outdir}/bam/{{tumour_file_id}}.bai',
+        normal_bam = lambda w: f'{outdir}/bam/{tumour_normal_pairs[w.tumour_file_id]}.bam',
+        normal_bai = lambda w: f'{outdir}/bam/{tumour_normal_pairs[w.tumour_file_id]}.bai',
         fasta = rules.GetReference.output.fasta,
         fai = rules.GetReference.output.fai,
-    params:
-        runDir = outdir+"/{donor}"
     output:
-        outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
-        outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
-        outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
-        outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
-    resources:
-        manta_running = 1,
+        germline = f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.diploidSV.vcf.gz',
+        somatic = f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.somaticSV.vcf.gz',
+        candidate = f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.candidateSV.vcf.gz',
+        candidate_smallindels = f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.candidateSmallIndels.vcf.gz',
     threads:
-        workflow.cores - 1
+        workflow.cores
     shell:
-        """
-        [[ -f {params.runDir}/runWorkflow.py ]] && rm {params.runDir}/runWorkflow.py
-        [[ -f {params.runDir}/runWorkflow.py.pickle ]] && rm {params.runDir}/runWorkflow.py.pickle
-        {input.manta_install_path}/bin/configManta.py \
+        f"""
+        mkdir -p {outdir}/{wildcards.tumour_file_id}}
+        rm -f {outdir}/{wildcards.tumour_file_id}}/runWorkflow.py.pickle
+        /mnt/local/bin/configManta.py \
             --normalBam {input.normal_bam} \
             --tumorBam {input.tumour_bam} \
             --referenceFasta {input.fasta} \
-            --runDir {params.runDir}
-        {params.runDir}/runWorkflow.py -j {threads}
-        """
-
-rule UploadResults:
-    input:
-        diploidSV = outdir+"/{donor}/results/variants/diploidSV.vcf.gz",
-        somaticSV = outdir+"/{donor}/results/variants/somaticSV.vcf.gz",
-        candidateSV = outdir+"/{donor}/results/variants/candidateSV.vcf.gz",
-        candidateSmallIndels = outdir+"/{donor}/results/variants/candidateSmallIndels.vcf.gz"
-    output:
-        outdir+"/{donor}/job-finished.txt"
-    shell:
-        """
-        aws s3 cp {input.diploidSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/diploidSV.vcf.gz
-        aws s3 cp {input.somaticSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/somaticSV.vcf.gz
-        aws s3 cp {input.candidateSV} s3://layerlabcu/icgc/manta/{wildcards.donor}/candidateSV.vcf.gz
-        aws s3 cp {input.candidateSmallIndels} s3://layerlabcu/icgc/manta/{wildcards.donor}/candidateSmallIndels.vcf.gz
+            --runDir {outdir}/{{wildcards.tumour_file_id}}
+        {outdir}/{{wildcards.tumour_file_id}}/runWorkflow.py -j {{threads}}
         
-        touch {output}
+        cp {outdir}/{{wildcards.tumour_file_id}}/results/variants/diploidSV.vcf.gz {{output.germline}}
+        cp {outdir}/{{wildcards.tumour_file_id}}/results/variants/somaticSV.vcf.gz {{output.somatic}}
+        cp {outdir}/{{wildcards.tumour_file_id}}/results/variants/candidateSV.vcf.gz {{output.candidate}}
+        cp {outdir}/{{wildcards.tumour_file_id}}/results/variants/candidateSmallIndels.vcf.gz {{output.candidate_smallindels}}
+        find {outdir}/{{wildcards.tumour_file_id}}/ -type f -not -name '{{wildcards.tumour_file_id}}.*.vcf.gz'
         """
-        
