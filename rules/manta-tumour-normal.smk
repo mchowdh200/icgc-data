@@ -115,8 +115,8 @@ rule GetBam:
 
 rule DownloadsComplete:
     input:
-        bams = expand(f'{outdir}/bam/{{file_id}}.bam'),
-        bais = expand(f'{outdir}/bam/{{file_id}}.bai')
+        bams = expand(f'{outdir}/bam/{{file_id}}.bam', file_id=file_ids),
+        bais = expand(f'{outdir}/bam/{{file_id}}.bai', file_id=file_ids)
     output:
         f'{outdir}/downloads_complete.txt'
     shell:
