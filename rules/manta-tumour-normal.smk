@@ -142,7 +142,7 @@ rule RunManta:
     shell:
         f"""
         mkdir -p {outdir}/{{wildcards.tumour_file_id}}
-        rm -f {outdir}/{wildcards.tumour_file_id}}/runWorkflow.py.pickle
+        rm -f {outdir}/{{wildcards.tumour_file_id}}/runWorkflow.py.pickle
         /mnt/local/bin/configManta.py \
             --normalBam {input.normal_bam} \
             --tumorBam {input.tumour_bam} \
