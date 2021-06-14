@@ -62,7 +62,6 @@ tumour_normal_pairs = {'FI10014', tumour_normal_pairs['FI10014']}
 
 ### Rules
 ################################################################################
-## TODO
 rule all:
     input:
         expand(f'{outdir}/{{tumour_file_id}}/{{tumour_file_id}}.diploidSV.vcf.gz',
@@ -142,7 +141,7 @@ rule RunManta:
         workflow.cores
     shell:
         f"""
-        mkdir -p {outdir}/{wildcards.tumour_file_id}}
+        mkdir -p {outdir}/{{wildcards.tumour_file_id}}
         rm -f {outdir}/{wildcards.tumour_file_id}}/runWorkflow.py.pickle
         /mnt/local/bin/configManta.py \
             --normalBam {input.normal_bam} \
