@@ -145,9 +145,9 @@ rule RunManta:
         mkdir -p {outdir}/{{wildcards.tumour_file_id}}
         rm -f {outdir}/{{wildcards.tumour_file_id}}/runWorkflow.py.pickle
         /mnt/local/bin/configManta.py \
-            --normalBam {input.normal_bam} \
-            --tumorBam {input.tumour_bam} \
-            --referenceFasta {input.fasta} \
+            --normalBam {{input.normal_bam}} \
+            --tumorBam {{input.tumour_bam}} \
+            --referenceFasta {{input.fasta}} \
             --runDir {outdir}/{{wildcards.tumour_file_id}}
         {outdir}/{{wildcards.tumour_file_id}}/runWorkflow.py -j {{threads}}
         
