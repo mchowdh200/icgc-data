@@ -21,12 +21,14 @@ tumour_file_ids = list(set(
 ### TODO
 rule All:
     input:
-        single_sample = expand(
-            f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz',
-            fid=tumour_file_ids),
-        somaticSV = expand(
-            f'{outdir}/somaticSV_vcf/{{fid}}.somaticSV.vcf.gz',
-            fid=tumour_file_ids)
+        expand(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz',
+               fid=tumour_file_ids)
+        # single_sample = expand(
+        #     f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz',
+        #     fid=tumour_file_ids),
+        # somaticSV = expand(
+        #     f'{outdir}/somaticSV_vcf/{{fid}}.somaticSV.vcf.gz',
+        #     fid=tumour_file_ids)
 
 rule GetSingleSampleVCFs:
     """
@@ -39,7 +41,6 @@ rule GetSingleSampleVCFs:
         aws s3 cp s3://layerlabcu/icgc/manta.2/{wildcards.fid}-manta.vcf.gz {output}
         """
 
-### TODO
 rule GetSomaticVCFs:
     """
     get the somaticSV vcfs from s3
@@ -50,4 +51,13 @@ rule GetSomaticVCFs:
         """
         aws s3 cp s3://layerlabcu/icgc/manta-tumour-normal/{wildcards.fid}.somaticSV.vcf.gz {output}
         """
-    
+
+rule GetSingleSampleDels:
+    input:
+        f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz'
+    output:
+        f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        'python3 get_dels.py {input} | bgzip -c > {output}'
