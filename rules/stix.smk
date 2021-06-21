@@ -60,4 +60,4 @@ rule GetSingleSampleDels:
     conda:
         'envs/pysam.yaml'
     shell:
-        'python3 get_dels.py {input} | bgzip -c > {output}'
+        'python3 scripts/get_dels.py {input} | bgzip -c > {output}'
