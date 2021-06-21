@@ -21,8 +21,10 @@ tumour_file_ids = list(set(
 ### TODO
 rule All:
     input:
-        expand(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz',
+        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.bed',
                fid=tumour_file_ids)
+        # expand(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz',
+        #        fid=tumour_file_ids)
         # single_sample = expand(
         #     f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz',
         #     fid=tumour_file_ids),
@@ -54,10 +56,26 @@ rule GetSomaticVCFs:
 
 rule GetSingleSampleDels:
     input:
-        f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz'
+        rules.GetSingleSampleVCFs.output
     output:
-        f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz'
+        temp(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz')
     conda:
         'envs/pysam.yaml'
     shell:
         'python3 scripts/get_dels.py {input} | bgzip -c > {output}'
+
+rule StixQuery:
+    threads:
+        workflow.cores #//4
+    input:
+        rules.GetSingleSampleDels.output
+    output:
+        f'{outdir}/bed/{{fid}}.stix.single_sample.bed'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        """
+        bcftools query -f '%CHROM\t%POS\t%INFO/END\n' |
+            gargs -p {threads} 'bash scripts/qdel.sh' > {output}
+        """
+
