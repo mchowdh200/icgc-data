@@ -75,7 +75,7 @@ rule StixQuery:
         'envs/pysam.yaml'
     shell:
         """
-        bcftools query -f '%CHROM\t%POS\t%INFO/END\n' {intput} |
+        bcftools query -f '%CHROM\t%POS\t%INFO/END\n' {input} |
             gargs -p {threads} 'bash scripts/qdel.sh' > {output}
         """
 
