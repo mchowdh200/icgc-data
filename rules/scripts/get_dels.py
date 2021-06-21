@@ -9,7 +9,7 @@ import pysam
 vcf = pysam.VariantFile(sys.argv[1])
 non_ref = {(0, 1), (1, 0), (1, 1)}
 print(vcf.header, end='')
-for variant in pysam.VariantFile(vcf):
+for variant in vcf:
     if variant.info['SVTYPE'] == 'DEL' and \
        variant.samples[0]['GT'] in non_ref:
             print(variant, end='')
