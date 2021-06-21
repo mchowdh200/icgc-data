@@ -25,7 +25,7 @@ rule All:
             f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz',
             fid=tumour_file_ids),
         somaticSV = expand(
-            f'{outdir}/somaticSV_vcf/{{fid}}-somaticSV.vcf.gz',
+            f'{outdir}/somaticSV_vcf/{{fid}}.somaticSV.vcf.gz',
             fid=tumour_file_ids)
 
 rule GetSingleSampleVCFs:
