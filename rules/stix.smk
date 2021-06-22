@@ -66,7 +66,7 @@ rule GetSingleSampleDels:
 
 rule StixQuery:
     threads:
-        workflow.cores #//4
+        workflow.cores
     input:
         rules.GetSingleSampleDels.output
     output:
@@ -76,6 +76,6 @@ rule StixQuery:
     shell:
         """
         bcftools query -f '%CHROM\t%POS\t%INFO/END\n' {input} |
-            gargs -p {threads} 'bash scripts/qdel.sh' > {output}
+            gargs -p {threads} 'bash scripts/qdel.sh {0} {1} {2}' > {output}
         """
 
