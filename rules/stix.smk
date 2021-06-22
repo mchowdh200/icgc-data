@@ -75,6 +75,6 @@ rule StixQuerySingleSample:
         'envs/pysam.yaml'
     shell:
         """
-        bash stix_cmd.sh {input} {output} {threads}
+        bash scripts/stix_cmd.sh {input} {output} {threads}
         """
 
