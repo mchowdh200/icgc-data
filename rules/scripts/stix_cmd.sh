@@ -1,5 +1,5 @@
-#!/bin/env/ bash
-set euo pipefail
+#!/bin/env bash
+set -euo pipefail
 input=$1
 output=$2
 threads=$3
