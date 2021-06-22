@@ -7,7 +7,7 @@ from pathlib import Path
 ### Setup
 ###############################################################################
 ### TODO add config later
-outdir = "~/data/stix/1kg/manta-tumour-normal-analysis"
+outdir = "/home/much8161/data/stix/1kg/manta-tumour-normal-analysis"
 
 # list the files in manta-tumour-normal somaticSV vcfs
 file_listing = subprocess.check_output(                                                                                                                                   
