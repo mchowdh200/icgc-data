@@ -6,4 +6,4 @@ threads=$3
 bcftools query -f '%CHROM\t%POS\t%INFO/END\n' $input |
     gargs -p $threads \
           'bash scripts/qdel.sh {0} {1} {2} /home/much8161/data/stix/1kg' \
-          > {output}
+          > $output
