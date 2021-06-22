@@ -4,10 +4,13 @@
 c=$1
 s=$2
 e=$3
+data_dir=$4
+d="1kg.ped.db" # ped database
+i="alt_sort_b" # index directory
 
-d="~/data/stix/1kg/1kg.ped.db" # ped database
-i="~/data/stix/1kg/alt_sort_b" # index directory
-
+# TODO seems to be a bug in stix where you need to call it
+# from the directory with the index in it.
+cd $data_dir
 hit=$(stix -d $d -t DEL -s 500 -i $i -l $c:$s-$s -r $c:$e-$e |
       tail -n+2 | awk '{print $7+$8}' | paste -sd " " - )
 nz=$(echo "$hit" | tr ' ' '\n' | awk '$1>0' | wc -l)
