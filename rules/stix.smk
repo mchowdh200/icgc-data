@@ -64,7 +64,7 @@ rule GetSingleSampleDels:
     shell:
         'python3 scripts/get_dels.py {input} | bgzip -c > {output}'
 
-rule StixQuery:
+rule StixQuerySingleSample:
     threads:
         workflow.cores
     input:
@@ -75,9 +75,6 @@ rule StixQuery:
         'envs/pysam.yaml'
     shell:
         """
-        # TODO seems to be a bug in stix where you need to call it
-        # from the directory with the index in it.
-        bcftools query -f '%CHROM\t%POS\t%INFO/END\n' {input} |
-            gargs -p {threads} 'bash scripts/qdel.sh {0} {1} {2} /home/much8161/data/stix/1kg' > {output}
+        bash stix_cmd.sh {input} {output} {threads}
         """
 

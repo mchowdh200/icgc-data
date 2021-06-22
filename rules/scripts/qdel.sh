@@ -1,5 +1,5 @@
-#!/bin/bash
-
+#!/bin/env bash
+set euo pipefail
 # genomic interval
 c=$1
 s=$2
