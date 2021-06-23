@@ -181,7 +181,7 @@ rule GetStats:
         tp_gt1 = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
         tp_gnomad = f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed'
     output:
-        temp('{outdir}/{{fid}}.stats.tsv')
+        temp(f'{outdir}/{{fid}}.stats.tsv')
     shell:
         """
         python3 calculate_stats.py --fid {wildcards.fid} \\
