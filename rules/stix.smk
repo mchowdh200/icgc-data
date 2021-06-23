@@ -161,5 +161,5 @@ rule IntersectICGC:
         mkdir -p {outdir}/intersections
         scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
         scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
-        scripts/intersect_icgc.sh {{intput.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
+        scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
         """
