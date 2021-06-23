@@ -8,7 +8,7 @@ def get_count(bed):
     """
     ignore_contigs = {'hs', 'GL', 'X', 'Y'}
     return len([line for line in open(bed).readlines()
-                if all([ic not in line.split[0] for ic in ignore_contigs])])
+                if all([ic not in line.split()[0] for ic in ignore_contigs])])
 
     
 
