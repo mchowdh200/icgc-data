@@ -34,8 +34,12 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.bed',
-               fid=tumour_file_ids)
+        gt0_icgc = expand(f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
+                          fid=tumour_file_ids),
+        gt1_icgc = expand(f'{outdir}/intersections/{{fid}}.gt1.icgc.del.bed',
+                          fid=tumour_file_ids),
+        gnomad_icgc = expand(f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed',
+                             fid=tumour_file_ids)
 
 rule GetSingleSampleVCFs:
     """
@@ -93,8 +97,9 @@ rule GetIcgcSampleDels:
     output:
         f'{outdir}/icgc_bed/{{fid}}.del.bed'
     shell:
-        """
-        bash scripts/icgc_bedpe2bed.sh {input} {output} DEL
+        f"""
+        mkdir -p {outdir}/icgc_bed
+        bash scripts/icgc_bedpe2bed.sh {{input}} {{output}} DEL
         """
 
 rule ThresholdCalledRegions:
@@ -107,10 +112,54 @@ rule ThresholdCalledRegions:
     input:
         rules.StixQuerySingleSample.output
     output:
-        gt0_bed = f'{outdir}/bed/{{fid}}.gt0.stix.bed',
-        gt1_bed = f'{outdir}/bed/{{fid}}.gt1.stix.bed'
+        gt0_bed = f'{outdir}/thresholded/{{fid}}.gt0.stix.bed',
+        gt1_bed = f'{outdir}/thresholded/{{fid}}.gt1.stix.bed'
     shell:
+        f"""
+        mkdir -p {outdir}/thresholded
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt0_bed}} 0
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
-        bash scripts/threshold_called_regions.sh {input} {output.gt0_bed} 0
-        bash scripts/threshold_called_regions.sh {input} {output.gt1_bed} 1
+
+### TODO get gnomad subtraction regions for comparison
+rule SubtractGnomadRegions:
+    """
+    remove regions in the sv callset that overlap with gnomad
+    """
+    input:
+        stix_bed = rules.StixQuerySingleSample.output,
+        gnomad_bed = "/home/much8161/data/stix/1kg/gnomad.DEL.bed" # TODO don't hardcode
+    output:
+        f'{outdir}/gnomad_subtracted/{{fid}}.gnomad_subtracted.del.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/gnomad_subtracted
+        bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.gnomad_bed}} |
+            grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
+        """
+    
+rule IntersectICGC:
+    """
+    Intersect the thresholded SV calls with ICGC truth regions
+    TODO Intersect the gnomad subtracted SV calls as well
+    """
+    input:
+        gt0_bed = rules.ThresholdCalledRegions.output.gt0_bed,
+        gt1_bed = rules.ThresholdCalledRegions.output.gt1_bed,
+        icgc_bed = rules.GetIcgcSampleDels.output,
+        gnomad_sub_bed = rules.SubtractGnomadRegions.output
+    output:
+        gt0_icgc = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
+        gt1_icgc = f'{outdir}/intersections/{{fid}}.gt1.icgc.del.bed',
+        gnomad_icgc = f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/intersections
+        scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
+        scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
+        scripts/intersect_icgc.sh {{intput.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
         """
