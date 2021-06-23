@@ -5,8 +5,8 @@ c=$1
 s=$2
 e=$3
 data_dir=$4
-d="1kg.ped.db" # ped database
-i="alt_sort_b" # index directory
+# d="1kg.ped.db" # ped database
+# i="alt_sort_b" # index directory
 
 # TODO seems to be a bug in stix where you need to call it
 # from the directory with the index in it.

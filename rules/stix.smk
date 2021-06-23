@@ -6,8 +6,22 @@ from pathlib import Path
 
 ### Setup
 ###############################################################################
-### TODO add config later
+### TODO add config to replace hardcoded paths
 outdir = "/home/much8161/data/stix/1kg/manta-tumour-normal-analysis"
+
+# TODO put the base location in a config
+# or create a rule to download the base data
+icgc_bedpe_dir = '/home/much8161/data/stix/1kg/pcawg/icgc/open'
+
+# table containing donor ids, file ids, specimen types, etc.
+donor_table = pd.read_csv(
+    '/home/much8161/Repositories/icgc-data/data_listings/donor_table.tsv',
+    sep='\t')
+
+# file id => bam sample name
+fileid2sample = {
+    line.split()[0] : line.split()[1]
+    for line in open('/home/much8161/Repositories/icgc-data/data_listings/sample_names.txt').readlines()}   
 
 # list the files in manta-tumour-normal somaticSV vcfs
 file_listing = subprocess.check_output(                                                                                                                                   
@@ -18,19 +32,10 @@ tumour_file_ids = list(set(
 
 ### Rules
 ###############################################################################
-### TODO
 rule All:
     input:
         expand(f'{outdir}/bed/{{fid}}.stix.single_sample.bed',
                fid=tumour_file_ids)
-        # expand(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz',
-        #        fid=tumour_file_ids)
-        # single_sample = expand(
-        #     f'{outdir}/single_sample_vcf/{{fid}}-manta.vcf.gz',
-        #     fid=tumour_file_ids),
-        # somaticSV = expand(
-        #     f'{outdir}/somaticSV_vcf/{{fid}}.somaticSV.vcf.gz',
-        #     fid=tumour_file_ids)
 
 rule GetSingleSampleVCFs:
     """
@@ -58,7 +63,7 @@ rule GetSingleSampleDels:
     input:
         rules.GetSingleSampleVCFs.output
     output:
-        temp(f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz')
+        f'{outdir}/single_sample_vcf/{{fid}}.del.vcf.gz'
     conda:
         'envs/pysam.yaml'
     shell:
@@ -78,3 +83,16 @@ rule StixQuerySingleSample:
         bash scripts/stix_cmd.sh {input} {output} {threads}
         """
 
+rule GetIcgcSampleDels:
+    """
+    get del regions for a given sample from the icgc bedpe
+    svclass = column 11
+    """
+    input:
+        lambda w: f'{icgc_bedpe_dir}/{fileid2sample[w.fid]}.pcawg_consensus_1.6.161116.somatic.sv.bedpe.gz'
+    output:
+        f'{outdir}/icgc_bed/{{fid}}.del.bed'
+    shell:
+        """
+        bash scripts/icgc_bedpe2bed.sh {input} {output} DEL
+        """
