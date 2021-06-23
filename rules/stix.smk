@@ -96,3 +96,21 @@ rule GetIcgcSampleDels:
         """
         bash scripts/icgc_bedpe2bed.sh {input} {output} DEL
         """
+
+rule ThresholdCalledRegions:
+    """
+    filter out called del regions with:
+    - gt 0 stix hits
+    - gt 1 stix hits
+    output to separate bed files
+    """
+    input:
+        rules.StixQuerySingleSample.output
+    output:
+        gt0_bed = f'{outdir}/bed/{{fid}}.gt0.stix.bed',
+        gt1_bed = f'{outdir}/bed/{{fid}}.gt1.stix.bed'
+    shell:
+        """
+        bash scripts/threshold_called_regions.sh {input} {output.gt0_bed} 0
+        bash scripts/threshold_called_regions.sh {input} {output.gt1_bed} 1
+        """
