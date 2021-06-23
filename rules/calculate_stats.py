@@ -41,5 +41,5 @@ for filtered_set, tp_set in filtering_methods.items():
     fp = filtered - tp
     tn = unfiltered - tp - fp
     fn = truth - tp
-    print('\t'.join([args['fid'], filtered_set, tp, fp, tn, fn]))
+    print('\t'.join(map(str, [args['fid'], filtered_set, tp, fp, tn, fn])))
 
