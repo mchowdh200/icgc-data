@@ -6,5 +6,5 @@ svtype=$3
 
 zcat $input |
     tail -n+2 |
-    awk '{OFS="\t"; if ($11=="$svtype") print $1,$2,$6,$11}' \
+    awk '{OFS="\t"; if ($11=="$svtype") print $1,$2,$6,$11;}' \
     > $output
