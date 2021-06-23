@@ -121,7 +121,6 @@ rule ThresholdCalledRegions:
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
 
-### TODO get gnomad subtraction regions for comparison
 rule SubtractGnomadRegions:
     """
     remove regions in the sv callset that overlap with gnomad
@@ -163,3 +162,35 @@ rule IntersectICGC:
         bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
         bash scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
         """
+
+rule GetStats:
+    """
+    compile statistics from all the intersections compared against
+    the truth set and the orignal call sets
+    * format is: fid,method,TP,FP,TN,FN (sep='\t')
+    ## TODO dont forget to remove the extraneous contigs/X/Y
+    """
+    input:
+        unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.bed',
+        filtered_gt0 = f'{outdir}/thresholded/{{fid}}.gt0.stix.bed',
+        filtered_gt1 = f'{outdir}/thresholded/{{fid}}.gt1.stix.bed',
+        filtered_gnomad = f'{outdir}/gnomad_subtracted/{{fid}}.gnomad_subtracted.del.bed',
+        truth_set = f'{outdir}/icgc_bed/{{fid}}.del.bed',
+        tp_gt0 = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
+        tp_gt1 = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
+        tp_gnomad = f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed'
+    output:
+        f'{outdir}/stats/{{fid}}.stats.tsv'
+    shell:
+        """
+        python3 calculate_stats.py --fid {wildcards.fid} \\
+                                   --unfiltered {input.unfiltered} \\
+                                   --filtered_gt0 {input.filtered_gt0} \\
+                                   --filtered_gt1 {input.filtered_gt1} \\
+                                   --filtered_gnomad {input.filtered_gnomad} \\
+                                   --truth_set {input.truth_set} \\
+                                   --tp_gt0 {input.tp_gt0} \\
+                                   --tp_gt1 {input.tp_gt1} \\
+                                   --tp_gnomad {input.tp_gnomad} > {output}
+        """
+    
