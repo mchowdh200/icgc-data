@@ -22,7 +22,7 @@ parser.add_argument('--truth_set', type=str, dest='truth_set', required=True)
 parser.add_argument('--tp_gt0', type=str, dest='tp_gt0', required=True)
 parser.add_argument('--tp_gt1', type=str, dest='tp_gt1', required=True)
 parser.add_argument('--tp_gnomad', type=str, dest='tp_gnomad', required=True)
-args = parser.parse_args()
+args = vars(parser.parse_args())
 
 
 truth = get_count(args['truth_set'])
