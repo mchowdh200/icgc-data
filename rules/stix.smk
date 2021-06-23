@@ -34,7 +34,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand('{outdir}/{{fid}}.stats.tsv', fid=tumour_file_ids),
+        expand(f'{outdir}/{{fid}}.stats.tsv', fid=tumour_file_ids),
         # gt0_icgc = expand(f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
         #                   fid=tumour_file_ids),
         # gt1_icgc = expand(f'{outdir}/intersections/{{fid}}.gt1.icgc.del.bed',
