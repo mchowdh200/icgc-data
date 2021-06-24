@@ -198,4 +198,7 @@ rule GenerateReport:
     output:
         f'{outdir}/stats_report.tsv'
     shell:
-        'cat {input} > {output}'
+        f"""
+        printf 'tumour fileID\tmethod\tTP\tFP\tTN\tTN\n' > header.tsv
+        cat header.tsv {input} > {output}'
+        """
