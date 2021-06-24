@@ -7,8 +7,8 @@ def get_count(bed):
     contains any of these substrings, then don't count
     """
     ignore_contigs = {'hs', 'GL', 'X', 'Y'}
-    return len([line for line in open(bed).readlines()
-                if all([ic not in line.split()[0] for ic in ignore_contigs])])
+    return len(set([line for line in open(bed).readlines()
+                if all([ic not in line.split()[0] for ic in ignore_contigs])]))
 
     
 
