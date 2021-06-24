@@ -34,13 +34,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/{{fid}}.stats.tsv', fid=tumour_file_ids),
-        # gt0_icgc = expand(f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
-        #                   fid=tumour_file_ids),
-        # gt1_icgc = expand(f'{outdir}/intersections/{{fid}}.gt1.icgc.del.bed',
-        #                   fid=tumour_file_ids),
-        # gnomad_icgc = expand(f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed',
-        #                      fid=tumour_file_ids)
+        f'{outdir}/stats_report.tsv'
 
 rule GetSingleSampleVCFs:
     """
@@ -195,3 +189,13 @@ rule GetStats:
                                    --tp_gnomad {input.tp_gnomad} > {output}
         """
     
+rule GenerateReport:
+    """
+    combine stats into a single report
+    """
+    input:
+        expand(f'{outdir}/{{fid}}.stats.tsv', fid=tumour_file_ids)
+    output:
+        f'{outdir}/stats_report.tsv'
+    shell:
+        'cat {input} > {output}'
