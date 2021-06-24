@@ -178,7 +178,7 @@ rule GetStats:
         temp(f'{outdir}/{{fid}}.stats.tsv')
     shell:
         """
-        python3 calculate_stats.py --fid {wildcards.fid} \\
+        python3 scripts/calculate_stats.py --fid {wildcards.fid} \\
                                    --unfiltered {input.unfiltered} \\
                                    --filtered_gt0 {input.filtered_gt0} \\
                                    --filtered_gt1 {input.filtered_gt1} \\
