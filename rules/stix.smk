@@ -200,6 +200,6 @@ rule GenerateReport:
         header = temp(f'{outdir}/header.tsv')
     shell:
         """
-        printf 'tumour fileID\tmethod\tTP\tFP\tTN\tTN\n' > {output.header}
-        cat {output.header} {input} > {output.report}'
+        printf 'fileID\tmethod\tTP\tFP\tTN\tTN\n' > {output.header}
+        cat {output.header} {input} > {output.report}
         """
