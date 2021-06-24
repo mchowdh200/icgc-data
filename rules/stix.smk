@@ -196,9 +196,10 @@ rule GenerateReport:
     input:
         expand(f'{outdir}/{{fid}}.stats.tsv', fid=tumour_file_ids)
     output:
-        f'{outdir}/stats_report.tsv'
+        report = f'{outdir}/stats_report.tsv',
+        header = temp('{outdir}/header.tsv')
     shell:
-        f"""
-        printf 'tumour fileID\tmethod\tTP\tFP\tTN\tTN\n' > header.tsv
-        cat header.tsv {input} > {output}'
+        """
+        printf 'tumour fileID\tmethod\tTP\tFP\tTN\tTN\n' > {output.header}
+        cat {output.header} {input} > {output}'
         """
