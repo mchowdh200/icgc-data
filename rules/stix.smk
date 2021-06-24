@@ -52,10 +52,26 @@ rule GetSomaticVCFs:
     get the somaticSV vcfs from s3
     """
     output:
-        f'{outdir}/somaticSV_vcf/{{fid}}.somaticSV.vcf.gz'
+        f'{outdir}/somaticSV/{{fid}}.somaticSV.vcf.gz'
     shell:
         """
         aws s3 cp s3://layerlabcu/icgc/manta-tumour-normal/{wildcards.fid}.somaticSV.vcf.gz {output}
+        """
+
+rule GetSomaticDels:
+    """
+    From the manta tumour-normal calls, extract DEL regions into a bed.
+    NOTE: the somatic vcf doesn't have genotypes, so presumably all the regions are variants
+    """
+    input:
+        rules.GetSomaticVCFs.output
+    output:
+        f'{outdir}/somaticSV/{{fid}}.somaticSV.del.bed'
+    conda:
+        'envs/samtools.yaml'
+    shell:
+        """
+        bcftools query -i 'SVTYPE="DEL"' -f '%CHROM\t%POS\t%INFO/END\n' {input} > {output}
         """
 
 rule GetSingleSampleDels:
@@ -137,16 +153,17 @@ rule SubtractGnomadRegions:
 rule IntersectICGC:
     """
     Intersect the thresholded SV calls with ICGC truth regions
-    TODO Intersect the gnomad subtracted SV calls as well
     """
     input:
         gt0_bed = rules.ThresholdCalledRegions.output.gt0_bed,
         gt1_bed = rules.ThresholdCalledRegions.output.gt1_bed,
-        icgc_bed = rules.GetIcgcSampleDels.output,
-        gnomad_sub_bed = rules.SubtractGnomadRegions.output
+        manta_somatic_bed = rules.GetSomaticDels.output,
+        gnomad_sub_bed = rules.SubtractGnomadRegions.output,
+        icgc_bed = rules.GetIcgcSampleDels.output
     output:
         gt0_icgc = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
         gt1_icgc = f'{outdir}/intersections/{{fid}}.gt1.icgc.del.bed',
+        manta_somatic_icgc = f'{outdir}/intersections/{{fid}}.manta-tumour-normal.icgc.del.bed',
         gnomad_icgc = f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed'
     conda:
         'envs/bedtools.yaml'
@@ -155,6 +172,7 @@ rule IntersectICGC:
         mkdir -p {outdir}/intersections
         bash scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
         bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
+        bash scripts/intersect_icgc.sh {{input.manta_somatic_bed}} {{input.icgc_bed}} {{output.manta_somatic_icgc}}
         bash scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
         """
 
@@ -163,30 +181,34 @@ rule GetStats:
     compile statistics from all the intersections compared against
     the truth set and the orignal call sets
     * format is: fid,method,TP,FP,TN,FN (sep='\t')
-    ## TODO dont forget to remove the extraneous contigs/X/Y
     """
     input:
         unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.bed',
         filtered_gt0 = f'{outdir}/thresholded/{{fid}}.gt0.stix.bed',
         filtered_gt1 = f'{outdir}/thresholded/{{fid}}.gt1.stix.bed',
+        filtered_manta_tn = f'{outdir}/somaticSV/{{fid}}.somaticSV.del.bed',
         filtered_gnomad = f'{outdir}/gnomad_subtracted/{{fid}}.gnomad_subtracted.del.bed',
         truth_set = f'{outdir}/icgc_bed/{{fid}}.del.bed',
         tp_gt0 = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
         tp_gt1 = f'{outdir}/intersections/{{fid}}.gt0.icgc.del.bed',
+        tp_manta_tn = f'{outdir}/intersections/{{fid}}.manta-tumour-normal.icgc.del.bed',
         tp_gnomad = f'{outdir}/intersections/{{fid}}.gnomad-sub.icgc.del.bed'
     output:
         temp(f'{outdir}/{{fid}}.stats.tsv')
     shell:
         """
-        python3 scripts/calculate_stats.py --fid {wildcards.fid} \\
-                                   --unfiltered {input.unfiltered} \\
-                                   --filtered_gt0 {input.filtered_gt0} \\
-                                   --filtered_gt1 {input.filtered_gt1} \\
-                                   --filtered_gnomad {input.filtered_gnomad} \\
-                                   --truth_set {input.truth_set} \\
-                                   --tp_gt0 {input.tp_gt0} \\
-                                   --tp_gt1 {input.tp_gt1} \\
-                                   --tp_gnomad {input.tp_gnomad} > {output}
+        python3 scripts/calculate_stats.py \\
+            --fid {wildcards.fid} \\
+            --unfiltered {input.unfiltered} \\
+            --filtered_gt0 {input.filtered_gt0} \\
+            --filtered_gt1 {input.filtered_gt1} \\
+            --filtered_manta_tn {input.filtered_manta_tn} \\
+            --filtered_gnomad {input.filtered_gnomad} \\
+            --truth_set {input.truth_set} \\
+            --tp_gt0 {input.tp_gt0} \\
+            --tp_gt1 {input.tp_gt1} \\
+            --tp_manta_tn {input.tp_manta_tn} \\
+            --tp_gnomad {input.tp_gnomad} > {output}
         """
     
 rule GenerateReport:
@@ -200,6 +222,6 @@ rule GenerateReport:
         header = temp(f'{outdir}/header.tsv')
     shell:
         """
-        printf 'fileID\tmethod\tTP\tFP\tTN\tTN\n' > {output.header}
+        printf 'fileID\tmethod\tTP\tFP\tTN\tFN\n' > {output.header}
         cat {output.header} {input} > {output.report}
         """

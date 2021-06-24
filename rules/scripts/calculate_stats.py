@@ -11,16 +11,18 @@ def get_count(bed):
                 if all([ic not in line.split()[0] for ic in ignore_contigs])]))
 
     
-
+# I realized how unnessecary this was after the fact...
 parser = argparse.ArgumentParser()
 parser.add_argument('--fid', type=str, dest='fid', required=True)
 parser.add_argument('--unfiltered', type=str, dest='unfiltered', required=True)
 parser.add_argument('--filtered_gt0', type=str, dest='filtered_gt0', required=True)
 parser.add_argument('--filtered_gt1', type=str, dest='filtered_gt1', required=True)
+parser.add_argument('--filtered_manta_tn', type=str, dest='filtered_manta_tn', required=True)
 parser.add_argument('--filtered_gnomad', type=str, dest='filtered_gnomad', required=True)
 parser.add_argument('--truth_set', type=str, dest='truth_set', required=True)
 parser.add_argument('--tp_gt0', type=str, dest='tp_gt0', required=True)
 parser.add_argument('--tp_gt1', type=str, dest='tp_gt1', required=True)
+parser.add_argument('--tp_manta_tn', type=str, dest='tp_manta_tn', required=True)
 parser.add_argument('--tp_gnomad', type=str, dest='tp_gnomad', required=True)
 args = parser.parse_args()
 args = vars(args)
@@ -32,6 +34,7 @@ unfiltered = get_count(args['unfiltered'])
 filtering_methods = {
     'filtered_gt0': 'tp_gt0',
     'filtered_gt1': 'tp_gt1',
+    'filtered_manta_tn': 'tp_manta_tn',
     'filtered_gnomad': 'tp_gnomad'
 }
 
