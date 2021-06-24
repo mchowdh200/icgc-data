@@ -201,5 +201,5 @@ rule GenerateReport:
     shell:
         """
         printf 'tumour fileID\tmethod\tTP\tFP\tTN\tTN\n' > {output.header}
-        cat {output.header} {input} > {output}'
+        cat {output.header} {input} > {output.report}'
         """
