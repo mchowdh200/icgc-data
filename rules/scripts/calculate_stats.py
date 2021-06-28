@@ -19,11 +19,13 @@ parser.add_argument('--filtered_gt0', type=str, dest='filtered_gt0', required=Tr
 parser.add_argument('--filtered_gt1', type=str, dest='filtered_gt1', required=True)
 parser.add_argument('--filtered_manta_tn', type=str, dest='filtered_manta_tn', required=True)
 parser.add_argument('--filtered_gnomad', type=str, dest='filtered_gnomad', required=True)
+parser.add_argument('--filtered_1kg', type=str, dest='filtered_1kg', required=True)
 parser.add_argument('--truth_set', type=str, dest='truth_set', required=True)
 parser.add_argument('--tp_gt0', type=str, dest='tp_gt0', required=True)
 parser.add_argument('--tp_gt1', type=str, dest='tp_gt1', required=True)
 parser.add_argument('--tp_manta_tn', type=str, dest='tp_manta_tn', required=True)
 parser.add_argument('--tp_gnomad', type=str, dest='tp_gnomad', required=True)
+parser.add_argument('--tp_1kg', type=str, dest='tp_1kg', required=True)
 args = parser.parse_args()
 args = vars(args)
 
@@ -35,7 +37,8 @@ filtering_methods = {
     'filtered_gt0': 'tp_gt0',
     'filtered_gt1': 'tp_gt1',
     'filtered_manta_tn': 'tp_manta_tn',
-    'filtered_gnomad': 'tp_gnomad'
+    'filtered_gnomad': 'tp_gnomad',
+    'filtered_1kg': 'tp_1kg'
 }
 
 for filtered_set, tp_set in filtering_methods.items():
