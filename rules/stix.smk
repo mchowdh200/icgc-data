@@ -194,6 +194,7 @@ rule IntersectICGC:
         bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
         bash scripts/intersect_icgc.sh {{input.manta_somatic_bed}} {{input.icgc_bed}} {{output.manta_somatic_icgc}}
         bash scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
+        bash scripts/intersect_icgc.sh {{input.onekg_sub_bed}} {{input.icgc_bed}} {{output.onekg_icgc}}
         """
 
 rule GetStats:
