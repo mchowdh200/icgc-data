@@ -10,7 +10,7 @@ donor_table = pd.read_csv(config['donor_table'], sep='\t')
 genes_bed = config['genes_bed']
 regions_18p16q = config['regions_18p16q']
 somaticSV_bucket = config['somaticSV_bucket']
-file_listing = subprocess.check_output([f'aws s3 ls {somaticSV_bucket}'], shell=True)
+file_listing = subprocess.check_output([f'aws s3 ls {somaticSV_bucket}/'], shell=True)
 tumour_file_ids = list(set(
     line.split()[3].split('.')[0]
     for line in file_listing.decode().rstrip().split('\n')))
@@ -20,6 +20,8 @@ tumour_file_ids = list(set(
 rule All:
     input:
         ## TODO
+        expand(f'{outdir}/intersect_8p16q/{{fid}}.8p16q.vcf.gz',
+               fid=tumour_file_ids)
 
 rule GetSomaticVCFs:
     """
