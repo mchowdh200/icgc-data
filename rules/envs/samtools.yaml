@@ -3,3 +3,4 @@ channels:
 dependencies:
   - samtools
   - bcftools
+  - numpy

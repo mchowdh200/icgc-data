@@ -10,12 +10,6 @@ from types import SimpleNamespace
 # don't want to use dict notation to get stuff from config
 conf = SimpleNamespace(**config)
 donor_table = pd.read_csv(conf.donor_table, sep='\t')
-# outdir = config['outdir']
-# somaticSV_bucket = config['somaticSV_bucket']
-# genes_bed = config['genes_bed']
-# regions8p16q = config['regions8p16q']
-# cytoband_bed = config['cytoband_bed']
-
 file_listing = subprocess.check_output([f'aws s3 ls {conf.somaticSV_bucket}/'], shell=True)
 tumour_file_ids = list(set(
     line.split()[3].split('.')[0]
@@ -35,8 +29,15 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
+        f'{conf.outdir}/cooccurrence_matrix.png',
+        expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
+               fid=tumour_file_ids),
+        expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
+               fid=tumour_file_ids),
         expand(f'{conf.outdir}/del_fusions/{{fid}}.del_fusions.bedpe',
                fid=tumour_file_ids),
+        # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband_regions.bedpe',
+        #        fid=tumour_file_ids),
         f'{conf.outdir}/combined.bedpe'
         # expand(f'{conf.outdir}/intersect_8p16q/{{fid}}.8p16q.bedpe',
                # fid=tumour_file_ids)
@@ -53,6 +54,59 @@ rule GetSomaticVCFs:
         f"""
         aws s3 cp {conf.somaticSV_bucket}/{{wildcards.fid}}.somaticSV.vcf.gz {{output}}
         """
+
+rule GenomeMakeWindows:
+    input:
+        conf.contig_lengths
+    output:
+        f'{conf.outdir}/hs37d5.windows.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        'bedtools makewindows -g {input} -w 1000000 > {output}'
+
+rule IntersectWindows:
+    ## TODO maybe also do this with the cytoband regions
+    """
+    Take the vcfs and intersect with the genome windows to get
+    # of overlaps within each window. A = windows, B = vcf
+    """
+    input:
+        windows = rules.GenomeMakeWindows.output,
+        vcf = rules.GetSomaticVCFs.output
+    output:
+        f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed'
+    shell:
+        'bedtools intersect -a {input.windows} -b {input.vcf} -c > {output}'
+
+
+rule IntersectCytobandWindows:
+    """
+    take the vcfs and intersect with the cytoband regions to get #
+    of overlaps within each window.  A = windows, B = vcf
+    """
+    input:
+        windows = conf.cytoband_bed,
+        vcf = rules.GetSomaticVCFs.output
+    output:
+        f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed'
+    shell:
+        f"""
+        mkdir -p {conf.outdir}/intersect_cytoband
+        bedtools intersect -a {{input.windows}} -b {{input.vcf}} -c > {{output}}
+        """
+
+
+rule PlotCooccurrenceMatrix:
+    input:
+        expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
+               fid=tumour_file_ids)
+    output:
+        f'{conf.outdir}/cooccurrence_matrix.png'
+    shell:
+        'python3 scripts/plot_cooccurrence.py {output} {input}'
+
+
 
 rule VCF2Bedpe:
     input:
@@ -85,21 +139,27 @@ rule IntersectGenes:
         pairToBed -a {{input}} -b {conf.genes_bed} > {{output}}
         """
 
-rule IntersectCytoband:
-    """
-    Intersect variants with cytoband notated regions
-    """
-    input:
-        rules.VCF2Bedpe.output
-    output:
-        f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband_regions.bed'
-    conda:
-        'envs/bedtools.yaml'
-    shell:
-        f"""
-        mkdir -p {conf.outdir}/intersect_cytoband
-        pairToBed -a {{input}} -b {{conf.cytoband_bed}} > {{output}}
-        """
+# rule IntersectCytoband:
+#     """
+#     Intersect variants with cytoband notated regions
+#     """
+#     input:
+#         rules.VCF2Bedpe.output
+#     output:
+#         f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband_regions.bedpe'
+#     conda:
+#         'envs/bedtools.yaml'
+#     shell:
+#         f"""
+#         mkdir -p {conf.outdir}/intersect_cytoband
+#         pairToBed -a {{input}} -b {{conf.cytoband_bed}} > {{output}}
+#         """
+
+## TODO
+# take note of column of the p/q region so we can use awk or pandas
+# filter by this column
+## OR
+# add this annotation to all of my intersections
 
 rule GetDelFusions:
     ## TODO check the deletion strand as well
@@ -136,8 +196,8 @@ rule Intersect8p16q:
         'envs/bedtools.yaml'
     shell:
         f"""
-        bedtools intersect -header -a {{input}} -b {conf.regions8p16q} > {{output}}
-        # bedtools intersect -header -a {{input}} -b {conf.regions8p16q} | bgzip -c > {{output}}
+        bedtools intersect -header -a {{input}} -b {conf.regions_8p16q} > {{output}}
+        # bedtools intersect -header -a {{input}} -b {conf.regions_8p16q} | bgzip -c > {{output}}
         """
 
 rule CombineIntersections:
