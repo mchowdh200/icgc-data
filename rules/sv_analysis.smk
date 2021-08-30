@@ -29,18 +29,16 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/cooccurrence_matrix.png',
-        expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
-               fid=tumour_file_ids),
-        expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
-               fid=tumour_file_ids),
-        expand(f'{conf.outdir}/del_fusions/{{fid}}.del_fusions.bedpe',
-               fid=tumour_file_ids),
-        # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband_regions.bedpe',
+        f'{conf.outdir}/gene_coooccurrence.graphml'
+        # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
         #        fid=tumour_file_ids),
-        f'{conf.outdir}/combined.bedpe'
+        # expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{conf.outdir}/del_fusions/{{fid}}.del_fusions.bedpe',
+        #        fid=tumour_file_ids),
+        # f'{conf.outdir}/combined.bedpe',
         # expand(f'{conf.outdir}/intersect_8p16q/{{fid}}.8p16q.bedpe',
-               # fid=tumour_file_ids)
+        #        fid=tumour_file_ids)
         # expand(f'{conf.outdir}/intersect_8p16q/{{fid}}.8p16q.vcf.gz',
         #        fid=tumour_file_ids)
 
@@ -55,6 +53,38 @@ rule GetSomaticVCFs:
         aws s3 cp {conf.somaticSV_bucket}/{{wildcards.fid}}.somaticSV.vcf.gz {{output}}
         """
 
+rule GetGeneOccurrence:
+    """
+    get # of variant occurrences for each gene
+    """
+    input:
+        genes=conf.genes_bed,
+        vcf = rules.GetSomaticVCFs.output
+    output:
+        f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed'
+    shell:
+        'bedtools intersect -a {input.genes} -b {input.vcf} -c > {output}'
+
+rule GetGeneCooccurrence:
+    input:
+        expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
+               fid=tumour_file_ids)
+    output:
+        f'{conf.outdir}/gene_coooccurrence.graphml'
+    params:
+        # columns to get bed info from (0-based)
+        feature_column = 3,
+        count_column = 5
+    shell:
+        """
+        python scripts/cooccurrence.py {params.feature_column} \\
+                                       {params.count_column} \\
+                                       {output} \\
+                                       {input}
+        """
+
+
+
 rule GenomeMakeWindows:
     input:
         conf.contig_lengths
@@ -66,7 +96,6 @@ rule GenomeMakeWindows:
         'bedtools makewindows -g {input} -w 1000000 > {output}'
 
 rule IntersectWindows:
-    ## TODO maybe also do this with the cytoband regions
     """
     Take the vcfs and intersect with the genome windows to get
     # of overlaps within each window. A = windows, B = vcf
