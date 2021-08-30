@@ -31,12 +31,12 @@ occ = sparse.csr_matrix(occ)
 assert(sparse.issparse(occ))
 ### Get cooccurrence counts accross all features
 print('co_occ')
-co_occ = occ.T.dot(occ)
+co_occ = sparse.triu(occ.T.dot(occ), k=1)
 assert(sparse.issparse(co_occ))
 # np.fill_diagonal(co_occ, 0)
-print('set_diag')
-co_occ.setdiag(0)
-co_occ.eliminate_zeros()
+# print('set_diag')
+# co_occ.setdiag(0)
+# co_occ.eliminate_zeros()
 
 
 ### Calculate the pointwise Mutual Information
