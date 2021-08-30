@@ -48,6 +48,8 @@ co_occ.eliminate_zeros()
 # expected = np.outer(row_totals, col_totals) / total
 print('col_totals')
 col_totals = co_occ.sum(axis=0)
+print(type(col_totals))
+print(len(col_totals))
 assert(sparse.issparse(col_totals))
 print('total')
 total = col_totals.sum(axis=0)
