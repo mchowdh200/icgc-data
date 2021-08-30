@@ -55,7 +55,7 @@ row_totals = sparse.csr_matrix(co_occ.sum(axis=1))
 print('expected')
 print(f'{row_totals.shape=}')
 print(f'{col_totals.shape=}')
-expected = (row_totals * col_totals.T)/total
+expected = (row_totals @ col_totals)/total
 assert(sparse.issparse(expected))
 exit(1)
 
