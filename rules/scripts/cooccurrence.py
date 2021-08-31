@@ -32,6 +32,7 @@ occ = sparse.csr_matrix(occ)
 ### Get cooccurrence counts accross all features
 print('calculating cooccurrence matrix')
 co_occ = sparse.triu(occ.T @ occ, k=0)
+print(co_occ.shape)
 assert(sparse.issparse(co_occ))
 
 
@@ -55,8 +56,8 @@ P = single_counts*(1/total) # multiplying preservese float32 dtype
 co_occ *= (1/total)
 
 # iterate over nonzero elements and modify in place
-for i, j in zip(*co_occ.nonzero()):
-    co_occ.data[i, j] = np.log2(co_occ.data[i, j] * (1/(P[i]*P[j])))
+for k, (i, j, v) in enumerate(zip(co_occ.row, co_occ.col, co_occ.data)):
+    co_occ.data[k] = np.log2(v * (1/(P[i]*P[j])))
 exit(1)
 
 with np.errstate(divide='ignore'):
