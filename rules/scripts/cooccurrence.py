@@ -55,7 +55,7 @@ P = single_counts*(1/total) # multiplying preservese float32 dtype
 co_occ *= (1/total)
 
 # iterate over nonzero elements and modify in place
-for i, j in zip(co_occ.nonzero()):
+for i, j in zip(*co_occ.nonzero()):
     co_occ[i, j] = np.log2(co_occ[i, j] * (1/(P[i]*P[j])))
 exit(1)
 
