@@ -56,7 +56,7 @@ co_occ *= (1/total)
 
 # iterate over nonzero elements and modify in place
 for i, j in zip(*co_occ.nonzero()):
-    co_occ.data[i, j] = np.log2(co_occ[i, j] * (1/(P[i]*P[j])))
+    co_occ.data[i, j] = np.log2(co_occ.data[i, j] * (1/(P[i]*P[j])))
 exit(1)
 
 with np.errstate(divide='ignore'):
