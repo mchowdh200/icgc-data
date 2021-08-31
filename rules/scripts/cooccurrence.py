@@ -46,6 +46,7 @@ assert(sparse.issparse(co_occ))
 
 
 # single counts and probabilities
+print('getting diag')
 single_counts = co_occ.diagonal()
 co_occ.setdiag(0)
 co_occ.eliminate_zeros()
@@ -53,9 +54,11 @@ total = np.sum(single_counts)
 P = single_counts*(1/total) # multiplying preservese float32 dtype
 
 # convert co_occ counts into joint probabilities
+print('normalizing matrix')
 co_occ *= (1/total)
 
 # iterate over nonzero elements and modify in place
+print('iteration over matrix')
 for k, (i, j, v) in enumerate(zip(co_occ.row, co_occ.col, co_occ.data)):
     co_occ.data[k] = np.log2(v * (1/(P[i]*P[j])))
 exit(1)
