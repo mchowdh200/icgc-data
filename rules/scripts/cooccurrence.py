@@ -26,37 +26,37 @@ occ = np.zeros((len(input_files), len(features)), dtype=np.float32)
 for i, bed in enumerate(input_files):
     # occ[i,:] = np.where(np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN) > 0, 1, 0)
     occ[i,:] = np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN, dtype=np.float32)
-print(occ.shape)
 occ = sparse.csr_matrix(occ)
-assert(sparse.issparse(occ))
+
+
 ### Get cooccurrence counts accross all features
-print('co_occ')
-co_occ = sparse.triu(occ.T @ occ, k=1)
+print('calculating cooccurrence matrix')
+co_occ = sparse.triu(occ.T @ occ, k=0)
 assert(sparse.issparse(co_occ))
-# np.fill_diagonal(co_occ, 0)
-# print('set_diag')
-# co_occ.setdiag(0)
-# co_occ.eliminate_zeros()
 
 
 ### Calculate the pointwise Mutual Information
-# PMI(X,Y) = log2(P(x,y)/(P(x)P(y)))
-# TODO check this
-# col_totals = np.sum(co_occ, axis=0)
-# total = np.sum(col_totals, axis=0)
-# row_totals = np.sum(co_occ, axis=1)
-# expected = np.outer(row_totals, col_totals) / total
-print('col_totals')
-col_totals = sparse.csr_matrix(co_occ.sum(axis=0))
-print('total')
-total = col_totals.sum(axis=0)
-print('row_totals')
-row_totals = sparse.csr_matrix(co_occ.sum(axis=1))
-print('expected')
-print(f'{row_totals.shape=}')
-print(f'{col_totals.shape=}')
-expected = (row_totals @ col_totals)/total
-assert(sparse.issparse(expected))
+# PMI(xi, xj) = log2(P(xi, xj)/(P(xi)P(xj)))
+#
+# The diag will have the single var counts.
+# From that we can get the total # of events and normalize
+# the matrix to create calculate P(xi, xj) and P(xi), ..., P(xn).
+# Then we will iterate over each nonzero element and compute PMI(xi, xj).
+
+
+# single counts and probabilities
+single_counts = co_occ.diagonal()
+co_occ.setdiag(0)
+co_occ.eliminate_zeros()
+total = np.sum(single_counts)
+P = single_counts*(1/total) # multiplying preservese float32 dtype
+
+# convert co_occ counts into joint probabilities
+co_occ *= (1/total)
+
+# iterate over nonzero elements and modify in place
+for i, j in zip(co_occ.nonzero()):
+    co_occ[i, j] = np.log2(co_occ[i, j] * (1/(P[i]*P[j])))
 exit(1)
 
 with np.errstate(divide='ignore'):
