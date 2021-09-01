@@ -5,9 +5,18 @@ from scipy import sparse
 from joblib import Parallel, delayed
 import matplotlib.pyplot as plt
 import networkx as nx
+import numba
 
+### Helper functions
+numba.set_num_threads(int(sys.argv[1]))
+@numba.jit(nopython=True, Parallel=True)
+def compute_pmi(row, col, data):
+    return np.array([
+        np.log2(v * (1/(P[i]*P[j])))
+        for i, j, v in zip(row, col, data)
+    ])
 
-N_JOBS = int(sys.argv[1])
+### Params
 FEATURE_COLUMN = int(sys.argv[2]) # zero based index
 COUNT_COLUMN = int(sys.argv[3])
 OUTPUT_FILE = sys.argv[4]
@@ -59,13 +68,8 @@ print('normalizing matrix')
 co_occ *= (1/total)
 
 # divide by independent probability and take log to complete
-print('iteration over matrix')
-co_occ.data = np.array(
-    Parallel(n_jobs=N_JOBS, verbose=10)(
-        delayed(lambda i, j, v: np.log2(v * (1/(P[i]*P[j]))))
-        (i, j, v) for i, j, v in zip(co_occ.row, co_occ.col, co_occ.data)),
-    dtype=np.float32
-)
+print('finish pmi calc')
+co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data)
 exit(1)
 
 

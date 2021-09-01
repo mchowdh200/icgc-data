@@ -76,7 +76,7 @@ rule GetGeneCooccurrence:
         feature_column = 3,
         count_column = 5
     threads:
-        48
+        workflow.cores
     shell:
         """
         python scripts/cooccurrence.py {threads} \\
