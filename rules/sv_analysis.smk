@@ -29,7 +29,8 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/gene_coooccurrence.graphml'
+        f'{conf.outdir}/gene_coooccurrence.npz'
+        # f'{conf.outdir}/gene_coooccurrence.graphml'
         # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
         #        fid=tumour_file_ids),
         # expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
