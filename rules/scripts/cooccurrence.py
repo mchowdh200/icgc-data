@@ -12,9 +12,10 @@ numba.set_num_threads(int(sys.argv[1]))
 @numba.jit(nopython=True, parallel=True)
 def compute_pmi(row, col, data):
     return np.array([
-        np.log2(v * (1/(P[i]*P[j])))
-        for i, j, v in zip(row, col, data)
-    ])
+        np.log2(data[k] * (1/(P[i]*P[j])))
+        for i, j, k in zip(row, col, range(len(data)))
+    ], dtype=np.float32)
+        
 
 ### Params
 FEATURE_COLUMN = int(sys.argv[2]) # zero based index
