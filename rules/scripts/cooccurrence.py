@@ -77,7 +77,17 @@ co_occ *= (1/total)
 # divide by independent probability and take log to complete
 print('finish pmi calc')
 co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, P)
-exit(1)
+
+### Eliminate elements that are below 2 std above the mean
+mean = np.mean(co_occ.data)
+std = np.std(co_occ.data)
+co_occ.data[co_occ.data < (mean + 2(std))] = 0.0
+co_occ.eliminate_zeros()
+
+
+### Write results to disk
+sparse.save_npz(OUTPUT_FILE, co_occ) # use load_npz() to get it back
+exit(0)
 
 
 ### reshape and filter ppmi > threshold

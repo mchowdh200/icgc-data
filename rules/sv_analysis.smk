@@ -65,12 +65,16 @@ rule GetGeneOccurrence:
     shell:
         'bedtools intersect -a {input.genes} -b {input.vcf} -c > {output}'
 
-rule GetGeneCooccurrence:
+rule GetGeneCooccurrenceMatrix:
+    """
+    compute (sparse) cooccurrence matrix and write to binary format on disk
+    """
     input:
         expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
                fid=tumour_file_ids)
     output:
-        f'{conf.outdir}/gene_coooccurrence.graphml'
+        # f'{conf.outdir}/gene_coooccurrence.graphml'
+        f'{conf.outdir}/gene_coooccurrence.npz'
     params:
         # columns to get bed info from (0-based)
         feature_column = 3,
