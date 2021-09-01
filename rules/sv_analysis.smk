@@ -75,6 +75,8 @@ rule GetGeneCooccurrence:
         # columns to get bed info from (0-based)
         feature_column = 3,
         count_column = 5
+    threads:
+        48
     shell:
         """
         python scripts/cooccurrence.py {params.feature_column} \\

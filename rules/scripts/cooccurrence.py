@@ -2,20 +2,22 @@ import sys
 import numpy as np
 import pandas as pd
 from scipy import sparse
+from joblib import Parallel, delayed
 import matplotlib.pyplot as plt
 import networkx as nx
 
 
-FEATURE_COLUMN = int(sys.argv[1]) # zero based index
-COUNT_COLUMN = int(sys.argv[2])
-output_file = sys.argv[3]
-input_files = sys.argv[4:]
+N_JOBS = int(sys.argv[1])
+FEATURE_COLUMN = int(sys.argv[2]) # zero based index
+COUNT_COLUMN = int(sys.argv[3])
+OUTPUT_FILE = sys.argv[4]
+INPUT_FILES = sys.argv[5:]
 
 ### Get list of all features from one of the bed files
 # we are assuming that all bed files will contain the same set of features
 # ie (regions, genes, etc.)
 features = []
-with open(input_files[0]) as f:
+with open(INPUT_FILES[0]) as f:
     for line in f:
         A = line.rstrip().split()
         features.append(A[FEATURE_COLUMN])
@@ -31,7 +33,7 @@ occ = sparse.csr_matrix(occ)
 
 ### Get cooccurrence counts accross all features
 print('calculating cooccurrence matrix')
-co_occ = sparse.triu(occ.T @ occ, k=0)
+co_occ = sparse.triu(occ.T @ occ, k=0) # outputs a sparse coo_matrix
 print(co_occ.shape)
 assert(sparse.issparse(co_occ))
 
@@ -43,7 +45,6 @@ assert(sparse.issparse(co_occ))
 # From that we can get the total # of events and normalize
 # the matrix to create calculate P(xi, xj) and P(xi), ..., P(xn).
 # Then we will iterate over each nonzero element and compute PMI(xi, xj).
-
 
 # single counts and probabilities
 print('getting diag')
@@ -57,18 +58,16 @@ P = single_counts*(1/total) # multiplying preservese float32 dtype
 print('normalizing matrix')
 co_occ *= (1/total)
 
-# iterate over nonzero elements and modify in place
+# divide by independent probability and take log to complete
 print('iteration over matrix')
-for k, (i, j, v) in enumerate(zip(co_occ.row, co_occ.col, co_occ.data)):
-    co_occ.data[k] = np.log2(v * (1/(P[i]*P[j])))
+co_occ.data = np.array(
+    Parallel(n_jobs=N_JOBS, verbose=10)(
+        delayed(lambda i, j, v: np.log2(v * (1/(P[i]*P[j]))))
+        for i, j, v in zip(co_occ.row, co_occ.col, co_occ.data)),
+    dtype=np.float32
+)
 exit(1)
 
-with np.errstate(divide='ignore'):
-    # ppmi = np.absolute(np.log(co_occ/expected))
-    ppmi.data = np.log(co_occ/expected)
-    ppmi.data[np.isnan(ppmi)] = 0.0
-
-ppmi[np.tril(np.ones(co_occ.shape)).astype(bool)] = 0
 
 ### reshape and filter ppmi > threshold
 # TODO make threshold a param
@@ -83,4 +82,4 @@ ppmi = ppmi.sparse.to_dense()
 
 ### write to a graphml for later visualization
 G = nx.from_pandas_edgelist(ppmi, edge_attr=True)
-nx.write_graphml(G, 'ppmi.graphml')
+nx.write_graphml(G, OUTPUT_FILE)
