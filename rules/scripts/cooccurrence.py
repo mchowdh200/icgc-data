@@ -9,7 +9,7 @@ import numba
 
 ### Helper functions
 numba.set_num_threads(int(sys.argv[1]))
-@numba.jit(nopython=True, Parallel=True)
+@numba.jit(nopython=True, parallel=True)
 def compute_pmi(row, col, data):
     return np.array([
         np.log2(v * (1/(P[i]*P[j])))
