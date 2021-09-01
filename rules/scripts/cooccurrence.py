@@ -10,10 +10,16 @@ import numba
 ### Helper functions
 numba.set_num_threads(int(sys.argv[1]))
 @numba.jit(nopython=True, parallel=True)
-def compute_pmi(row, col, data):
+def compute_pmi(row, col, data, P):
+    """
+    row: array of row indices
+    col: array of column indices
+    data: underlying array for coo_matrix
+    P: single event probability vector
+    """
     return np.array([
-        np.log2(data[k] * (1/(P[i]*P[j])))
-        for i, j, k in zip(row, col, range(len(data)))
+        np.log2(data[i] * (1/(P[row[i]]*P[col[i]])))
+        for i in range(len(data))
     ], dtype=np.float32)
         
 
@@ -70,7 +76,7 @@ co_occ *= (1/total)
 
 # divide by independent probability and take log to complete
 print('finish pmi calc')
-co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data)
+co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, P)
 exit(1)
 
 
