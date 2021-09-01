@@ -24,8 +24,8 @@ with open(INPUT_FILES[0]) as f:
 
 
 ### Find occurrence counts at each feature for each sample
-occ = np.zeros((len(input_files), len(features)), dtype=np.float32)
-for i, bed in enumerate(input_files):
+occ = np.zeros((len(INPUT_FILES), len(features)), dtype=np.float32)
+for i, bed in enumerate(INPUT_FILES):
     # occ[i,:] = np.where(np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN) > 0, 1, 0)
     occ[i,:] = np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN, dtype=np.float32)
 occ = sparse.csr_matrix(occ)
