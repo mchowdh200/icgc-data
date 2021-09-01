@@ -63,7 +63,7 @@ print('iteration over matrix')
 co_occ.data = np.array(
     Parallel(n_jobs=N_JOBS, verbose=10)(
         delayed(lambda i, j, v: np.log2(v * (1/(P[i]*P[j]))))
-        for i, j, v in zip(co_occ.row, co_occ.col, co_occ.data)),
+        (i, j, v) for i, j, v in zip(co_occ.row, co_occ.col, co_occ.data)),
     dtype=np.float32
 )
 exit(1)
