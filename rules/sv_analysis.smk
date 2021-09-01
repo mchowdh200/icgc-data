@@ -79,7 +79,8 @@ rule GetGeneCooccurrence:
         48
     shell:
         """
-        python scripts/cooccurrence.py {params.feature_column} \\
+        python scripts/cooccurrence.py {threads} \\
+                                       {params.feature_column} \\
                                        {params.count_column} \\
                                        {output} \\
                                        {input}
