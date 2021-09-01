@@ -81,8 +81,11 @@ co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, P)
 ### Eliminate elements that are below 2 std above the mean
 mean = np.mean(co_occ.data)
 std = np.std(co_occ.data)
+max = np.max(co_occ.data)
+min = np.min(co_occ.data)
+print(f'{min = } {max = } {mean = } {std = }')
 print(len(co_occ.data))
-co_occ.data[co_occ.data < (mean + 2*(std))] = 0.0
+co_occ.data[co_occ.data < (mean + 4*(std))] = 0.0
 co_occ.eliminate_zeros()
 print(len(co_occ.data))
 
