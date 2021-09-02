@@ -81,8 +81,8 @@ def compute_pmi(row, col, data, single_counts):
 if __name__ == '__main__':
     feature_column = int(sys.argv[1]) # zero based index
     count_column = int(sys.argv[2])
-    output_file = sys.argv[3]
-    input_files = sys.argv[4:]
+    output_matrix, output_features = sys.argv[3], sys.argv[4]
+    input_files = sys.argv[5:]
 
     ## get the ppmi from cooccurence data
     print("getting co_occ")
@@ -116,5 +116,11 @@ if __name__ == '__main__':
     print(len(co_occ.data))
 
     ## Write results to disk
-    sparse.save_npz(output_file, co_occ)
+    sparse.save_npz(output_matrix, co_occ)
+
+    with open(output_features, 'w') as f:
+        for x in features:
+            f.write(x)
+            f.write('\n')
+
 

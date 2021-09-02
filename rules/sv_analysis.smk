@@ -74,8 +74,8 @@ rule GetGeneCooccurrenceMatrix:
         expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
                fid=tumour_file_ids)
     output:
-        f'{conf.outdir}/gene_cooccurrence.npz',
-        # graph = f'{conf.outdir}/gene_cooccurrence.graphml',
+        matrix = f'{conf.outdir}/gene_cooccurrence.npz',
+        gene_features = f'{conf.outdir}/gene_features.txt'
     params:
         # columns to get bed info from (0-based)
         feature_column = 3,
@@ -87,7 +87,8 @@ rule GetGeneCooccurrenceMatrix:
         NUMBA_NUM_THREADS={{threads}}
         python scripts/cooccurrence.py {params.feature_column} \\
                                        {params.count_column} \\
-                                       {output} \\
+                                       {output.matrix} \\
+                                       {output.gene_features} \\
                                        {input}
         """
 
@@ -96,12 +97,13 @@ rule CoocurrenceMatrix2Graph:
     Convert cooccurrence matrix to graphml format for visualization
     """
     input:
-        rules.GetGeneCooccurrenceMatrix.output
+        gene_matrix = rules.GetGeneCooccurrenceMatrix.output.matrix
+        gene_features = rules.GetGeneCooccurrenceMatrix.output.gene_features
     output:
         f'{conf.outdir}/gene_cooccurrence.graphml'
     shell:
         """
-        python scripts/co_occ2graph.py {input} {output}
+        python scripts/co_occ2graph.py {input.gene_matrix} {input.gene_features} {output}
         """
         
 
