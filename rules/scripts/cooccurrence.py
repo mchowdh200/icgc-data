@@ -5,7 +5,7 @@ from scipy import sparse
 from joblib import Parallel, delayed
 import matplotlib.pyplot as plt
 import networkx as nx
-import numba
+from numba import jit, prange
 
 ### Get list of all features from one of the bed files
 # we are assuming that all bed files will contain the same set of features
@@ -50,7 +50,7 @@ def cooccurrence_counts(occ):
 
 
 ### Calculate the pointwise Mutual Information
-@numba.jit(nopython=True, parallel=True)
+@jit(nopython=True, parallel=True)
 def compute_pmi(row, col, data, single_counts):
     """
     PMI(xi, xj) = log2(P(xi, xj)/(P(xi)P(xj)))
@@ -68,7 +68,7 @@ def compute_pmi(row, col, data, single_counts):
     Ptotal = np.sum(data)
     pmi = np.array(
         [np.log2(data[i]/(Ptotal*P[row[i]]*P[col[i]]))
-         for i in range(len(data))],
+         for i in prange(len(data))],
         dtype=np.float32)
     # np.nan_to_num(pmi, copy=False, nan=0.0)
     # # get stats and filter
