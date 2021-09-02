@@ -107,12 +107,12 @@ if __name__ == '__main__':
     print(len(co_occ.data))
 
     ## filter
-    co_occ.data[co_occ.data < (mean + 4*std)] = 0.0
+    co_occ.data[co_occ.data < (mean + 6*std)] = 0.0
     co_occ.eliminate_zeros()
     print(len(co_occ.data))
 
     ## Write results to disk
-    sparse.save_npz(OUTPUT_FILE, co_occ) # use load_npz() to get it back
+    sparse.save_npz(output_file, co_occ) # use load_npz() to get it back
     exit(0)
 
 
