@@ -74,8 +74,8 @@ def compute_pmi(row, col, data, single_counts):
     # # get stats and filter
     # mean, std = np.mean(pmi), np.std(pmi)
     # pmi[pmi < (mean + 4*std)] = 0.0
-
-    return pmi[pmi > 0]
+    pmi[pmi > 0] = 0.0
+    return pmi
         
 ### TODO make upper triangular
 
