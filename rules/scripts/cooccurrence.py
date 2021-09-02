@@ -116,5 +116,5 @@ if __name__ == '__main__':
     print(len(co_occ.data))
 
     ## Write results to disk
-    sparse.save_npz(output_matrix, co_occ)
+    sparse.save_npz(output_file, co_occ)
 
