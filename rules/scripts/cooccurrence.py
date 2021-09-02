@@ -84,7 +84,7 @@ def compute_pmi(row, col, data, single_counts):
 if __name__ == '__main__':
     feature_column = int(sys.argv[1]) # zero based index
     count_column = int(sys.argv[2])
-    output_matrix, output_graph = sys.argv[3:5]
+    output_matrix, output_graph = sys.argv[3], sys.argv[4]
     input_files = sys.argv[5:]
 
     ## get the ppmi from cooccurence data

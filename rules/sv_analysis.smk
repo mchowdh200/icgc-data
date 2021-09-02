@@ -87,7 +87,8 @@ rule GetGeneCooccurrence:
         NUMBA_NUM_THREADS={{threads}}
         python scripts/cooccurrence.py {params.feature_column} \\
                                        {params.count_column} \\
-                                       {output}.matrix {output.graph} \\
+                                       {output}.matrix \\
+                                       {output.graph} \\
                                        {input}
         """
 
