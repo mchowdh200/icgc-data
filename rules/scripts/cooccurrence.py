@@ -88,9 +88,12 @@ if __name__ == '__main__':
     input_files = sys.argv[4:]
 
     ## get the ppmi from cooccurence data
+    print("getting co_occ")
     features = get_features(input_files, feature_column)
     occ = occurrence_counts(input_files, features, count_column)
     co_occ, single_counts = cooccurrence_counts(occ)
+
+    print("computing pmi")
     co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
     co_occ.eliminate_zeros()
 
