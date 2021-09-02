@@ -97,7 +97,7 @@ rule CoocurrenceMatrix2Graph:
     Convert cooccurrence matrix to graphml format for visualization
     """
     input:
-        gene_matrix = rules.GetGeneCooccurrenceMatrix.output.matrix
+        gene_matrix = rules.GetGeneCooccurrenceMatrix.output.matrix,
         gene_features = rules.GetGeneCooccurrenceMatrix.output.gene_features
     output:
         f'{conf.outdir}/gene_cooccurrence.graphml'
