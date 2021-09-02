@@ -96,6 +96,7 @@ if __name__ == '__main__':
     print("computing pmi")
     co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
     co_occ.eliminate_zeros()
+    co_occ = sparse.triu(co_occ)
 
     ## look at stats
     mean = np.mean(co_occ.data)
