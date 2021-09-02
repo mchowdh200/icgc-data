@@ -91,7 +91,7 @@ if __name__ == '__main__':
     print("getting co_occ")
     features = get_features(input_files, feature_column)
 
-    if os.path.isfile(output_matrix):
+    if not os.path.isfile(output_matrix):
         occ = occurrence_counts(input_files, features, count_column)
         co_occ, single_counts = cooccurrence_counts(occ)
 
