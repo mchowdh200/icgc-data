@@ -7,105 +7,117 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numba
 
-### Helper functions
-numba.set_num_threads(int(sys.argv[1]))
-@numba.jit(nopython=True, parallel=True)
-def compute_pmi(row, col, data, P):
-    """
-    row: array of row indices
-    col: array of column indices
-    data: underlying array for coo_matrix
-    P: single event probability vector
-    """
-    return np.array([
-        np.log2(data[i] * (1/(P[row[i]]*P[col[i]])))
-        for i in range(len(data))
-    ], dtype=np.float32)
-        
-
-### Params
-FEATURE_COLUMN = int(sys.argv[2]) # zero based index
-COUNT_COLUMN = int(sys.argv[3])
-OUTPUT_FILE = sys.argv[4]
-INPUT_FILES = sys.argv[5:]
-
 ### Get list of all features from one of the bed files
 # we are assuming that all bed files will contain the same set of features
 # ie (regions, genes, etc.)
-features = []
-with open(INPUT_FILES[0]) as f:
-    for line in f:
-        A = line.rstrip().split()
-        features.append(A[FEATURE_COLUMN])
+def get_features(input_files, feature_column):
+    """
+    returns list of features under consideration
+    """
+    features = []
+    with open(input_files[0]) as f:
+        for line in f:
+            A = line.rstrip().split()
+            features.append(A[feature_column])
+    return features
 
 
 ### Find occurrence counts at each feature for each sample
-occ = np.zeros((len(INPUT_FILES), len(features)), dtype=np.float32)
-for i, bed in enumerate(INPUT_FILES):
-    # occ[i,:] = np.where(np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN) > 0, 1, 0)
-    occ[i,:] = np.loadtxt(bed, delimiter='\t', usecols=COUNT_COLUMN, dtype=np.float32)
-occ = sparse.csr_matrix(occ)
+def occurrence_counts(input_files, features, count_column):
+    """
+    Returns sparse csr_matrix of occurrence counts.
+    rows = samples
+    columns = features
+    """
+    occ = np.zeros((len(input_files), len(features)), dtype=np.float32)
+    for i, bed in enumerate(input_files):
+        occ[i,:] = np.where(
+            np.loadtxt(bed, delimiter='\t', usecols=count_column) > 0, 1, 0)
+    return sparse.csr_matrix(occ)
 
 
 ### Get cooccurrence counts accross all features
-print('calculating cooccurrence matrix')
-co_occ = sparse.triu(occ.T @ occ, k=0) # outputs a sparse coo_matrix
-print(co_occ.shape)
-assert(sparse.issparse(co_occ))
+def cooccurrence_counts(occ):
+    """
+    Returns sparse coo_matrix of cooccurence counts, as well as the diag
+    of the matrix.  The diagonal of the coo_matrix will be set to zero.
+    """
+    co_occ = occ.T @ occ
+    single_counts = co_occ.diagonal()
+    co_occ.setdiag(0)
+    co_occ.eliminate_zeros()
+    return co_occ.tocoo(), single_counts
 
 
 ### Calculate the pointwise Mutual Information
-# PMI(xi, xj) = log2(P(xi, xj)/(P(xi)P(xj)))
-#
-# The diag will have the single var counts.
-# From that we can get the total # of events and normalize
-# the matrix to create calculate P(xi, xj) and P(xi), ..., P(xn).
-# Then we will iterate over each nonzero element and compute PMI(xi, xj).
+@numba.jit(nopython=True, parallel=True)
+def compute_pmi(row, col, data, single_counts):
+    """
+    PMI(xi, xj) = log2(P(xi, xj)/(P(xi)P(xj)))
+    row: array of row indices
+    col: array of column indices
+    data: underlying array for coo_matrix
+    single_counts: counts vector of individual events
 
-# single counts and probabilities
-print('getting diag')
-single_counts = co_occ.diagonal()
-co_occ.setdiag(0)
-co_occ.eliminate_zeros()
-total = np.sum(single_counts)
-P = single_counts*(1/total) # multiplying preservese float32 dtype
+    returns pmi
+     * pmi is a 1d array which will replace the data array of the coo matrix
+    """
 
-# convert co_occ counts into joint probabilities
-print('normalizing matrix')
-co_occ *= (1/total)
+    # compute pmi
+    P = single_counts/np.sum(single_counts)
+    Ptotal = np.sum(data)
+    pmi = np.array(
+        [np.log2(data[i]/(Ptotal*P[row[i]]*P[col[i]]))
+         for i in range(len(data))],
+        dtype=np.float32)
+    np.nan_to_num(pmi, copy=False, nan=0.0)
 
-# divide by independent probability and take log to complete
-print('finish pmi calc')
-co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, P)
+    # get stats and filter
+    mean, std = np.mean(pmi), np.std(pmi)
+    pmi[pmi < (mean + 4*std)] = 0.0
 
-### Eliminate elements that are below 2 std above the mean
-mean = np.mean(co_occ.data)
-std = np.std(co_occ.data)
-max = np.max(co_occ.data)
-min = np.min(co_occ.data)
-print(f'{min = } {max = } {mean = } {std = }')
-print(len(co_occ.data))
-co_occ.data[co_occ.data < (mean + 4*(std))] = 0.0
-co_occ.eliminate_zeros()
-print(len(co_occ.data))
+    return pmi
+        
+### TODO make upper triangular
 
 
-### Write results to disk
-sparse.save_npz(OUTPUT_FILE, co_occ) # use load_npz() to get it back
-exit(0)
+if __name__ == '__main__':
+    feature_column = int(sys.argv[1]) # zero based index
+    count_column = int(sys.argv[2])
+    output_file = sys.argv[3]
+    input_files = sys.argv[4:]
+
+    ## get the ppmi from cooccurence data
+    features = get_features(input_files, feature_column)
+    occ = occurrence_counts(input_files, features, count_column)
+    co_occ, single_counts = cooccurrence_counts(occ)
+    co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
+    co_occ.eliminate_zeros()
+
+    ## look at stats
+    mean = np.mean(co_occ.data)
+    std = np.std(co_occ.data)
+    max = np.max(co_occ.data)
+    min = np.min(co_occ.data)
+    print(f'{min = } {max = } {mean = } {std = }')
+    print(len(co_occ.data))
+
+    ## Write results to disk
+    sparse.save_npz(OUTPUT_FILE, co_occ) # use load_npz() to get it back
+    exit(0)
 
 
-### reshape and filter ppmi > threshold
-# TODO make threshold a param
-# TODO add output file for tsv of the original matrix
-ppmi = pd.DataFrame.sparse.from_spmatrix(data=ppmi, index=features, columns=features)
-# ppmi.to_csv('ppmi.tsv', sep='\t')
-ppmi = ppmi.stack()
-ppmi = ppmi.rename_axis(
-    ('source', 'target')).reset_index(name='weight')
-ppmi = ppmi[ppmi.weight > 1]
-ppmi = ppmi.sparse.to_dense()
+    ### reshape and filter ppmi > threshold
+    # TODO make threshold a param
+    # TODO add output file for tsv of the original matrix
+    ppmi = pd.DataFrame.sparse.from_spmatrix(data=ppmi, index=features, columns=features)
+    # ppmi.to_csv('ppmi.tsv', sep='\t')
+    ppmi = ppmi.stack()
+    ppmi = ppmi.rename_axis(
+        ('source', 'target')).reset_index(name='weight')
+    ppmi = ppmi[ppmi.weight > 1]
+    ppmi = ppmi.sparse.to_dense()
 
-### write to a graphml for later visualization
-G = nx.from_pandas_edgelist(ppmi, edge_attr=True)
-nx.write_graphml(G, OUTPUT_FILE)
+    ### write to a graphml for later visualization
+    G = nx.from_pandas_edgelist(ppmi, edge_attr=True)
+    nx.write_graphml(G, OUTPUT_FILE)

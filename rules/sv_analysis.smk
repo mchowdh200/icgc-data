@@ -29,8 +29,8 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/gene_coooccurrence.npz'
-        # f'{conf.outdir}/gene_coooccurrence.graphml'
+        f'{conf.outdir}/gene_cooccurrence.npz'
+        # f'{conf.outdir}/gene_cooccurrence.graphml'
         # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
         #        fid=tumour_file_ids),
         # expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
@@ -74,8 +74,8 @@ rule GetGeneCooccurrenceMatrix:
         expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
                fid=tumour_file_ids)
     output:
-        # f'{conf.outdir}/gene_coooccurrence.graphml'
-        f'{conf.outdir}/gene_coooccurrence.npz'
+        # f'{conf.outdir}/gene_cooccurrence.graphml'
+        f'{conf.outdir}/gene_cooccurrence.npz'
     params:
         # columns to get bed info from (0-based)
         feature_column = 3,
@@ -84,8 +84,8 @@ rule GetGeneCooccurrenceMatrix:
         workflow.cores
     shell:
         """
-        python scripts/cooccurrence.py {threads} \\
-                                       {params.feature_column} \\
+        NUMBA_NUM_THREADS={{threads}}
+        python scripts/cooccurrence.py {params.feature_column} \\
                                        {params.count_column} \\
                                        {output} \\
                                        {input}
