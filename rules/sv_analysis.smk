@@ -66,16 +66,16 @@ rule GetGeneOccurrence:
     shell:
         'bedtools intersect -a {input.genes} -b {input.vcf} -c > {output}'
 
-rule GetGeneCooccurrence:
+rule GetGeneCooccurrenceMatrix:
     """
-    compute (sparse) cooccurrence matrix and write to binary format on disk
+    Compute (sparse) cooccurrence matrix and write to binary format on disk
     """
     input:
         expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
                fid=tumour_file_ids)
     output:
-        matrix = f'{conf.outdir}/gene_cooccurrence.npz',
-        graph = f'{conf.outdir}/gene_cooccurrence.graphml',
+        f'{conf.outdir}/gene_cooccurrence.npz',
+        # graph = f'{conf.outdir}/gene_cooccurrence.graphml',
     params:
         # columns to get bed info from (0-based)
         feature_column = 3,
@@ -87,10 +87,23 @@ rule GetGeneCooccurrence:
         NUMBA_NUM_THREADS={{threads}}
         python scripts/cooccurrence.py {params.feature_column} \\
                                        {params.count_column} \\
-                                       {output.matrix} \\
-                                       {output.graph} \\
+                                       {output} \\
                                        {input}
         """
+
+rule CoocurrenceMatrix2Graph:
+    """
+    Convert cooccurrence matrix to graphml format for visualization
+    """
+    input:
+        rules.GetGeneCooccurrenceMatrix.output
+    output:
+        f'{conf.outdir}/gene_cooccurrence.graphml'
+    shell:
+        """
+        python scripts/co_occ2graph.py {input} {output}
+        """
+        
 
 
 
