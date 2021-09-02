@@ -42,11 +42,11 @@ def cooccurrence_counts(occ):
     Returns sparse coo_matrix of cooccurence counts, as well as the diag
     of the matrix.  The diagonal of the coo_matrix will be set to zero.
     """
-    co_occ = occ.T @ occ
+    co_occ = (occ.T @ occ).tocoo()
     single_counts = co_occ.diagonal()
     co_occ.setdiag(0)
     co_occ.eliminate_zeros()
-    return co_occ.tocoo(), single_counts
+    return co_occ, single_counts
 
 
 ### Calculate the pointwise Mutual Information
