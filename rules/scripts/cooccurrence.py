@@ -109,6 +109,11 @@ if __name__ == '__main__':
     ## filter
     co_occ.data[co_occ.data < (mean + 6*std)] = 0.0
     co_occ.eliminate_zeros()
+    mean = np.mean(co_occ.data)
+    std = np.std(co_occ.data)
+    max = np.max(co_occ.data)
+    min = np.min(co_occ.data)
+    print(f'{min = } {max = } {mean = } {std = }')
     print(len(co_occ.data))
 
     ## Write results to disk
