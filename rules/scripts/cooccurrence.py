@@ -70,11 +70,10 @@ def compute_pmi(row, col, data, single_counts):
         [np.log2(data[i]/(Ptotal*P[row[i]]*P[col[i]]))
          for i in range(len(data))],
         dtype=np.float32)
-    np.nan_to_num(pmi, copy=False, nan=0.0)
-
-    # get stats and filter
-    mean, std = np.mean(pmi), np.std(pmi)
-    pmi[pmi < (mean + 4*std)] = 0.0
+    # np.nan_to_num(pmi, copy=False, nan=0.0)
+    # # get stats and filter
+    # mean, std = np.mean(pmi), np.std(pmi)
+    # pmi[pmi < (mean + 4*std)] = 0.0
 
     return pmi
         
@@ -95,6 +94,7 @@ if __name__ == '__main__':
 
     print("computing pmi")
     co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
+    np.nan_to_num(co_occ.data, copy=False, nan=0.0)
     co_occ.eliminate_zeros()
     co_occ = sparse.triu(co_occ)
 
@@ -104,6 +104,11 @@ if __name__ == '__main__':
     max = np.max(co_occ.data)
     min = np.min(co_occ.data)
     print(f'{min = } {max = } {mean = } {std = }')
+    print(len(co_occ.data))
+
+    ## filter
+    co_occ.data[co_occ.data < (mean + 4*std)] = 0.0
+    co_occ.eliminate_zeros()
     print(len(co_occ.data))
 
     ## Write results to disk
