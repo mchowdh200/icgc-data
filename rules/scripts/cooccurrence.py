@@ -1,3 +1,4 @@
+import os
 import sys
 import numpy as np
 import pandas as pd
@@ -83,55 +84,57 @@ def compute_pmi(row, col, data, single_counts):
 if __name__ == '__main__':
     feature_column = int(sys.argv[1]) # zero based index
     count_column = int(sys.argv[2])
-    output_file = sys.argv[3]
-    input_files = sys.argv[4:]
+    output_matrix, output_graph = sys.argv[3:5]
+    input_files = sys.argv[5:]
 
     ## get the ppmi from cooccurence data
     print("getting co_occ")
     features = get_features(input_files, feature_column)
-    occ = occurrence_counts(input_files, features, count_column)
-    co_occ, single_counts = cooccurrence_counts(occ)
 
-    print("computing pmi")
-    co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
-    np.nan_to_num(co_occ.data, copy=False, nan=0.0)
-    co_occ.eliminate_zeros()
-    co_occ = sparse.triu(co_occ)
+    if os.path.isfile(output_matrix):
+        occ = occurrence_counts(input_files, features, count_column)
+        co_occ, single_counts = cooccurrence_counts(occ)
 
-    ## look at stats
-    mean = np.mean(co_occ.data)
-    std = np.std(co_occ.data)
-    max = np.max(co_occ.data)
-    min = np.min(co_occ.data)
-    print(f'{min = } {max = } {mean = } {std = }')
-    print(len(co_occ.data))
+        print("computing pmi")
+        co_occ.data = compute_pmi(co_occ.row, co_occ.col, co_occ.data, single_counts)
+        np.nan_to_num(co_occ.data, copy=False, nan=0.0)
+        co_occ.eliminate_zeros()
+        co_occ = sparse.triu(co_occ)
 
-    ## filter
-    co_occ.data[co_occ.data < (mean + 6*std)] = 0.0
-    co_occ.eliminate_zeros()
-    mean = np.mean(co_occ.data)
-    std = np.std(co_occ.data)
-    max = np.max(co_occ.data)
-    min = np.min(co_occ.data)
-    print(f'{min = } {max = } {mean = } {std = }')
-    print(len(co_occ.data))
+        ## look at stats
+        mean = np.mean(co_occ.data)
+        std = np.std(co_occ.data)
+        max = np.max(co_occ.data)
+        min = np.min(co_occ.data)
+        print(f'{min = } {max = } {mean = } {std = }')
+        print(len(co_occ.data))
 
-    ## Write results to disk
-    sparse.save_npz(output_file, co_occ) # use load_npz() to get it back
-    exit(0)
+        ## filter
+        co_occ.data[co_occ.data < (mean + 6*std)] = 0.0
+        co_occ.eliminate_zeros()
+        mean = np.mean(co_occ.data)
+        std = np.std(co_occ.data)
+        max = np.max(co_occ.data)
+        min = np.min(co_occ.data)
+        print(f'{min = } {max = } {mean = } {std = }')
+        print(len(co_occ.data))
 
+        ## Write results to disk
+        sparse.save_npz(output_matrix, co_occ)
+    else:
+        print('loading matrix')
+        co_occ = sparse.load_npz(output_matrix)
 
     ### reshape and filter ppmi > threshold
     # TODO make threshold a param
     # TODO add output file for tsv of the original matrix
-    ppmi = pd.DataFrame.sparse.from_spmatrix(data=ppmi, index=features, columns=features)
-    # ppmi.to_csv('ppmi.tsv', sep='\t')
+    co_occ = pd.DataFrame.sparse.from_spmatrix(data=co_occ, index=features, columns=features)
     ppmi = ppmi.stack()
     ppmi = ppmi.rename_axis(
         ('source', 'target')).reset_index(name='weight')
-    ppmi = ppmi[ppmi.weight > 1]
+    ppmi = ppmi[ppmi.weight > 0]
     ppmi = ppmi.sparse.to_dense()
 
     ### write to a graphml for later visualization
     G = nx.from_pandas_edgelist(ppmi, edge_attr=True)
-    nx.write_graphml(G, OUTPUT_FILE)
+    nx.write_graphml(G, output_graph)
