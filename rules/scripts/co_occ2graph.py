@@ -1,9 +1,13 @@
+import sys
 import pandas as pd
 import networkx as nx
 from scipy import sparse
 
+matrix = sys.argv[1]
+graph = sys.argv[2]
+
 print('loading matrix')
-co_occ = sparse.load_npz(output_matrix)
+co_occ = sparse.load_npz(matrix)
 
 ### reshape for networkx format
 co_occ = pd.DataFrame.sparse.from_spmatrix(data=co_occ, index=features, columns=features)
