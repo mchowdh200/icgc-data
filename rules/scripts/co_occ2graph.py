@@ -17,4 +17,8 @@ node_mapping = {i: f for i, f in enumerate(features)}
 ### convert to networkx and write as graphml
 G = nx.convert_matrix.from_scipy_sparse_matrix(co_occ)
 nx.relabel.relabel_nodes(G, node_mapping, copy=False)
-nx.write_graphml(G, output_graph)
+top_edges = sorted(
+    G.edges(data=True), reverse=True, # descending order
+    key=lambda t: t[2].get('weight', 1))[:1001]
+S = G.edge_subgraph
+nx.write_graphml(S, output_graph)
