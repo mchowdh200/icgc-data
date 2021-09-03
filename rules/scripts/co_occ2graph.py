@@ -15,6 +15,7 @@ features = [x.rstrip() for x in open(features_file).readlines()]
 node_mapping = {i: f for i, f in enumerate(features)}
 
 ### convert to networkx and write as graphml
+print("saving subgraph with top 1k edges")
 G = nx.convert_matrix.from_scipy_sparse_matrix(co_occ)
 nx.relabel.relabel_nodes(G, node_mapping, copy=False)
 top_edges = sorted(
