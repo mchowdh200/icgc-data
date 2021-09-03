@@ -15,6 +15,6 @@ features = [x.rstrip() for x in open(features_file).readlines()]
 node_mapping = {i: f for i, f in enumerate(features)}
 
 ### convert to networkx and write as graphml
-G = nx.convert_matrix.from_scipy_sparse(co_occ)
+G = nx.convert_matrix.from_scipy_sparse_matrix(co_occ)
 relabel_nodes(G, node_mapping, copy=False)
 nx.write_graphml(G, output_graph)
