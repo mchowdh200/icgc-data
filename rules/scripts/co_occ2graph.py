@@ -15,5 +15,5 @@ features = [x.rstrip() for x in open(features_file).readlines()]
 
 ### convert to networkx and write as graphml
 co_occ = pd.DataFrame.sparse.from_spmatrix(data=co_occ, index=features, columns=features)
-G = nx.from_pandas_adjacency(co_occ, edge_attr=True)
+G = nx.from_pandas_adjacency(co_occ)
 nx.write_graphml(G, output_graph)
