@@ -21,5 +21,5 @@ nx.relabel.relabel_nodes(G, node_mapping, copy=False)
 top_edges = sorted(
     G.edges(data=True), reverse=True, # descending order
     key=lambda t: t[2].get('weight', 1))[:1001]
-S = G.edge_subgraph
+S = G.edge_subgraph(top_edges)
 nx.write_graphml(S, output_graph)
