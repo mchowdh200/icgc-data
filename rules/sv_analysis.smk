@@ -64,7 +64,7 @@ rule GetGeneOccurrence:
     output:
         f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed'
     shell:
-        'bedtools intersect -a {input.genes} -b {input.vcf} -c > {output}'
+        'bedtools intersect -a {input.genes} -b {input.vcf} -s -c > {output}'
 
 rule GetGeneCooccurrenceMatrix:
     """
