@@ -29,8 +29,9 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/gene_cooccurrence.npz',
-        f'{conf.outdir}/gene_cooccurrence.graphml'
+        f'{conf.outdir}/wordcloud.png'
+        # f'{conf.outdir}/gene_cooccurrence.npz',
+        # f'{conf.outdir}/gene_cooccurrence.graphml'
         # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
         #        fid=tumour_file_ids),
         # expand(f'{conf.outdir}/intersect_windows/{{fid}}.bins.bed',
@@ -66,6 +67,26 @@ rule GetGeneOccurrence:
     shell:
         'bedtools intersect -a {input.genes} -b {input.vcf} -c > {output}'
 
+rule GeneTopicModel:
+    input:
+        expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
+               fid=tumour_file_ids)
+        # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.gene_occurrence.bed',
+        #        fid=tumour_file_ids)
+    output:
+        f'{conf.outdir}/wordcloud.png'
+    params:
+        # columns to get bed info from (0-based)
+        feature_column = 3,
+        count_column = 5
+    shell:
+        """
+        python scripts/hdp_model.py {params.feature_column} \\
+                                    {params.count_column} \\
+                                    {output} \\
+                                    {input}
+        """
+
 rule GetGeneCooccurrenceMatrix:
     """
     Compute (sparse) cooccurrence matrix and write to binary format on disk
@@ -91,7 +112,6 @@ rule GetGeneCooccurrenceMatrix:
                                        {output.gene_features} \\
                                        {input}
         """
-
 rule CoocurrenceMatrix2Graph:
     """
     Convert cooccurrence matrix to graphml format for visualization
