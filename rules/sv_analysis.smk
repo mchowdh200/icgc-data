@@ -71,7 +71,7 @@ rule GeneTopicModel:
     input:
         expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
                fid=tumour_file_ids)
-        # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.gene_occurrence.bed',
+        # expand(f'{conf.outdir}/gene_occurrence/{{fid}}.gene_occurrence.bed',
         #        fid=tumour_file_ids)
     output:
         f'{conf.outdir}/wordcloud.png'
