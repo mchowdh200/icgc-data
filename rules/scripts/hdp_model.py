@@ -28,7 +28,12 @@ def construct_corpus(input_files: list[str], feature_column: int,
             samples.append(S)
     return samples
 
-def train_hdp(corpus, initial_k=10, term_weight=tp.TermWeight.PMI , iterations=1000):
+def train_hdp(
+        corpus,
+        initial_k=10,
+        term_weight=tp.TermWeight.PMI,
+        gamma=1, alpha=0.1,
+        iterations=2000):
     """
     Train a heirarchical dirichlet process topic model
     """
@@ -85,17 +90,22 @@ def visualize_topics(topics):
     N = len(topics)
     nrows, ncols = closestDivisors(N)
     for i, topic in enumerate(topics):
-        freqs = {word : freq for word, freq in topic}
-        # wc = WordCloud(background_color="black", max_words=100)
-        # wc.generate_from_frequencies(freqs)
         plt.subplot(nrows, ncols, i+1)
-        plt.barh(range(len(freqs)), freqs.values())
-        plt.yticks(range(len(freqs)), list(freqs.keys()))
-        # plt.imshow(wc, interpolation="bilinear")
-        # plt.axis("off")
+        freqs = {word : freq for word, freq in topic}
+        wc = WordCloud(background_color="black", max_words=100)
+        wc.generate_from_frequencies(freqs)
+        plt.imshow(wc, interpolation="bilinear")
+        plt.axis("off")
+        # plt.barh(range(len(freqs)), freqs.values())
+        # plt.yticks(range(len(freqs)), list(freqs.keys()))
     plt.savefig(output_file)
     plt.show()
-    
+
+def eval_coherence(model, metric='c_v', top_n=25):
+    return tp.coherence.Coherence(
+        model, coherence=metric, top_n=top_n).get_score()
+
+
 
 if __name__ == '__main__':
     feature_column = int(sys.argv[1]) # zero based index
@@ -104,8 +114,38 @@ if __name__ == '__main__':
     input_files = sys.argv[4:]
 
     corpus = construct_corpus(input_files, feature_column, count_column)
-    hdp = train_hdp(corpus, initial_k=5, iterations=2000)
-    visualize_topics(get_topics(hdp))
-    # hdp = LdaModel(corpus, id2word=dictionary, num_topics=5)
-    # visualize_topics(hdp, 5)
-    
+
+    ## grid search
+    best_model = None
+    best_coherence = 0
+    for term_weight in [tp.TermWeight.ONE,
+                        tp.TermWeight.PMI,
+                        tp.TermWeight.IDF]:
+        for alpha in [0.01, 0.1, 0.5]:
+            for gamma in [0.1, 0.5, 1.0]:
+                print('TRAINING MODEL WITH PARAMS')
+                print(f'{term_weight = }\t{alpha = }\t{gamma = }')
+                model = train_hdp(
+                    corpus, initial_k=5, term_weight=term_weight,
+                    gamma=gamma, alpha=alpha, iterations=2000)
+
+                coherence = eval_coherence(model)
+                print(f'{coherence = }')
+                if best_model:
+                    if coherence > best_coherence:
+                        best_model = model
+                        best_coherence = coherence
+                        best_weight = term_weight
+                        best_alpha = alpha
+                        best_gamma = gamma
+                else:
+                    best_model = model
+                    best_coherence = coherence
+                    continue
+                print('BEST MODEL PARAMS')
+                print(f'{best_weight = }\t{best_alpha = }\t{best_gamma = }')
+                print(f'{best_coherence = }')
+                        
+    print('SAVING MODEL')
+    best_model.save('hdp_model.bin')
+    visualize_topics(get_topics(best_model))
