@@ -195,7 +195,7 @@ rule VCF2Bedpe:
     shell:
         f"""
         mkdir -p {conf.outdir}/bedpe
-        bcftools view {{input}} | python scripts/vcftobedpe > {{output}}
+        bcftools view {{input}} | python scripts/vcfToBedPe > {{output}}
         """
 
 rule IntersectGenes:
