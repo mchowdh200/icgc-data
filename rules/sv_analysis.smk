@@ -29,7 +29,11 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/wordcloud.png'
+        expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
+               fid=tumour_file_ids),
+        # expand(f'{conf.outdir}/fusion_candidates/{{fid}}.fusion_candidates.bedpe',
+        #        fid=tumour_file_ids),
+        # f'{conf.outdir}/wordcloud.png',
         # f'{conf.outdir}/gene_cooccurrence.npz',
         # f'{conf.outdir}/gene_cooccurrence.graphml'
         # expand(f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband.bed',
@@ -191,14 +195,15 @@ rule VCF2Bedpe:
     shell:
         f"""
         mkdir -p {conf.outdir}/bedpe
-        bcftools view {{input}} | svtools vcftobedpe > {{output}}
+        bcftools view {{input}} | python scripts/vcftobedpe > {{output}}
         """
 
 rule IntersectGenes:
     """
     Intersect the bedpe of variants with a genes bed.
-    Gene will be on col 27.
-    Strand of gene will be on col 28
+    Breakpoints = cols 0-5 inclusive
+    Breakend orientation = cols 8, 9
+    Gene = col 26.
     """
     input:
         rules.VCF2Bedpe.output
@@ -212,31 +217,8 @@ rule IntersectGenes:
         pairToBed -a {{input}} -b {conf.genes_bed} > {{output}}
         """
 
-# rule IntersectCytoband:
-#     """
-#     Intersect variants with cytoband notated regions
-#     """
-#     input:
-#         rules.VCF2Bedpe.output
-#     output:
-#         f'{conf.outdir}/intersect_cytoband/{{fid}}.cytoband_regions.bedpe'
-#     conda:
-#         'envs/bedtools.yaml'
-#     shell:
-#         f"""
-#         mkdir -p {conf.outdir}/intersect_cytoband
-#         pairToBed -a {{input}} -b {{conf.cytoband_bed}} > {{output}}
-#         """
 
-## TODO
-# take note of column of the p/q region so we can use awk or pandas
-# filter by this column
-## OR
-# add this annotation to all of my intersections
-
-rule GetDelFusions:
-    ## TODO check the deletion strand as well
-    # as a final filtering step
+rule GetFusionCandidates:
     """
     Collapse del regions into a comma separated list of genes they intersect with.
     ideally, for bedpe del breakpoints, this should intersect with at most two genes per region.
@@ -246,14 +228,32 @@ rule GetDelFusions:
     input:
         rules.IntersectGenes.output
     output:
-        f'{conf.outdir}/del_fusions/{{fid}}.del_fusions.bedpe'
+        f'{conf.outdir}/fusion_candidates/{{fid}}.fusion_candidates.bedpe'
     conda:
         'envs/bedtools.yaml'
     shell:
         f"""
         mkdir -p {conf.outdir}/del_fusions
-        bash scripts/del_fusions.sh {{input}} {{output}}
+        bash scripts/fusion_candidates.sh {{input}} {{output}}
         """
+
+rule FilterFusionCandidates:
+    """
+    Using genes strand, breakpoint orientation, and SVTYPE, filter
+    the fusion candidates to ensure that only valid fusions are present.
+    """
+    input:
+        candidates = rules.GetFusionCandidates.output,
+        genes = conf.genes_bed
+    output:
+        f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe'
+    shell:
+        """
+        python scripts/filter_fusions.py {input.candidates} {input.genes} > {output}
+        """
+
+
+
 
 rule Intersect8p16q:
     """
