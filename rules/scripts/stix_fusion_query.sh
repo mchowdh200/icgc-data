@@ -1,35 +1,34 @@
 #!/bin/bash
 
-
 function stix_get_support
 {
     while (( "$#" )); do
         case "$1" in
-            --chrA)
+            -ca|--chrA)
                 chrA=$2
                 shift 2;;
-            --startA)
+            -sa|--startA)
                 startA=$2
                 shift 2;;
-            --endA)
+            -ea|--endA)
                 endA=$2
                 shift 2;;
-            --chrB)
+            -cb|--chrB)
                 chrB=$2
                 shift 2;;
-            --startB)
+            -sb|--startB)
                 startB=$2
                 shift 2;;
-            --endB)
+            -eb|--endB)
                 endB=$2
                 shift 2;;
-            --svtype)
+            -sv|--svtype)
                 svtype=$2
                 shift 2;;
-            --geneA)
+            -ga|--geneA)
                 geneA=$2
                 shift 2;;
-            --geneB)
+            -gb|--geneB)
                 geneB=$2
                 shift 2;;
             --) # end argument parsing
@@ -40,7 +39,6 @@ function stix_get_support
                 exit 1;;
         esac
     done
-    
     # this part hurts me
     cd /mnt/local
 
@@ -56,10 +54,11 @@ function stix_get_support
     python3 -c 'import sys; print(sum(int(i) for line in sys.stdin
                                 for i in line.rstrip().split()))')
 
-    printf '$chrA\t$startA\t$endA\t$chrB\t$startB\t$endB\t$geneA\t$geneB\t$svtype\t$support\n'
+    # printf '$chrA\t$startA\t$endA\t$chrB\t$startB\t$endB\t$geneA\t$geneB\t$svtype\t$support\n'
 }
 export -f stix_get_support
 
+set -eu
 
 fusion_list=$1
 output=$2
@@ -67,8 +66,7 @@ threads=$3
 
 cat $fusion_list |
     gargs -p $threads \
-          'stix_get_support --chrA {0} --startA {1} --endA {2} \\
+          "stix_get_support --chrA {0} --startA {1} --endA {2} \\
                             --chrB {3} --startB {4} --endB {5} \\
-                            --svtype {6} --geneA {7} --geneB {8}' \
-    > $output
+                            --svtype {6} --geneA {7} --geneB {8}" > $output
 
