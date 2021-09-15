@@ -17,13 +17,13 @@ for bedpe in fusion_bedpe_list:
     with open(bedpe) as f:
         for line in f:
             A = line.rstrip().split()
-            g_a, g_b = A[9].split(',')
-            c_a, s_a, e_a = genes[g_a]
-            c_b, s_b, e_b = genes[g_b]
+            ga, gb = A[9].split(',')
+            ca, sa, ea = genes[g_a]
+            cb, sb, eb = genes[g_b]
             sv = A[6]
 
             print('\t'.join([
-                c_a, s_a, e_a,
-                c_b, s_b, e_b,
+                ca, sa, ea,
+                cb, sb, eb,
                 sv, ga, gb
             ]))
