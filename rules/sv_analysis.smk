@@ -29,9 +29,10 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/fusion_list.bedpe',
-        expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
-               fid=tumour_file_ids),
+        f'{conf.outdir}/fusion_support.bedpe',
+        # f'{conf.outdir}/fusion_list.bedpe',
+        # expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
+        #        fid=tumour_file_ids),
         # expand(f'{conf.outdir}/fusion_candidates/{{fid}}.fusion_candidates.bedpe',
         #        fid=tumour_file_ids),
         # f'{conf.outdir}/wordcloud.png',
