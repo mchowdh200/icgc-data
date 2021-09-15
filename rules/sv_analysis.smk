@@ -252,6 +252,36 @@ rule FilterFusionCandidates:
         python scripts/filter_fusions.py {input.candidates} {input.genes} > {output}
         """
 
+rule GetFusionsList:
+    """
+    From our set of fusions, compile a list of unique 
+    * fusion genes,
+    * their loci 
+    * and the SVTYPE that gave rise to them
+
+    
+    * genes bed input columns
+    0,1,2 -- region
+    3 -- gene
+    * fusion bedpe relevant columns
+    col 6 -- SVTYPE
+    col 9 -- GENE_A,GENE_B
+
+    * output format
+    CHR_A START_A END_A  CHR_B START_B END_B GENE_A,GENE_B SVTYPE
+    """
+    input:
+        genes_bed = conf.genes_bed,
+        fusion_bedpe = expand(
+            f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
+            fid=tumour_file_ids)
+    output:
+        f'{conf.outdir}/fusion_list.txt'
+    shell:
+        """
+        python scripts/get_fusions.py {input} |
+        bedtools sort | uniq > {output}"""
+
 
 
 
