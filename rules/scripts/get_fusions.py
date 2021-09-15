@@ -16,7 +16,7 @@ with open(genes_bed) as f:
 for bedpe in fusion_bedpe_list:
     with open(bedpe) as f:
         for line in f:
-            A = line.rstript().split()
+            A = line.rstrip().split()
             g_a, g_b = A[9].split(',')
             c_a, s_a, e_a = genes[g_a]
             c_b, s_b, e_b = genes[g_b]
