@@ -29,6 +29,7 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
+        f'{conf.outdir}/fusion_list.txt',
         expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
                fid=tumour_file_ids),
         # expand(f'{conf.outdir}/fusion_candidates/{{fid}}.fusion_candidates.bedpe',
