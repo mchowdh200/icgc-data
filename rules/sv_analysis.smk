@@ -283,6 +283,19 @@ rule GetFusionsList:
         python scripts/get_fusions.py {input} |
         bedtools sort | uniq > {output}"""
 
+rule StixGetFusionSupport:
+    """
+    get total evidence in support for all fusions
+    """
+    input:
+        rules.GetFusionsList.output
+    output:
+        f'{conf.outdir}/fusion_support.bedpe'
+    threads:
+        workflow.cores
+    shell:
+        'bash scripts/stix_fusion_query.sh {input} {output} {threads}'
+
 
 
 
