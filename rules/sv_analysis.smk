@@ -29,7 +29,7 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/fusion_list.txt',
+        f'{conf.outdir}/fusion_list.bedpe',
         expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
                fid=tumour_file_ids),
         # expand(f'{conf.outdir}/fusion_candidates/{{fid}}.fusion_candidates.bedpe',
@@ -277,7 +277,7 @@ rule GetFusionsList:
             f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
             fid=tumour_file_ids)
     output:
-        f'{conf.outdir}/fusion_list.txt'
+        f'{conf.outdir}/fusion_list.bedpe'
     shell:
         """
         python scripts/get_fusions.py {input} |
