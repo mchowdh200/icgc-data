@@ -18,8 +18,8 @@ for bedpe in fusion_bedpe_list:
         for line in f:
             A = line.rstrip().split()
             ga, gb = A[9].split(',')
-            ca, sa, ea = genes[g_a]
-            cb, sb, eb = genes[g_b]
+            ca, sa, ea = genes[ga]
+            cb, sb, eb = genes[gb]
             sv = A[6]
 
             print('\t'.join([
