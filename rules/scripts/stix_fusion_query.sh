@@ -43,7 +43,7 @@ function stix_get_support
     cd /mnt/local
 
     # yep its all hard coded...
-    support=$(stix /mnt/local/bin/stix \
+    support=$(/mnt/local/bin/stix \
          -i tumour_index \
          -d pca.ped.db \
          -t $svtype -s 500 \
