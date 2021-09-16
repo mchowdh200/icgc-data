@@ -131,9 +131,6 @@ rule CoocurrenceMatrix2Graph:
         """
         python scripts/co_occ2graph.py {input.gene_matrix} {input.gene_features} {output}
         """
-        
-
-
 
 rule GenomeMakeWindows:
     input:
@@ -144,6 +141,7 @@ rule GenomeMakeWindows:
         'envs/bedtools.yaml'
     shell:
         'bedtools makewindows -g {input} -w 1000000 > {output}'
+
 
 rule IntersectWindows:
     """
@@ -184,7 +182,6 @@ rule PlotCooccurrenceMatrix:
         f'{conf.outdir}/cooccurrence_matrix.png'
     shell:
         'python3 scripts/plot_cooccurrence.py {output} {input}'
-
 
 
 rule VCF2Bedpe:
@@ -282,7 +279,8 @@ rule GetFusionsList:
     shell:
         """
         python scripts/get_fusions.py {input} |
-        bedtools sort | uniq > {output}"""
+        bedtools sort | uniq > {output}
+        """
 
 rule StixGetFusionSupport:
     """
@@ -297,6 +295,19 @@ rule StixGetFusionSupport:
     shell:
         'bash scripts/stix_fusion_query.sh {input} {output} {threads}'
 
+
+rule Stix1kgFusions:
+    """
+    See how many samples return evidence from the 1kg stix index
+    """
+    input:
+        rules.GetFusionsList.output
+    output:
+        f'{conf.outdir}/fusion_1kg.bedpe'
+    threads:
+        workflow.cores
+    shell:
+        'bash scripts/stix_1kg_fusion.sh {input} {output} {threads}'
 
 
 
