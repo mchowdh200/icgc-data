@@ -54,7 +54,7 @@ function stix_get_support
     python3 -c 'import sys; print(sum(int(i) for line in sys.stdin
                                 for i in line.rstrip().split()))')
 
-    printf '$chrA\t$startA\t$endA\t$chrB\t$startB\t$endB\t$geneA\t$geneB\t$svtype\t$support\n'
+    printf "$chrA\t$startA\t$endA\t$chrB\t$startB\t$endB\t$geneA\t$geneB\t$svtype\t$support\n"
 }
 export -f stix_get_support
 
