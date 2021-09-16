@@ -29,7 +29,8 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/fusion_support.bedpe',
+        f'{conf.outdir}/fusion_1kg.bedpe',
+        # f'{conf.outdir}/fusion_support.bedpe',
         # f'{conf.outdir}/fusion_list.bedpe',
         # expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
         #        fid=tumour_file_ids),
