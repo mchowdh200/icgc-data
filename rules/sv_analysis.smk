@@ -29,6 +29,7 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
+        f'{conf.outdir}/stix_genes_support.bed',
         f'{conf.outdir}/unique_genes.bed',
         f'{conf.outdir}/filtered_stix_fusion_table.tsv',
         f'{conf.outdir}/stix_fusion_table.tsv',
