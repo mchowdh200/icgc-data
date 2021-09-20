@@ -42,7 +42,7 @@ function stix_get_support
          -r "$chr:$end-$end" |
          tail -n+3 | # skip first two lines
          cut -f4,5)
-    n_samples=$(wc -l <(echo "$samples"))
+    n_samples=$(echo "$samples" | awk '{if ($1+$2 > 0) print}' | wc -l)
     support=$(echo "$samples" |
               python3 -c 'import sys; print(sum(int(i) for line in sys.stdin
                                             for i in line.rstrip().split()))')
