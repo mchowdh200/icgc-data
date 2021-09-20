@@ -40,7 +40,7 @@ function stix_get_support
          -t $svtype -s 500 \
          -l "$chr:$start-$start" \
          -r "$chr:$end-$end" |
-         tail -n+2 | # skip first two lines
+         tail -n+3 | # skip first two lines
          cut -f4,5)
     n_samples=$(wc -l <(echo "$samples"))
     support=$(echo "$samples" |
