@@ -38,8 +38,8 @@ function stix_get_support
          -i tumour_index \
          -d pca.ped.db \
          -t $svtype -s 500 \
-         -l "$chr:$start-$start" \
-         -r "$chr:$end-$end" |
+         -l "$chr:$start-$end" \
+         -r "$chr:$start-$end" |
          tail -n+3 | # skip first two lines
          cut -f4,5)
     n_samples=$(echo "$samples" | awk '{if ($1+$2 > 0) print}' | wc -l)
