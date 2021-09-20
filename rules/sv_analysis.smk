@@ -29,7 +29,10 @@ fid2sample = {
 ################################################################################
 rule All:
     input:
-        f'{conf.outdir}/fusion_1kg.bedpe',
+        f'{conf.outdir}/unique_genes.bed',
+        f'{conf.outdir}/filtered_stix_fusion_table.tsv',
+        f'{conf.outdir}/stix_fusion_table.tsv',
+        # f'{conf.outdir}/fusion_1kg.bedpe',
         # f'{conf.outdir}/fusion_support.bedpe',
         # f'{conf.outdir}/fusion_list.bedpe',
         # expand(f'{conf.outdir}/filtered_fusions/{{fid}}.fusions.filtered.bedpe',
@@ -217,6 +220,17 @@ rule IntersectGenes:
         pairToBed -a {{input}} -b {conf.genes_bed} > {{output}}
         """
 
+rule GetGeneList:
+    """
+    Get bed file of unique genes that had some variant in our sample set
+    """
+    input:
+        expand(rules.IntersectGenes.output, fid=tumour_file_ids)
+    output:
+        f'{conf.outdir}/unique_genes.bed'
+    shell:
+        'cat {input} | bash scripts/get_gene_list.sh > {output}'
+
 
 rule GetFusionCandidates:
     """
@@ -283,6 +297,20 @@ rule GetFusionsList:
         bedtools sort | uniq > {output}
         """
 
+rule StixGeneSupport:
+    """
+    get total evidence in support for variants in genes
+    """
+    input:
+        rules.GetGeneList.output
+    output:
+        f'{conf.outdir}/stix_genes_support.bed'
+    threads:
+        workflow.cores
+    shell:
+        'bash scripts/stix_gene_query.sh {input} {output} {threads}'
+
+
 rule StixGetFusionSupport:
     """
     get total evidence in support for all fusions
@@ -310,6 +338,36 @@ rule Stix1kgFusions:
     shell:
         'bash scripts/stix_1kg_fusion.sh {input} {output} {threads}'
 
+
+rule CombineStixFusionQueryStats:
+    """
+    Combine the STIX pca/1kg queries for the gene fusions into a table
+    FORMAT (tab separated)
+    GENE_A | GENE_B | STIX PCA supporting reads | 1kg samples w/evidence
+    """
+    input:
+        pca_support = rules.StixGetFusionSupport.output,
+        onekg_support = rules.Stix1kgFusions.output
+    output:
+        f'{conf.outdir}/stix_fusion_table.tsv'
+    shell:
+        'bash scripts/combine_fusion_query_stats.sh {input} > {output}'
+
+
+rule FilterFusionsByStats:
+    """
+    Get a sorted filtered list of fusions.
+    * Sort by amount of support in PCA index
+    * If PCA index support == 0 or 1kg index
+      support greater than N (experiment with this),
+      then remove from the list
+    """
+    input:
+        rules.CombineStixFusionQueryStats.output
+    output:
+        f'{conf.outdir}/filtered_stix_fusion_table.tsv'
+    shell:
+        'python scripts/filter_fusions_by_stats.py {input} {output}'
 
 
 rule Intersect8p16q:
