@@ -9,6 +9,8 @@ from pathlib import Path
 ### TODO add config to replace hardcoded paths
 outdir = "/home/much8161/data/stix/1kg/manta-tumour-normal-analysis"
 
+reference = "TODO"
+
 # TODO put the base location in a config
 # or create a rule to download the base data
 icgc_bedpe_dir = '/home/much8161/data/stix/1kg/pcawg/icgc/open'
@@ -34,8 +36,15 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        f'{outdir}/stats_report.tsv'
+        # f'{outdir}/stats_report.tsv'
+        expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+               fid=tumour_file_ids),
+        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
+               fid=tumour_file_ids)
 
+################################################################################
+## pull manta VCFs from s3
+################################################################################
 rule GetSingleSampleVCFs:
     """
     get the single sample mode manta vcfs from s3
@@ -58,6 +67,9 @@ rule GetSomaticVCFs:
         aws s3 cp s3://layerlabcu/icgc/manta-tumour-normal/{wildcards.fid}.somaticSV.vcf.gz {output}
         """
 
+################################################################################
+## Get the manta sv calls for each SV type
+################################################################################
 rule GetSomaticDels:
     """
     From the manta tumour-normal calls, extract DEL regions into a bed.
@@ -74,6 +86,48 @@ rule GetSomaticDels:
         bcftools query -i 'SVTYPE="DEL"' -f '%CHROM\t%POS\t%INFO/END\n' {input} > {output}
         """
 
+rule GetSomaticDups:
+    input:
+        rules.GetSomaticVCFs.output
+    output:
+        f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed'
+    conda:
+        'envs/samtools.yaml'
+    shell:
+        """
+        bcftools query -i 'SVTYPE="DUP"' -f '%CHROM\t%POS\t%INFO/END\n' {input} > {output}
+        """
+
+rule GetSomaticInversions:
+    # convert to single line then get inversions
+    input:
+        vcf = rules.GetSomaticVCFs.output,
+        fasta = reference
+    output:
+        f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed'
+    conda:
+        'envs/samtools.yaml'
+    shell:
+        """
+        python2 scripts/converInversion.py samtools {input.fasta} {input.vcf} |
+        bcftools query -i 'SVTYPE="INV"' -f '%CHROM\t%POS\t%INFO/END\n' > {output}
+        """
+
+rule GetSingleSampleInversions:
+    input:
+        vcf = rules.GetSingleSampleVCFs.output,
+        fasta = reference
+    output:
+        f'{outdir}/single_sample_vcf/{{fid}}.inv.vcf.gz'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        """
+        python2 scripts/converInversion.py samtools {input.fasta} {input.vcf} |
+        python3 scripts/get_dels.py {input.vcf} INV |
+        bgzip -c > {output}
+        """
+
 rule GetSingleSampleDels:
     input:
         rules.GetSingleSampleVCFs.output
@@ -82,8 +136,23 @@ rule GetSingleSampleDels:
     conda:
         'envs/pysam.yaml'
     shell:
-        'python3 scripts/get_dels.py {input} | bgzip -c > {output}'
+        ## TODO rename the script to get_svtype to reflect changes
+        'python3 scripts/get_dels.py {input} DEL | bgzip -c > {output}'
 
+rule GetSingleSampleDups:
+    input:
+        rules.GetSingleSampleVCFs.output
+    output:
+        f'{output}/single_sample_vcf/{{fid}}.dup.vcf.gz'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        'python3 scripts/get_dels.py {input} DUP | bgzip -c > {output}'
+        
+
+################################################################################
+## Stix queries
+################################################################################
 rule StixQuerySingleSample:
     threads:
         workflow.cores
@@ -98,6 +167,42 @@ rule StixQuerySingleSample:
         bash scripts/stix_cmd.sh {input} {output} {threads}
         """
 
+rule StixQuerySingleSampleDups:
+    threads:
+        workflow.cores
+    input:
+        rules.GetSingleSampleDups.output
+    output:
+        f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        """
+        bash scripts/stix_cmd.sh {input} {output} {threads} DUP
+        """
+
+rule StixQuerySingleSampleInvs:
+    threads:
+        workflow.cores
+    input:
+        rules.GetSingleSampleInversions.output
+    output:
+        f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed'
+    conda:
+        'envs/pysam.yaml'
+    shell:
+        """
+        bash scripts/stix_cmd.sh {input} {output} {threads} INV
+        """
+
+# -------------------------------------------------------------------------------
+## TODO list
+# TODO Filtering call sets with gt0, gt1, gnomad, 1kg
+# need the gnomad and 1kg dups/invs
+# -------------------------------------------------------------------------------
+################################################################################
+## get ICGC truth set SVs
+################################################################################
 rule GetIcgcSampleDels:
     """
     get del regions for a given sample from the icgc bedpe
@@ -113,6 +218,30 @@ rule GetIcgcSampleDels:
         bash scripts/icgc_bedpe2bed.sh {{input}} {{output}} DEL
         """
 
+rule GetIcgcSampleDups:
+    input:
+        lambda w: f'{icgc_bedpe_dir}/{fileid2sample[w.fid]}.pcawg_consensus_1.6.161116.somatic.sv.bedpe.gz'
+    output:
+        f'{outdir}/icgc_bed/{{fid}}.dup.bed'
+    shell:
+        f"""
+        mkdir -p {outdir}/icgc_bed
+        bash scripts/icgc_bedpe2bed.sh {{input}} {{output}} DUP
+        """
+rule GetIcgcSampleInvs:
+    input:
+        lambda w: f'{icgc_bedpe_dir}/{fileid2sample[w.fid]}.pcawg_consensus_1.6.161116.somatic.sv.bedpe.gz'
+    output:
+        f'{outdir}/icgc_bed/{{fid}}.inv.bed'
+    shell:
+        f"""
+        mkdir -p {outdir}/icgc_bed
+        bash scripts/icgc_bedpe2bed.sh {{input}} {{output}} INV
+        """
+
+################################################################################
+## Filtering operations
+################################################################################
 rule ThresholdCalledRegions:
     """
     filter out called del regions with:
@@ -167,7 +296,10 @@ rule Subtract1kgDelRegions:
         bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
         """
     
-    
+
+################################################################################
+## Truth set evaluation    
+################################################################################
 rule IntersectICGC:
     """
     Intersect the thresholded SV calls with ICGC truth regions

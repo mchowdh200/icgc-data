@@ -1,10 +1,13 @@
 #!/bin/env bash
+## TODO rename script
+# it will work with del/dup/inv now
 set -euo pipefail
 # genomic interval
 c=$1
 s=$2
 e=$3
 data_dir=$4
+svtype=$5
 # d="1kg.ped.db" # ped database
 # i="alt_sort_b" # index directory
 
