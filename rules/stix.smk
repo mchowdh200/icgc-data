@@ -36,11 +36,13 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        # f'{outdir}/stats_report.tsv'
-        expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+        expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
-               fid=tumour_file_ids)
+        # f'{outdir}/stats_report.tsv'
+        # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
+        #        fid=tumour_file_ids)
 
 ################################################################################
 ## pull manta VCFs from s3
