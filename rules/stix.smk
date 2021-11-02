@@ -9,7 +9,7 @@ from pathlib import Path
 ### TODO add config to replace hardcoded paths
 outdir = "/home/much8161/data/stix/1kg/manta-tumour-normal-analysis"
 
-reference = "TODO"
+reference = "/home/much8161/data/ref/hs37d5"
 
 # TODO put the base location in a config
 # or create a rule to download the base data
