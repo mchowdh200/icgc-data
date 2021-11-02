@@ -143,7 +143,7 @@ rule GetSingleSampleDups:
     input:
         rules.GetSingleSampleVCFs.output
     output:
-        f'{output}/single_sample_vcf/{{fid}}.dup.vcf.gz'
+        f'{outdir}/single_sample_vcf/{{fid}}.dup.vcf.gz'
     conda:
         'envs/pysam.yaml'
     shell:
