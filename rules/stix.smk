@@ -36,6 +36,8 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
+        expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
+               fid=tumour_file_ids),
         expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
                fid=tumour_file_ids),
         # f'{outdir}/stats_report.tsv'
