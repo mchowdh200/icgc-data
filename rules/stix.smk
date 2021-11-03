@@ -40,6 +40,8 @@ rule All:
                fid=tumour_file_ids),
         expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
                fid=tumour_file_ids),
+        expand(f'{outdir}/single_sample_vcf/{{fid}}.inv.vcf.gz',
+               fid=tumour_file_ids),
         # f'{outdir}/stats_report.tsv'
         # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
         #        fid=tumour_file_ids),
