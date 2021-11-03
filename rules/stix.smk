@@ -119,20 +119,34 @@ rule GetSomaticInversions:
         bcftools query -i 'SVTYPE="INV"' -f '%CHROM\t%POS\t%INFO/END\n' > {output}
         """
 
-rule GetSingleSampleInversions:
+# rule GetSingleSampleInversions:
+rule ConvertSingleSampleInversions:
+    """
+    convert single region inversion representation
+    """
     input:
         vcf = rules.GetSingleSampleVCFs.output,
         fasta = reference
+    output:
+        temp(f'{outdir}/single_sample_vcf/{{fid}}.converted.vcf.gz')
+    conda:
+        'envs/samtools.yaml'
+    shell:
+        """
+        python2 scripts/convertInversion.py $(which samtools) {input.fasta} {input.vcf} |
+        bgzip -c > {output}
+        """
+
+rule GetSingleSampleInversions:
+    input:
+        rules.ConvertSingleSampleInversions.output,
     output:
         f'{outdir}/single_sample_vcf/{{fid}}.inv.vcf.gz'
     conda:
         'envs/pysam.yaml'
     shell:
         """
-        tabix {input.vcf}
-        python2 scripts/convertInversion.py $(which samtools) {input.fasta} {input.vcf} |
-        python3 scripts/get_dels.py {input.vcf} INV |
-        bgzip -c > {output}
+        python3 scripts/get_dels.py {input} INV | bgzip -c > {output}
         """
 
 rule GetSingleSampleDels:

@@ -2,8 +2,8 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - htslib==1.11
-  - samtools==1.11
-  - bcftools==1.11
+  - htslib=1.9
+  - samtools
+  - bcftools
   - pysam
   - bedtools
