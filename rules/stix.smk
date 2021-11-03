@@ -129,6 +129,7 @@ rule GetSingleSampleInversions:
         'envs/pysam.yaml'
     shell:
         """
+        tabix {input.vcf}
         python2 scripts/convertInversion.py $(which samtools) {input.fasta} {input.vcf} |
         python3 scripts/get_dels.py {input.vcf} INV |
         bgzip -c > {output}
