@@ -37,7 +37,7 @@ tumour_file_ids = list(set(
 rule All:
     input:
         expand(f'{outdir}/icgc_bed/{{fid}}.dup.bed',
-               fid=tumour_file_ids)
+               fid=tumour_file_ids),
         expand(f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed',
                fid=tumour_file_ids),
         expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
