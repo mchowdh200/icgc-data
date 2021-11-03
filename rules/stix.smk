@@ -37,7 +37,7 @@ tumour_file_ids = list(set(
 rule All:
     input:
         expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
-               fid=tumour_file_ids)
+               fid=tumour_file_ids),
         expand(f'{outdir}/single_sample_vcf/{{fid}}.dup.vcf.gz',
                fid=tumour_file_ids),
         expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
