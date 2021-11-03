@@ -113,7 +113,7 @@ rule GetSomaticInversions:
         'envs/samtools.yaml'
     shell:
         """
-        python2 scripts/converInversion.py samtools {input.fasta} {input.vcf} |
+        python2 scripts/convertInversion.py samtools {input.fasta} {input.vcf} |
         bcftools query -i 'SVTYPE="INV"' -f '%CHROM\t%POS\t%INFO/END\n' > {output}
         """
 
@@ -127,7 +127,7 @@ rule GetSingleSampleInversions:
         'envs/pysam.yaml'
     shell:
         """
-        python2 scripts/converInversion.py samtools {input.fasta} {input.vcf} |
+        python2 scripts/convertInversion.py samtools {input.fasta} {input.vcf} |
         python3 scripts/get_dels.py {input.vcf} INV |
         bgzip -c > {output}
         """
