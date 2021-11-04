@@ -423,7 +423,7 @@ rule Subtract1kgDups:
     """
     input:
         stix_bed = rules.StixQuerySingleSampleDups.output,
-        onekg_bedpe = '/home/much8161/data/stix/1kg/1kg.DUP.bedpe'
+        onekg_bed = '/home/much8161/data/stix/1kg/1kg.DUP.bed'
     output:
         f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed'
     conda:
@@ -431,7 +431,8 @@ rule Subtract1kgDups:
     shell:
         f"""
         mkdir -p {outdir}/1kg_subtracted_dup
-        bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
+        bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.onekg_bed}} |
+            grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
         """
 rule Subtract1kgInvs:
     """
@@ -439,7 +440,7 @@ rule Subtract1kgInvs:
     """
     input:
         stix_bed = rules.StixQuerySingleSampleInvs.output,
-        onekg_bedpe = '/home/much8161/data/stix/1kg/1kg.INV.bedpe'
+        onekg_bed = '/home/much8161/data/stix/1kg/1kg.INV.bed'
     output:
         f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed'
     conda:
@@ -447,7 +448,8 @@ rule Subtract1kgInvs:
     shell:
         f"""
         mkdir -p {outdir}/1kg_subtracted_inv
-        bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
+        bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.onekg_bed}} |
+            grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
         """
     
 
