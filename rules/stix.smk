@@ -687,3 +687,33 @@ rule GenerateReport:
         printf 'fileID\tmethod\tTP\tFP\tTN\tFN\n' > {output.header}
         cat {output.header} {input} > {output.report}
         """
+
+rule GenerateDupReport:
+    """
+    combine dup stats into a single report
+    """
+    input:
+        expand(f'{outdir}/{{fid}}.dup-stats.tsv', fid=tumour_file_ids)
+    output:
+        report = f'{outdir}/dup_stats_report.tsv',
+        header = temp(f'{outdir}/dup_header.tsv')
+    shell:
+        """
+        printf 'fileID\tmethod\tTP\tFP\tTN\tFN\n' > {output.header}
+        cat {output.header} {input} > {output.report}
+        """
+
+rule GenerateInvReport:
+    """
+    combine inv stats into a single report
+    """
+    input:
+        expand(f'{outdir}/{{fid}}.inv-stats.tsv', fid=tumour_file_ids)
+    output:
+        report = f'{outdir}/inv_stats_report.tsv',
+        header = temp(f'{outdir}/inv_header.tsv')
+    shell:
+        """
+        printf 'fileID\tmethod\tTP\tFP\tTN\tFN\n' > {output.header}
+        cat {output.header} {input} > {output.report}
+        """
