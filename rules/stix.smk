@@ -633,7 +633,7 @@ rule GetDupStats:
             --tp_gt1 {input.tp_gt1} \\
             --tp_manta_tn {input.tp_manta_tn} \\
             --tp_gnomad {input.tp_gnomad} \\
-            --tp_1kg {input.tp_gnomad} > {output}
+            --tp_1kg {input.tp_1kg} > {output}
         """
 
 rule GetInvStats:
@@ -672,7 +672,7 @@ rule GetInvStats:
             --tp_gt1 {input.tp_gt1} \\
             --tp_manta_tn {input.tp_manta_tn} \\
             --tp_gnomad {input.tp_gnomad} \\
-            --tp_1kg {input.tp_gnomad} > {output}
+            --tp_1kg {input.tp_1kg} > {output}
         """
     
 rule GenerateReport:
