@@ -36,22 +36,26 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+        expand(f'{outdir}/thresholded/{{fid}}.dup.gt0.stix.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/icgc_bed/{{fid}}.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/single_sample_vcf/{{fid}}.dup.vcf.gz',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/single_sample_vcf/{{fid}}.inv.vcf.gz',
-               fid=tumour_file_ids),
+        expand(f'{outdir}/thresholded/{{fid}}.dup.gt1.stix.bed',
+               fid=tumour_file_ids)
+        # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/icgc_bed/{{fid}}.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/single_sample_vcf/{{fid}}.dup.vcf.gz',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/single_sample_vcf/{{fid}}.inv.vcf.gz',
+        #        fid=tumour_file_ids),
         # f'{outdir}/stats_report.tsv'
         # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
         #        fid=tumour_file_ids),
@@ -226,11 +230,6 @@ rule StixQuerySingleSampleInvs:
         bash scripts/stix_cmd.sh {input} {output} {threads} INV
         """
 
-# -------------------------------------------------------------------------------
-## TODO list
-# TODO Filtering call sets with gt0, gt1, gnomad, 1kg
-# need the gnomad and 1kg dups/invs
-# -------------------------------------------------------------------------------
 ################################################################################
 ## get ICGC truth set SVs
 ################################################################################
@@ -285,6 +284,28 @@ rule ThresholdCalledRegions:
     output:
         gt0_bed = f'{outdir}/thresholded/{{fid}}.gt0.stix.bed',
         gt1_bed = f'{outdir}/thresholded/{{fid}}.gt1.stix.bed'
+    shell:
+        f"""
+        mkdir -p {outdir}/thresholded
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt0_bed}} 0
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
+        """
+# -------------------------------------------------------------------------------
+## TODO list
+# TODO Filtering call sets with gt0, gt1, gnomad, 1kg
+# -------------------------------------------------------------------------------
+rule ThresholdDupRegions:
+    """
+    filter out called dup regions with:
+    - gt 0 stix hits
+    - gt 1 stix hits
+    output to separate bed files
+    """
+    input:
+        rules.StixQuerySingleSampleDups.output
+    output:
+        gt0_bed = f'{outdir}/thresholded/{{fid}}.dup.gt0.stix.bed',
+        gt1_bed = f'{outdir}/thresholded/{{fid}}.dup.gt1.stix.bed'
     shell:
         f"""
         mkdir -p {outdir}/thresholded
