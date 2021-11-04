@@ -39,11 +39,11 @@ rule All:
         expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
                fid=tumour_file_ids),
         expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
-               fid=tumour_file_ids)
+               fid=tumour_file_ids),
         expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
                fid=tumour_file_ids),
         expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
-               fid=tumour_file_ids)
+               fid=tumour_file_ids),
         # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
         #        fid=tumour_file_ids),
         # expand(f'{outdir}/icgc_bed/{{fid}}.dup.bed',
