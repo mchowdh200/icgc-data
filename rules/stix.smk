@@ -36,14 +36,18 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
+        expand(f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
+        expand(f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
-               fid=tumour_file_ids),
+        # expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
+        #        fid=tumour_file_ids),
         # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
         #        fid=tumour_file_ids),
         # expand(f'{outdir}/icgc_bed/{{fid}}.dup.bed',
@@ -294,10 +298,7 @@ rule ThresholdCalledRegions:
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt0_bed}} 0
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
-# -------------------------------------------------------------------------------
-## TODO list
-# TODO Filtering call sets with gt0, gt1, gnomad, 1kg
-# -------------------------------------------------------------------------------
+
 rule ThresholdDupRegions:
     """
     filter out called dup regions with:
@@ -336,10 +337,14 @@ rule ThresholdInvRegions:
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
 
-
+# -------------------------------------------------------------------------------
+## TODO list
+# TODO Filtering call sets with gnomad, 1kg
+# TODO eval and create stats reports
+# -------------------------------------------------------------------------------
 rule SubtractGnomadRegions:
     """
-    remove regions in the sv callset that overlap with gnomad
+    remove regions in the sv callset that overlap with gnomad dels
     """
     input:
         stix_bed = rules.StixQuerySingleSample.output,
@@ -354,6 +359,43 @@ rule SubtractGnomadRegions:
         bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.gnomad_bed}} |
             grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
         """
+
+rule SubtractGnomadDups:
+    """
+    remove regions in the sv callset that overlap with gnomad dups
+    """
+    input:
+        stix_bed = rules.StixQuerySingleSampleDups.output,
+        gnomad_bed = "/home/much8161/data/stix/1kg/gnomad.DUP.bed"
+    output:
+        f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/gnomad_subtracted_dup
+        bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.gnomad_bed}} |
+            grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
+        """
+
+rule SubtractGnomadInvs:
+    """
+    remove regions in the sv callset that overlap with gnomad invs
+    """
+    input:
+        stix_bed = rules.StixQuerySingleSampleDups.output,
+        gnomad_bed = "/home/much8161/data/stix/1kg/gnomad.INV.bed"
+    output:
+        f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/gnomad_subtracted_inv
+        bedtools intersect -v -r -f 0.9 -a {{input.stix_bed}} -b {{input.gnomad_bed}} |
+            grep -v hs | grep -v GL | grep -v X | grep -v Y > {{output}}
+        """
+
 
 rule Subtract1kgDelRegions:
     """
