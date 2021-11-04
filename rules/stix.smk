@@ -36,7 +36,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(temp(f'{outdir}/{{fid}}.dup-stats.tsv'),
+        expand(f'{outdir}/{{fid}}.dup-stats.tsv',
                fid=tumour_file_ids),
         # expand(f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
         #        fid=tumour_file_ids),
