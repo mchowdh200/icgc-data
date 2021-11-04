@@ -36,9 +36,9 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/thresholded/{{fid}}.dup.gt0.stix.bed',
+        expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/thresholded/{{fid}}.dup.gt1.stix.bed',
+        expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
                fid=tumour_file_ids)
         # expand(f'{outdir}/icgc_bed/{{fid}}.inv.bed',
         #        fid=tumour_file_ids),
@@ -304,11 +304,11 @@ rule ThresholdDupRegions:
     input:
         rules.StixQuerySingleSampleDups.output
     output:
-        gt0_bed = f'{outdir}/thresholded/{{fid}}.dup.gt0.stix.bed',
-        gt1_bed = f'{outdir}/thresholded/{{fid}}.dup.gt1.stix.bed'
+        gt0_bed = f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
+        gt1_bed = f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed'
     shell:
         f"""
-        mkdir -p {outdir}/thresholded
+        mkdir -p {outdir}/thresholded_dup
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt0_bed}} 0
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
