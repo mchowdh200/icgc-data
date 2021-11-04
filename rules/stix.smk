@@ -36,15 +36,15 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
+        expand(f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_inv/{{fid}}.gt1.icgc.inv.bed',
+        expand(f'{outdir}/intersections_dup/{{fid}}.gt1.icgc.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_inv/{{fid}}.manta-tumour-normal.icgc.inv.bed',
+        expand(f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_inv/{{fid}}.gnomad-sub.icgc.inv.bed',
+        expand(f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_inv/{{fid}}.1kg-sub.icgc.inv.bed',
+        expand(f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed',
                fid=tumour_file_ids)
 
 
