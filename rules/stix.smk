@@ -36,8 +36,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-
-        expand('{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
+        expand(f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
                fid=tumour_file_ids),
         expand(f'{outdir}/intersections_inv/{{fid}}.gt1.icgc.inv.bed',
                fid=tumour_file_ids),
