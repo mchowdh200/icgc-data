@@ -36,7 +36,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/{{fid}}.dup-stats.tsv',
+        expand(f'{outdir}/{{fid}}.inv-stats.tsv',
                fid=tumour_file_ids),
         # expand(f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
         #        fid=tumour_file_ids),
@@ -616,6 +616,45 @@ rule GetDupStats:
         tp_1kg = f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed'
     output:
         temp(f'{outdir}/{{fid}}.dup-stats.tsv')
+    shell:
+        """
+        python3 scripts/calculate_stats.py \\
+            --fid {wildcards.fid} \\
+            --unfiltered {input.unfiltered} \\
+            --filtered_gt0 {input.filtered_gt0} \\
+            --filtered_gt1 {input.filtered_gt1} \\
+            --filtered_manta_tn {input.filtered_manta_tn} \\
+            --filtered_gnomad {input.filtered_gnomad} \\
+            --filtered_1kg {input.filtered_1kg} \\
+            --truth_set {input.truth_set} \\
+            --tp_gt0 {input.tp_gt0} \\
+            --tp_gt1 {input.tp_gt1} \\
+            --tp_manta_tn {input.tp_manta_tn} \\
+            --tp_gnomad {input.tp_gnomad} \\
+            --tp_1kg {input.tp_gnomad} > {output}
+        """
+
+rule GetInvStats:
+    """
+    compile inv statistics from all the intersections compared against
+    the truth set and the orignal call sets
+    * format is: fid,method,TP,FP,TN,FN (sep='\t')
+    """
+    input:
+        unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed',
+        filtered_gt0 = f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
+        filtered_gt1 = f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
+        filtered_manta_tn = f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
+        filtered_gnomad = f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
+        filtered_1kg = f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed',
+        truth_set = f'{outdir}/icgc_bed/{{fid}}.inv.bed',
+        tp_gt0 = f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
+        tp_gt1 = f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
+        tp_manta_tn = f'{outdir}/intersections_inv/{{fid}}.manta-tumour-normal.icgc.inv.bed',
+        tp_gnomad = f'{outdir}/intersections_inv/{{fid}}.gnomad-sub.icgc.inv.bed',
+        tp_1kg = f'{outdir}/intersections_inv/{{fid}}.1kg-sub.icgc.inv.bed'
+    output:
+        temp(f'{outdir}/{{fid}}.inv-stats.tsv')
     shell:
         """
         python3 scripts/calculate_stats.py \\
