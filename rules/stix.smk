@@ -604,18 +604,18 @@ rule GetDupStats:
     * format is: fid,method,TP,FP,TN,FN (sep='\t')
     """
     input:
-        unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
-        filtered_gt0 = f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
-        filtered_gt1 = f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
-        filtered_manta_tn = f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
-        filtered_gnomad = f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
-        filtered_1kg = f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
-        truth_set = f'{outdir}/icgc_bed/{{fid}}.dup.bed',
-        tp_gt0 = f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
-        tp_gt1 = f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
-        tp_manta_tn = f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
-        tp_gnomad = f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
-        tp_1kg = f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed'
+        unfiltered = rules.StixQuerySingleSampleDups.output,
+        filtered_gt0 = rules.ThresholdDupRegions.output.gt0_bed,
+        filtered_gt1 = rules.ThresholdDupRegions.output.gt1_bed,
+        filtered_manta_tn = rules.GetSomaticDups.output,
+        filtered_gnomad = rules.SubtractGnomadDups.output,
+        filtered_1kg = rules.SubtractGnomadDups.output,
+        truth_set = rules.GetIcgcSampleDups.output,
+        tp_gt0 = rules.IntersectICGCDups.output.gt0_icgc,
+        tp_gt1 = rules.IntersectICGCDups.output.gt1_icgc,
+        tp_manta_tn = rules.IntersectICGCDups.output.manta_somatic_icgc,
+        tp_gnomad = rules.IntersectICGCDups.output.gnomad_icgc,
+        tp_1kg = rules.IntersectICGCDups.output.onekg_icgc
     output:
         temp(f'{outdir}/{{fid}}.dup-stats.tsv')
     shell:
