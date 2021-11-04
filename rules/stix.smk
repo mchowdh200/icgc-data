@@ -313,6 +313,26 @@ rule ThresholdDupRegions:
         bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
         """
 
+rule ThresholdInvRegions:
+    """
+    filter out called inv regions with:
+    - gt 0 stix hits
+    - gt 1 stix hits
+    output to separate bed files
+    """
+    input:
+        rules.StixQuerySingleSampleInvs.output
+    output:
+        gt0_bed = f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
+        gt1_bed = f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed'
+    shell:
+        f"""
+        mkdir -p {outdir}/thresholded_inv
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt0_bed}} 0
+        bash scripts/threshold_called_regions.sh {{input}} {{output.gt1_bed}} 1
+        """
+
+
 rule SubtractGnomadRegions:
     """
     remove regions in the sv callset that overlap with gnomad
