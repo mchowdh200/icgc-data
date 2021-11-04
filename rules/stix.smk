@@ -643,18 +643,18 @@ rule GetInvStats:
     * format is: fid,method,TP,FP,TN,FN (sep='\t')
     """
     input:
-        unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.inv.bed',
-        filtered_gt0 = f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
-        filtered_gt1 = f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
-        filtered_manta_tn = f'{outdir}/somaticSV/{{fid}}.somaticSV.inv.bed',
-        filtered_gnomad = f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
-        filtered_1kg = f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed',
-        truth_set = f'{outdir}/icgc_bed/{{fid}}.inv.bed',
-        tp_gt0 = f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
-        tp_gt1 = f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
-        tp_manta_tn = f'{outdir}/intersections_inv/{{fid}}.manta-tumour-normal.icgc.inv.bed',
-        tp_gnomad = f'{outdir}/intersections_inv/{{fid}}.gnomad-sub.icgc.inv.bed',
-        tp_1kg = f'{outdir}/intersections_inv/{{fid}}.1kg-sub.icgc.inv.bed'
+        unfiltered = rules.StixQuerySingleSampleInvs.output,
+        filtered_gt0 = rules.ThresholdInvRegions.output.gt0_bed,
+        filtered_gt1 = rules.ThresholdInvRegions.output.gt1_bed,
+        filtered_manta_tn = rules.GetSomaticInversions.output,
+        filtered_gnomad = rules.SubtractGnomadInvs.output,
+        filtered_1kg = rules.SubtractGnomadInvs.output,
+        truth_set = rules.GetIcgcSampleInvs.output,
+        tp_gt0 = rules.IntersectICGCInvs.output.gt0_icgc,
+        tp_gt1 = rules.IntersectICGCInvs.output.gt1_icgc,
+        tp_manta_tn = rules.IntersectICGCInvs.output.manta_somatic_icgc,
+        tp_gnomad = rules.IntersectICGCInvs.output.gnomad_icgc,
+        tp_1kg = rules.IntersectICGCInvs.output.onekg_icgc
     output:
         temp(f'{outdir}/{{fid}}.inv-stats.tsv')
     shell:
