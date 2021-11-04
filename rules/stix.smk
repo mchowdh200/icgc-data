@@ -36,16 +36,18 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
+        expand(temp(f'{outdir}/{{fid}}.dup-stats.tsv'),
                fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_dup/{{fid}}.gt1.icgc.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
-               fid=tumour_file_ids),
-        expand(f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed',
-               fid=tumour_file_ids)
+        # expand(f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/intersections_dup/{{fid}}.gt1.icgc.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed',
+        #        fid=tumour_file_ids)
 
 
         # expand(f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
@@ -575,6 +577,45 @@ rule GetStats:
         tp_1kg = f'{outdir}/intersections/{{fid}}.1kg-sub.icgc.del.bed'
     output:
         temp(f'{outdir}/{{fid}}.stats.tsv')
+    shell:
+        """
+        python3 scripts/calculate_stats.py \\
+            --fid {wildcards.fid} \\
+            --unfiltered {input.unfiltered} \\
+            --filtered_gt0 {input.filtered_gt0} \\
+            --filtered_gt1 {input.filtered_gt1} \\
+            --filtered_manta_tn {input.filtered_manta_tn} \\
+            --filtered_gnomad {input.filtered_gnomad} \\
+            --filtered_1kg {input.filtered_1kg} \\
+            --truth_set {input.truth_set} \\
+            --tp_gt0 {input.tp_gt0} \\
+            --tp_gt1 {input.tp_gt1} \\
+            --tp_manta_tn {input.tp_manta_tn} \\
+            --tp_gnomad {input.tp_gnomad} \\
+            --tp_1kg {input.tp_gnomad} > {output}
+        """
+
+rule GetDupStats:
+    """
+    compile dup statistics from all the intersections compared against
+    the truth set and the orignal call sets
+    * format is: fid,method,TP,FP,TN,FN (sep='\t')
+    """
+    input:
+        unfiltered = f'{outdir}/bed/{{fid}}.stix.single_sample.dup.bed',
+        filtered_gt0 = f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
+        filtered_gt1 = f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
+        filtered_manta_tn = f'{outdir}/somaticSV/{{fid}}.somaticSV.dup.bed',
+        filtered_gnomad = f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
+        filtered_1kg = f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
+        truth_set = f'{outdir}/icgc_bed/{{fid}}.dup.bed',
+        tp_gt0 = f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
+        tp_gt1 = f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
+        tp_manta_tn = f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
+        tp_gnomad = f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
+        tp_1kg = f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed'
+    output:
+        temp(f'{outdir}/{{fid}}.dup-stats.tsv')
     shell:
         """
         python3 scripts/calculate_stats.py \\
