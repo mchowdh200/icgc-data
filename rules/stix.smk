@@ -36,10 +36,23 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
+
+        expand('{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed'
                fid=tumour_file_ids),
-        expand(f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed',
+        expand(f'{outdir}/intersections_inv/{{fid}}.gt1.icgc.inv.bed',
                fid=tumour_file_ids),
+        expand(f'{outdir}/intersections_inv/{{fid}}.manta-tumour-normal.icgc.inv.bed',
+               fid=tumour_file_ids),
+        expand(f'{outdir}/intersections_inv/{{fid}}.gnomad-sub.icgc.inv.bed',
+               fid=tumour_file_ids),
+        expand(f'{outdir}/intersections_inv/{{fid}}.1kg-sub.icgc.inv.bed',
+               fid=tumour_file_ids)
+
+
+        # expand(f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed',
+        #        fid=tumour_file_ids),
         # expand(f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
         #        fid=tumour_file_ids),
         # expand(f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
@@ -478,6 +491,63 @@ rule IntersectICGC:
     shell:
         f"""
         mkdir -p {outdir}/intersections
+        bash scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
+        bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
+        bash scripts/intersect_icgc.sh {{input.manta_somatic_bed}} {{input.icgc_bed}} {{output.manta_somatic_icgc}}
+        bash scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
+        bash scripts/intersect_icgc.sh {{input.onekg_sub_bed}} {{input.icgc_bed}} {{output.onekg_icgc}}
+        """
+
+rule IntersectICGCDups:
+    """
+    Intersect the thresholded SV calls with ICGC truth regions
+    """
+    input:
+        gt0_bed = rules.ThresholdDupRegions.output.gt0_bed,
+        gt1_bed = rules.ThresholdDupRegions.output.gt1_bed,
+        manta_somatic_bed = rules.GetSomaticDups.output,
+        gnomad_sub_bed = rules.SubtractGnomadDups.output,
+        onekg_sub_bed = rules.Subtract1kgDups.output,
+        icgc_bed = rules.GetIcgcSampleDups.output
+    output:
+        gt0_icgc = f'{outdir}/intersections_dup/{{fid}}.gt0.icgc.dup.bed',
+        gt1_icgc = f'{outdir}/intersections_dup/{{fid}}.gt1.icgc.dup.bed',
+        manta_somatic_icgc = f'{outdir}/intersections_dup/{{fid}}.manta-tumour-normal.icgc.dup.bed',
+        gnomad_icgc = f'{outdir}/intersections_dup/{{fid}}.gnomad-sub.icgc.dup.bed',
+        onekg_icgc = f'{outdir}/intersections_dup/{{fid}}.1kg-sub.icgc.dup.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/intersections_dup
+        bash scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
+        bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
+        bash scripts/intersect_icgc.sh {{input.manta_somatic_bed}} {{input.icgc_bed}} {{output.manta_somatic_icgc}}
+        bash scripts/intersect_icgc.sh {{input.gnomad_sub_bed}} {{input.icgc_bed}} {{output.gnomad_icgc}}
+        bash scripts/intersect_icgc.sh {{input.onekg_sub_bed}} {{input.icgc_bed}} {{output.onekg_icgc}}
+        """
+rule IntersectICGCInvs:
+    """
+    Intersect the thresholded SV calls with ICGC truth regions
+    """
+    input:
+        gt0_bed = rules.ThresholdInvRegions.output.gt0_bed,
+        gt1_bed = rules.ThresholdInvRegions.output.gt1_bed,
+        manta_somatic_bed = rules.GetSomaticInversions.output,
+        gnomad_sub_bed = rules.SubtractGnomadInvs.output,
+        onekg_sub_bed = rules.Subtract1kgInvs.output,
+        icgc_bed = rules.GetIcgcSampleInvs.output
+    output:
+        gt0_icgc = f'{outdir}/intersections_inv/{{fid}}.gt0.icgc.inv.bed',
+        gt1_icgc = f'{outdir}/intersections_inv/{{fid}}.gt1.icgc.inv.bed',
+        manta_somatic_icgc = f'{outdir}/intersections_inv/{{fid}}.manta-tumour-normal.icgc.inv.bed',
+        gnomad_icgc = f'{outdir}/intersections_inv/{{fid}}.gnomad-sub.icgc.inv.bed',
+        onekg_icgc = f'{outdir}/intersections_inv/{{fid}}.1kg-sub.icgc.inv.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/intersections_inv
         bash scripts/intersect_icgc.sh {{input.gt0_bed}} {{input.icgc_bed}} {{output.gt0_icgc}}
         bash scripts/intersect_icgc.sh {{input.gt1_bed}} {{input.icgc_bed}} {{output.gt1_icgc}}
         bash scripts/intersect_icgc.sh {{input.manta_somatic_bed}} {{input.icgc_bed}} {{output.manta_somatic_icgc}}
