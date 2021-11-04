@@ -36,6 +36,10 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
+        expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
+               fid=tumour_file_ids),
+        expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
+               fid=tumour_file_ids)
         expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt0.stix.bed',
                fid=tumour_file_ids),
         expand(f'{outdir}/thresholded_dup/{{fid}}.dup.gt1.stix.bed',
