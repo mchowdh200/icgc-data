@@ -36,10 +36,14 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
-        expand(f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
+        expand(f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed',
                fid=tumour_file_ids),
-        expand(f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
+        expand(f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed',
                fid=tumour_file_ids),
+        # expand(f'{outdir}/gnomad_subtracted_dup/{{fid}}.gnomad_subtracted.dup.bed',
+        #        fid=tumour_file_ids),
+        # expand(f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed',
+        #        fid=tumour_file_ids),
         # expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt0.stix.bed',
         #        fid=tumour_file_ids),
         # expand(f'{outdir}/thresholded_inv/{{fid}}.inv.gt1.stix.bed',
@@ -411,6 +415,38 @@ rule Subtract1kgDelRegions:
     shell:
         f"""
         mkdir -p {outdir}/1kg_subtracted
+        bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
+        """
+rule Subtract1kgDups:
+    """
+    remove regions in the sv callset that overlap with 1kg dups
+    """
+    input:
+        stix_bed = rules.StixQuerySingleSampleDups.output,
+        onekg_bedpe = '/home/much8161/data/stix/1kg/1kg.DUP.bedpe'
+    output:
+        f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/1kg_subtracted_dup
+        bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
+        """
+rule Subtract1kgInvs:
+    """
+    remove regions in the sv callset that overlap with 1kg Invs
+    """
+    input:
+        stix_bed = rules.StixQuerySingleSampleInvs.output,
+        onekg_bedpe = '/home/much8161/data/stix/1kg/1kg.INV.bedpe'
+    output:
+        f'{outdir}/1kg_subtracted_inv/{{fid}}.1kg_subtracted.inv.bed'
+    conda:
+        'envs/bedtools.yaml'
+    shell:
+        f"""
+        mkdir -p {outdir}/1kg_subtracted_inv
         bash scripts/sub_1kg_dels.sh {{input.stix_bed}} {{input.onekg_bedpe}} {{output}}
         """
     
