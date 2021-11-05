@@ -9,6 +9,17 @@ def get_count(bed):
     ignore_contigs = {'hs', 'GL', 'X', 'Y'}
     return len(set([line for line in open(bed).readlines()
                 if all([ic not in line.split()[0] for ic in ignore_contigs])]))
+def get_num_intersections(bed):
+    """
+    Get the number of regions that intersected (5th column is the count)
+    in the bed file
+    """
+    ignore_contigs = {'hs', 'GL', 'X', 'Y'}
+
+    # unique lines that exclude the above contigs
+    lines = set([line for line in open(bed).readlines()
+                 if all([ic not in line.split()[0] for ic in ignore_contigs])])
+    return sum([int(line[4]) for line in lines])
 
     
 # I realized how unnessecary this was after the fact...
