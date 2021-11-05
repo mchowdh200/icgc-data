@@ -36,6 +36,7 @@ tumour_file_ids = list(set(
 ###############################################################################
 rule All:
     input:
+        f'{outdir}/stats_report.tsv',
         f'{outdir}/inv_stats_report.tsv',
         f'{outdir}/dup_stats_report.tsv',
         # expand(f'{outdir}/{{fid}}.inv-stats.tsv',
