@@ -403,7 +403,7 @@ rule SubtractGnomadInvs:
     remove regions in the sv callset that overlap with gnomad invs
     """
     input:
-        stix_bed = rules.StixQuerySingleSampleDups.output,
+        stix_bed = rules.StixQuerySingleSampleInvs.output,
         gnomad_bed = "/home/much8161/data/stix/1kg/gnomad.INV.bed"
     output:
         f'{outdir}/gnomad_subtracted_inv/{{fid}}.gnomad_subtracted.inv.bed'
@@ -438,7 +438,7 @@ rule Subtract1kgDups:
     remove regions in the sv callset that overlap with 1kg dups
     """
     input:
-        stix_bed = rules.StixQuerySingleSampleDups.output,
+        stix_bed = rules.StixQuerySingleSampleInvs.output,
         onekg_bed = '/home/much8161/data/stix/1kg/1kg.DUP.bed'
     output:
         f'{outdir}/1kg_subtracted_dup/{{fid}}.1kg_subtracted.dup.bed'
