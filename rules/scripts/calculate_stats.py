@@ -55,8 +55,9 @@ filtering_methods = {
 for filtered_set, tp_set in filtering_methods.items():
     filtered = get_count(args[filtered_set])
     tp = get_count(args[tp_set])
-    fp = filtered - tp
-    tn = unfiltered - tp - fp
+    truth_intersections = get_num_intersections(args[tp_set])
+    fp = filtered - truth_intersections
+    tn = unfiltered - truth_intersections - fp
     fn = truth - tp
     print('\t'.join(map(str, [args['fid'], filtered_set, tp, fp, tn, fn])))
 
